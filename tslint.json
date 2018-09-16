@@ -1,0 +1,13 @@
+{
+  "extends": "tslint:latest",
+  "rules": {
+    "quotemark": [true, "single"],
+    "object-literal-sort-keys": false,
+    "no-implicit-dependencies": [true, ["~"]],
+  },
+  "cliOptions": {
+    "exclude": [
+      "src/prisma-client"
+    ]
+  }
+}

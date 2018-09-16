@@ -1,0 +1,5 @@
+endpoint: https://smart-locker-api.herokuapp.com/smart-locker-api/dev
+datamodel: datamodel.graphql
+generate:
+  - generator: typescript-client
+    output: ../src/prisma-client

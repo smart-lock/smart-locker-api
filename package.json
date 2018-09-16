@@ -1,0 +1,34 @@
+{
+  "name": "smart-locker-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@thunder-js/toposort": "^1.0.1",
+    "aws-sdk": "^2.315.0",
+    "fs-extra": "^7.0.0",
+    "graphql-tools": "^3.1.1",
+    "graphql-yoga": "^1.16.2",
+    "handlebars": "^4.0.12",
+    "ioredis": "^4.0.0",
+    "mqtt": "^2.18.8",
+    "mqtt-regex": "^1.0.5",
+    "prisma-lib": "^0.1.44",
+    "ramda": "^0.25.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^5.0.4",
+    "@types/handlebars": "^4.0.39",
+    "@types/ramda": "^0.25.38",
+    "env-cmd": "^8.0.2",
+    "nodemon": "^1.18.4",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.6.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "env-cmd config/.dev.env nodemon"
+  }
+}

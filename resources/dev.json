@@ -1,0 +1,19 @@
+{
+  "service": {
+    "port": 3002
+  },
+  "token": {
+    "issuer": "envisioning",
+    "audience": "user",
+    "jwtDuration": "30d",
+    "publicKeyPath": "dev/pub.pem",
+    "privateKeyPath": "dev/priv.pem",
+    "bucketName": "envisioning-secrets"
+  },
+  "mqtt": {
+    "host": "m15.cloudmqtt.com",
+    "sslPort": 24771,
+    "user": "lbwcbjvj",
+    "password": "eND_kmHSQTYb"
+  }
+}
