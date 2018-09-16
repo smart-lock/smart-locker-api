@@ -2,3 +2,17 @@ type User {
   id: ID! @unique
   name: String!
 }
+
+type LockerCluster {
+  id: ID! @unique
+  lockers: [Locker!]!
+}
+
+type Locker {
+  id: ID! @unique
+  cluster: LockerCluster
+
+  busy: Boolean! @default(value: "false")
+  locked: Boolean! @default(value: "false")
+  open: Boolean! @default(value: "false")
+}
