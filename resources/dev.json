@@ -20,6 +20,6 @@
     "uri": "redis://localhost:6379"
   },
   "prisma": {
-    "endpoint": "https://smart-locker-api.herokuapp.com/smart-locker-api/dev"
+    "endpoint": "http://localhost:4466"
   }
 }

@@ -869,6 +869,6 @@ export type String = string;
 
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
-  endpoint: "https://smart-locker-api.herokuapp.com/smart-locker-api/dev"
+  endpoint: "http://localhost:4466"
 });
 export const prisma = new Prisma();
