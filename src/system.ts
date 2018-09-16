@@ -7,6 +7,11 @@ import { ITokenComponent, TokenComponent, ITokenConfig } from '~/components/toke
 import { ENV } from '~/common/consts';
 import { IComponentMap, System } from '~/components/system';
 import * as path from 'path'
+import { YogaComponent } from '~/components/yoga';
+
+import { resolvers } from '~/resolvers';
+import { IContext, contextFromReq } from '~/graphql/context';
+
 
 export interface IConfig {
   devspace: string,
@@ -40,6 +45,14 @@ export const componentMap: IComponentMap = {
     instance: new MQTTComponent(mqttHandlers),
     dependenciesList: ['config'],
   },
+  yoga: {
+    instance: new YogaComponent<IContext>({
+      typeDefsFile: './src/schema.graphql',
+      resolvers,
+      getContext: contextFromReq,
+    }),
+    dependenciesList: ['config'],
+  }
 }
 
 export const system = new System<IComponents>(componentMap)
