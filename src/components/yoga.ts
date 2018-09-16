@@ -16,33 +16,38 @@ export interface IYogaComponentDependencies {
 
 export interface IYogaComponentOptions<T> {
   resolvers: any,
-  getContext: (req: ContextParameters) => Promise<T> | T,
+  getContext: (req: ContextParameters, deps: any) => Promise<T> | T,
   typeDefsFile: string
 }
 export class YogaComponent<T> implements ILifecycle {
   private server: GraphQLServer
   private httpServer: GenericServer
+  private options: IYogaComponentOptions<T>
 
-  constructor({
-    resolvers,
-    getContext,
-    typeDefsFile
-  }: IYogaComponentOptions<T>) {  
+  constructor(options: IYogaComponentOptions<T>) {  
+    this.options = options
+  }
+  public async start(deps: IYogaComponentDependencies) {
+    const {
+      typeDefsFile,
+      resolvers,
+      getContext,
+    } = this.options
+    const port = deps.config.getRequiredValue(['yoga', 'port'])
+
     this.server = new GraphQLServer({
       typeDefs: typeDefsFile,
       resolvers,
-      context: getContext,
-    })    
+      context: (req) => getContext(req, deps),
+    })
 
-  }
-  public async start(deps: IYogaComponentDependencies) {
-    const port = deps.config.getRequiredValue(['yoga', 'port'])
     this.httpServer = await this.server.start({
       port,
     })
     console.log(`Yoga listening on http://localhost:${port}`)
   }
-  public stop() {
+
+  private closeServer = () => {
     return new Promise((resolve, reject) => {
       this.httpServer.close((err) => {
         if (err) {
@@ -52,5 +57,10 @@ export class YogaComponent<T> implements ILifecycle {
         resolve()
       })
     })
+  }
+  public async stop() {
+    await this.closeServer()
+    this.httpServer = null
+    this.httpServer = null
   }
 }
