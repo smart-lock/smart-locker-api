@@ -33,8 +33,10 @@ export class ConfigComponent<T extends object> implements IConfigComponent<T>, I
     this.resourcesFolder = resourcesFolder;
   }
   public async start() {
+    console.log('Starting config...')
     const configPath: string = this.getFilePath(this.env);
     this.content = this.renderConfigFile(await this.readConfigFile(configPath));
+    console.log('Config OK!')
   }
 
   public getConfig(): T {
@@ -103,6 +105,7 @@ export class ConfigComponent<T extends object> implements IConfigComponent<T>, I
     const payload = this.getTemplatePayload();
     const helpers = this.getHandlebarsHelpers();
 
+    console.log('Config data:')
     console.log(this.getAppliedPayload(configString, payload));
 
     try {

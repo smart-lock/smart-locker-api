@@ -28,6 +28,7 @@ export class YogaComponent<T> implements ILifecycle {
     this.options = options
   }
   public async start(deps: IYogaComponentDependencies) {
+    console.log('Starting yoga...')
     const {
       typeDefsFile,
       resolvers,

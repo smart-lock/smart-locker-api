@@ -1,5 +1,9 @@
+# import Locker from "prisma-client/prisma.graphql"
+
 type Query {
   hello: String
+  locker: Locker
+  lockerCluster (id: ID!): LockerCluster
 }
 type Mutation {
   kill: String

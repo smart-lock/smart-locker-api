@@ -8,11 +8,12 @@ import { ENV } from '~/common/consts';
 import { IComponentMap, System } from '~/components/system';
 import * as path from 'path'
 import { YogaComponent } from '~/components/yoga';
-
+import { Prisma as PrismaBinding } from '~/generated/prisma'
 import { resolvers } from '~/resolvers';
 import { IContext, contextFromReq } from '~/graphql/context';
 import { ClockComponent, IClockComponent } from '~/components/clock';
 import { RedisComponent, IRedisComponent, IRedisComponentConfig } from '~/components/redis';
+import { PrismaComponent } from '~/components/prisma';
 
 
 export interface IConfig {
@@ -30,6 +31,7 @@ export interface IComponents {
   yoga: YogaComponent<IContext>
   clock: IClockComponent,
   redis: IRedisComponent,
+  prismaBinding: PrismaComponent<PrismaBinding>
 }
 
 const env = process.env.NODE_ENV as ENV || ENV.dev
@@ -40,33 +42,37 @@ export const componentMap: IComponentMap = {
     instance: new ConfigComponent<IConfig>(env, configFolder),
     dependenciesList: [],
   },
-  token: {
-    instance: new TokenComponent(),
-    dependenciesList: ['s3', 'config', 'clock', 'redis'],
-  },
-  clock: {
-    instance: new ClockComponent(),
-    dependenciesList: []
-  },
-  redis: {
-    instance: new RedisComponent(),
-    dependenciesList: ['config']
-  },
-  s3: {
-    instance: new S3Component(new AWS.S3()),
-    dependenciesList: [],
-  },
-  mqtt: {
-    instance: new MQTTComponent(mqttHandlers),
+  // token: {
+  //   instance: new TokenComponent(),
+  //   dependenciesList: ['s3', 'config', 'clock', 'redis'],
+  // },
+  // clock: {
+  //   instance: new ClockComponent(),
+  //   dependenciesList: []
+  // },
+  // redis: {
+  //   instance: new RedisComponent(),
+  //   dependenciesList: ['config']
+  // },
+  // s3: {
+  //   instance: new S3Component(new AWS.S3()),
+  //   dependenciesList: [],
+  // },
+  prismaBinding: {
+    instance: new PrismaComponent(PrismaBinding),
     dependenciesList: ['config'],
   },
+  // mqtt: {
+  //   instance: new MQTTComponent(mqttHandlers),
+  //   dependenciesList: ['config'],
+  // },
   yoga: {
     instance: new YogaComponent<IContext>({
       typeDefsFile: './src/schema.graphql',
       resolvers,
       getContext: contextFromReq,
     }),
-    dependenciesList: ['config', 'mqtt', 'token'],
+    dependenciesList: ['config', 'prismaBinding'],
   }
 }
 
