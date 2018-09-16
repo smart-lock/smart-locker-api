@@ -1,6 +1,6 @@
 import { ConfigComponent, IConfigComponent } from './components/config'
 import * as AWS from 'aws-sdk'
-import { MQTTComponent, IMQTTConfig } from './components/mqtt'
+import { MQTTComponent, IMQTTConfig, IMQTTComponent } from './components/mqtt'
 import { mqttHandlers } from './diplomat/mqtt'
 import { IS3Component, S3Component } from '~/components/s3';
 import { ITokenComponent, TokenComponent, ITokenConfig } from '~/components/token';
@@ -23,6 +23,8 @@ export interface IComponents {
   config: IConfigComponent<IConfig>,
   token: ITokenComponent,
   s3: IS3Component
+  mqtt: IMQTTComponent
+  yoga: YogaComponent<IContext>
 }
 
 const env = process.env.NODE_ENV as ENV || ENV.dev
@@ -51,7 +53,7 @@ export const componentMap: IComponentMap = {
       resolvers,
       getContext: contextFromReq,
     }),
-    dependenciesList: ['config'],
+    dependenciesList: ['config', 'mqtt'],
   }
 }
 
