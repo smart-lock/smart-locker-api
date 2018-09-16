@@ -3,3 +3,6 @@ datamodel: datamodel.graphql
 generate:
   - generator: typescript-client
     output: ../src/prisma-client
+hooks:
+  post-deploy:
+    - graphql get-schema --project db
