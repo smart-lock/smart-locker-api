@@ -21,6 +21,7 @@
     "@types/handlebars": "^4.0.39",
     "@types/ramda": "^0.25.38",
     "env-cmd": "^8.0.2",
+    "graphql-cli": "^2.16.7",
     "nodemon": "^1.18.4",
     "ts-node": "^7.0.1",
     "tsconfig-paths": "^3.6.0",
@@ -29,6 +30,7 @@
   },
   "scripts": {
     "start": "ts-node src/index.ts",
-    "dev": "env-cmd config/.dev.env nodemon"
+    "dev": "env-cmd config/.dev.env nodemon",
+    "get-schema": "graphql get-schema"
   }
 }
