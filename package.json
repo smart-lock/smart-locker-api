@@ -13,6 +13,7 @@
     "ioredis": "^4.0.0",
     "mqtt": "^2.18.8",
     "mqtt-regex": "^1.0.5",
+    "prisma-binding": "^2.1.5",
     "prisma-lib": "^0.1.44",
     "ramda": "^0.25.0"
   },
@@ -23,6 +24,7 @@
     "env-cmd": "^8.0.2",
     "graphql-cli": "^2.16.7",
     "nodemon": "^1.18.4",
+    "prisma": "1.17.0-beta.11",
     "ts-node": "^7.0.1",
     "tsconfig-paths": "^3.6.0",
     "tslint": "^5.11.0",
@@ -31,6 +33,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "dev": "env-cmd config/.dev.env nodemon",
-    "get-schema": "graphql get-schema"
+    "get-schema": "graphql get-schema",
+    "prisma": "prisma"
   }
 }
