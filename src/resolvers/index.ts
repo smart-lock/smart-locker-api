@@ -4,7 +4,7 @@ export const resolvers = {
   Query: {
     hello: async (value, args , ctx: IContext) => {
       await ctx.mqtt.publish('inTopic', '1')
-      return 'Hello'
+      return ctx.account.email
     },
   },
 };

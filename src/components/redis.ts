@@ -2,8 +2,11 @@ import { ILifecycle } from './lifecycle';
 import * as Redis from 'ioredis'
 import { IConfigComponent } from './config';
 
+export interface IRedisComponentConfig {
+  uri: string
+}
 export interface IRedisComponentDependencies {
-  config: IConfigComponent<any>
+  config: IConfigComponent<{redis: IRedisComponentConfig}>
 }
 
 export interface IRedisComponent {

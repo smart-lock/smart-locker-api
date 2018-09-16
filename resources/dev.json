@@ -15,5 +15,8 @@
     "sslPort": 24771,
     "user": "lbwcbjvj",
     "password": "eND_kmHSQTYb"
+  },
+  "redis": {
+    "uri": "redis://localhost:6379"
   }
 }

@@ -11,12 +11,15 @@ import { YogaComponent } from '~/components/yoga';
 
 import { resolvers } from '~/resolvers';
 import { IContext, contextFromReq } from '~/graphql/context';
+import { ClockComponent, IClockComponent } from '~/components/clock';
+import { RedisComponent, IRedisComponent, IRedisComponentConfig } from '~/components/redis';
 
 
 export interface IConfig {
   devspace: string,
   mqtt: IMQTTConfig,
   token: ITokenConfig
+  redis: IRedisComponentConfig
 }
 
 export interface IComponents {
@@ -25,6 +28,8 @@ export interface IComponents {
   s3: IS3Component
   mqtt: IMQTTComponent
   yoga: YogaComponent<IContext>
+  clock: IClockComponent,
+  redis: IRedisComponent,
 }
 
 const env = process.env.NODE_ENV as ENV || ENV.dev
@@ -37,7 +42,15 @@ export const componentMap: IComponentMap = {
   },
   token: {
     instance: new TokenComponent(),
-    dependenciesList: ['s3', 'config'],
+    dependenciesList: ['s3', 'config', 'clock', 'redis'],
+  },
+  clock: {
+    instance: new ClockComponent(),
+    dependenciesList: []
+  },
+  redis: {
+    instance: new RedisComponent(),
+    dependenciesList: ['config']
   },
   s3: {
     instance: new S3Component(new AWS.S3()),
@@ -53,7 +66,7 @@ export const componentMap: IComponentMap = {
       resolvers,
       getContext: contextFromReq,
     }),
-    dependenciesList: ['config', 'mqtt'],
+    dependenciesList: ['config', 'mqtt', 'token'],
   }
 }
 
