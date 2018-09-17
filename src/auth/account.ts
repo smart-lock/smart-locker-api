@@ -21,6 +21,7 @@ export const accountFromReq = async ({ request }: ContextParameters, deps: IComp
       scopes: decoded.scopes || [],
     }
   } catch (err) {
+    console.log(err)
     return null
   }
 }

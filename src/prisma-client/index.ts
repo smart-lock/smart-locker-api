@@ -12,6 +12,7 @@ export interface Exists {
   user: (where?: UserWhereInput) => Promise<boolean>;
   lockerCluster: (where?: LockerClusterWhereInput) => Promise<boolean>;
   locker: (where?: LockerWhereInput) => Promise<boolean>;
+  lockerSession: (where?: LockerSessionWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -101,6 +102,29 @@ export interface Prisma {
       last?: Int;
     }
   ) => LockerConnection;
+  lockerSession: (where: LockerSessionWhereUniqueInput) => LockerSession;
+  lockerSessions: (
+    args?: {
+      where?: LockerSessionWhereInput;
+      orderBy?: LockerSessionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => Promise<Array<LockerSessionNode>>;
+  lockerSessionsConnection: (
+    args?: {
+      where?: LockerSessionWhereInput;
+      orderBy?: LockerSessionOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => LockerSessionConnection;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -158,6 +182,25 @@ export interface Prisma {
   ) => Locker;
   deleteLocker: (where: LockerWhereUniqueInput) => Locker;
   deleteManyLockers: (where?: LockerWhereInput) => BatchPayload;
+  createLockerSession: (data: LockerSessionCreateInput) => LockerSession;
+  updateLockerSession: (
+    args: {
+      data: LockerSessionUpdateInput;
+      where: LockerSessionWhereUniqueInput;
+    }
+  ) => LockerSession;
+  updateManyLockerSessions: (
+    args: { data: LockerSessionUpdateInput; where?: LockerSessionWhereInput }
+  ) => BatchPayload;
+  upsertLockerSession: (
+    args: {
+      where: LockerSessionWhereUniqueInput;
+      create: LockerSessionCreateInput;
+      update: LockerSessionUpdateInput;
+    }
+  ) => LockerSession;
+  deleteLockerSession: (where: LockerSessionWhereUniqueInput) => LockerSession;
+  deleteManyLockerSessions: (where?: LockerSessionWhereInput) => BatchPayload;
 
   /**
    * Subscriptions
@@ -176,6 +219,9 @@ export interface Subscription {
   locker: (
     where?: LockerSubscriptionWhereInput
   ) => LockerSubscriptionPayloadSubscription;
+  lockerSession: (
+    where?: LockerSessionSubscriptionWhereInput
+  ) => LockerSessionSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -193,6 +239,12 @@ export type UserOrderByInput =
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "credit_ASC"
+  | "credit_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -219,6 +271,121 @@ export type LockerClusterOrderByInput =
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
+
+export type LockerSessionOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "state_ASC"
+  | "state_DESC"
+  | "startedAt_ASC"
+  | "startedAt_DESC"
+  | "finishedAt_ASC"
+  | "finishedAt_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type LockerWhereUniqueInput = AtLeastOne<{
+  id?: ID_Input;
+}>;
+
+export interface LockerClusterUpdateInput {
+  lockers?: LockerUpdateManyWithoutClusterInput;
+}
+
+export interface LockerClusterUpdateOneWithoutLockersInput {
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: LockerClusterWhereUniqueInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id?: ID_Input;
+}>;
+
+export type LockerSessionWhereUniqueInput = AtLeastOne<{
+  id?: ID_Input;
+}>;
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+}
+
+export interface LockerUpdateInput {
+  cluster?: LockerClusterUpdateOneWithoutLockersInput;
+  busy?: Boolean;
+  locked?: Boolean;
+  open?: Boolean;
+}
+
+export interface LockerUpdateDataInput {
+  cluster?: LockerClusterUpdateOneWithoutLockersInput;
+  busy?: Boolean;
+  locked?: Boolean;
+  open?: Boolean;
+}
+
+export interface LockerClusterCreateOneWithoutLockersInput {
+  connect?: LockerClusterWhereUniqueInput;
+}
+
+export type LockerClusterWhereUniqueInput = AtLeastOne<{
+  id?: ID_Input;
+}>;
+
+export interface LockerSessionWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  user?: UserWhereInput;
+  locker?: LockerWhereInput;
+  state?: Int;
+  state_not?: Int;
+  state_in?: Int[] | Int;
+  state_not_in?: Int[] | Int;
+  state_lt?: Int;
+  state_lte?: Int;
+  state_gt?: Int;
+  state_gte?: Int;
+  startedAt?: DateTimeInput;
+  startedAt_not?: DateTimeInput;
+  startedAt_in?: DateTimeInput[] | DateTimeInput;
+  startedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  startedAt_lt?: DateTimeInput;
+  startedAt_lte?: DateTimeInput;
+  startedAt_gt?: DateTimeInput;
+  startedAt_gte?: DateTimeInput;
+  finishedAt?: DateTimeInput;
+  finishedAt_not?: DateTimeInput;
+  finishedAt_in?: DateTimeInput[] | DateTimeInput;
+  finishedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  finishedAt_lt?: DateTimeInput;
+  finishedAt_lte?: DateTimeInput;
+  finishedAt_gt?: DateTimeInput;
+  finishedAt_gte?: DateTimeInput;
+  AND?: LockerSessionWhereInput[] | LockerSessionWhereInput;
+  OR?: LockerSessionWhereInput[] | LockerSessionWhereInput;
+  NOT?: LockerSessionWhereInput[] | LockerSessionWhereInput;
+}
 
 export interface LockerWhereInput {
   id?: ID_Input;
@@ -247,144 +414,15 @@ export interface LockerWhereInput {
   NOT?: LockerWhereInput[] | LockerWhereInput;
 }
 
-export interface UserCreateInput {
-  name: String;
-}
-
-export interface LockerUpdateWithoutClusterDataInput {
-  busy?: Boolean;
-  locked?: Boolean;
-  open?: Boolean;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id?: ID_Input;
-}>;
-
-export interface LockerClusterSubscriptionWhereInput {
+export interface LockerSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: LockerClusterWhereInput;
-  AND?:
-    | LockerClusterSubscriptionWhereInput[]
-    | LockerClusterSubscriptionWhereInput;
-  OR?:
-    | LockerClusterSubscriptionWhereInput[]
-    | LockerClusterSubscriptionWhereInput;
-  NOT?:
-    | LockerClusterSubscriptionWhereInput[]
-    | LockerClusterSubscriptionWhereInput;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-}
-
-export interface LockerUpdateWithWhereUniqueWithoutClusterInput {
-  where: LockerWhereUniqueInput;
-  data: LockerUpdateWithoutClusterDataInput;
-}
-
-export interface LockerUpdateInput {
-  cluster?: LockerClusterUpdateOneWithoutLockersInput;
-  busy?: Boolean;
-  locked?: Boolean;
-  open?: Boolean;
-}
-
-export interface LockerUpdateManyWithoutClusterInput {
-  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput;
-  delete?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
-  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
-  disconnect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
-  update?:
-    | LockerUpdateWithWhereUniqueWithoutClusterInput[]
-    | LockerUpdateWithWhereUniqueWithoutClusterInput;
-  upsert?:
-    | LockerUpsertWithWhereUniqueWithoutClusterInput[]
-    | LockerUpsertWithWhereUniqueWithoutClusterInput;
-}
-
-export interface LockerCreateInput {
-  cluster?: LockerClusterCreateOneWithoutLockersInput;
-  busy?: Boolean;
-  locked?: Boolean;
-  open?: Boolean;
-}
-
-export interface LockerClusterUpdateInput {
-  lockers?: LockerUpdateManyWithoutClusterInput;
-}
-
-export interface LockerUpsertWithWhereUniqueWithoutClusterInput {
-  where: LockerWhereUniqueInput;
-  update: LockerUpdateWithoutClusterDataInput;
-  create: LockerCreateWithoutClusterInput;
-}
-
-export type LockerWhereUniqueInput = AtLeastOne<{
-  id?: ID_Input;
-}>;
-
-export interface LockerClusterWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  lockers_every?: LockerWhereInput;
-  lockers_some?: LockerWhereInput;
-  lockers_none?: LockerWhereInput;
-  AND?: LockerClusterWhereInput[] | LockerClusterWhereInput;
-  OR?: LockerClusterWhereInput[] | LockerClusterWhereInput;
-  NOT?: LockerClusterWhereInput[] | LockerClusterWhereInput;
-}
-
-export interface LockerClusterUpdateOneWithoutLockersInput {
-  delete?: Boolean;
-  disconnect?: Boolean;
-  connect?: LockerClusterWhereUniqueInput;
-}
-
-export interface UserUpdateInput {
-  name?: String;
-}
-
-export interface LockerClusterCreateInput {
-  lockers?: LockerCreateManyWithoutClusterInput;
-}
-
-export interface LockerCreateManyWithoutClusterInput {
-  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput;
-  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
-}
-
-export interface LockerCreateWithoutClusterInput {
-  busy?: Boolean;
-  locked?: Boolean;
-  open?: Boolean;
-}
-
-export interface LockerClusterCreateOneWithoutLockersInput {
-  connect?: LockerClusterWhereUniqueInput;
+  node?: LockerWhereInput;
+  AND?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput;
+  OR?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput;
+  NOT?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput;
 }
 
 export interface UserWhereInput {
@@ -416,28 +454,286 @@ export interface UserWhereInput {
   name_not_starts_with?: String;
   name_ends_with?: String;
   name_not_ends_with?: String;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  password?: String;
+  password_not?: String;
+  password_in?: String[] | String;
+  password_not_in?: String[] | String;
+  password_lt?: String;
+  password_lte?: String;
+  password_gt?: String;
+  password_gte?: String;
+  password_contains?: String;
+  password_not_contains?: String;
+  password_starts_with?: String;
+  password_not_starts_with?: String;
+  password_ends_with?: String;
+  password_not_ends_with?: String;
+  credit?: Int;
+  credit_not?: Int;
+  credit_in?: Int[] | Int;
+  credit_not_in?: Int[] | Int;
+  credit_lt?: Int;
+  credit_lte?: Int;
+  credit_gt?: Int;
+  credit_gte?: Int;
   AND?: UserWhereInput[] | UserWhereInput;
   OR?: UserWhereInput[] | UserWhereInput;
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface LockerSubscriptionWhereInput {
+export interface LockerCreateInput {
+  cluster?: LockerClusterCreateOneWithoutLockersInput;
+  busy?: Boolean;
+  locked?: Boolean;
+  open?: Boolean;
+}
+
+export interface LockerClusterSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: LockerWhereInput;
-  AND?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput;
-  OR?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput;
-  NOT?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput;
+  node?: LockerClusterWhereInput;
+  AND?:
+    | LockerClusterSubscriptionWhereInput[]
+    | LockerClusterSubscriptionWhereInput;
+  OR?:
+    | LockerClusterSubscriptionWhereInput[]
+    | LockerClusterSubscriptionWhereInput;
+  NOT?:
+    | LockerClusterSubscriptionWhereInput[]
+    | LockerClusterSubscriptionWhereInput;
 }
 
-export type LockerClusterWhereUniqueInput = AtLeastOne<{
+export interface LockerUpsertWithWhereUniqueWithoutClusterInput {
+  where: LockerWhereUniqueInput;
+  update: LockerUpdateWithoutClusterDataInput;
+  create: LockerCreateWithoutClusterInput;
+}
+
+export interface LockerSessionUpdateInput {
+  user?: UserUpdateOneInput;
+  locker?: LockerUpdateOneInput;
+  state?: Int;
+  startedAt?: DateTimeInput;
+  finishedAt?: DateTimeInput;
+}
+
+export interface LockerUpdateWithoutClusterDataInput {
+  busy?: Boolean;
+  locked?: Boolean;
+  open?: Boolean;
+}
+
+export interface LockerSessionSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: LockerSessionWhereInput;
+  AND?:
+    | LockerSessionSubscriptionWhereInput[]
+    | LockerSessionSubscriptionWhereInput;
+  OR?:
+    | LockerSessionSubscriptionWhereInput[]
+    | LockerSessionSubscriptionWhereInput;
+  NOT?:
+    | LockerSessionSubscriptionWhereInput[]
+    | LockerSessionSubscriptionWhereInput;
+}
+
+export interface LockerSessionCreateInput {
+  user: UserCreateOneInput;
+  locker: LockerCreateOneInput;
+  state?: Int;
+  startedAt: DateTimeInput;
+  finishedAt?: DateTimeInput;
+}
+
+export interface LockerUpdateOneInput {
+  create?: LockerCreateInput;
+  update?: LockerUpdateDataInput;
+  upsert?: LockerUpsertNestedInput;
+  delete?: Boolean;
+  connect?: LockerWhereUniqueInput;
+}
+
+export interface UserCreateInput {
+  name: String;
+  email: String;
+  password: String;
+  credit?: Int;
+}
+
+export interface LockerClusterWhereInput {
   id?: ID_Input;
-}>;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  lockers_every?: LockerWhereInput;
+  lockers_some?: LockerWhereInput;
+  lockers_none?: LockerWhereInput;
+  AND?: LockerClusterWhereInput[] | LockerClusterWhereInput;
+  OR?: LockerClusterWhereInput[] | LockerClusterWhereInput;
+  NOT?: LockerClusterWhereInput[] | LockerClusterWhereInput;
+}
+
+export interface UserUpdateInput {
+  name?: String;
+  email?: String;
+  password?: String;
+  credit?: Int;
+}
+
+export interface UserUpdateOneInput {
+  create?: UserCreateInput;
+  update?: UserUpdateDataInput;
+  upsert?: UserUpsertNestedInput;
+  delete?: Boolean;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface LockerUpdateWithWhereUniqueWithoutClusterInput {
+  where: LockerWhereUniqueInput;
+  data: LockerUpdateWithoutClusterDataInput;
+}
+
+export interface UserCreateOneInput {
+  create?: UserCreateInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface LockerCreateWithoutClusterInput {
+  busy?: Boolean;
+  locked?: Boolean;
+  open?: Boolean;
+}
+
+export interface LockerCreateManyWithoutClusterInput {
+  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput;
+  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
+}
+
+export interface LockerClusterCreateInput {
+  lockers?: LockerCreateManyWithoutClusterInput;
+}
+
+export interface LockerUpdateManyWithoutClusterInput {
+  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput;
+  delete?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
+  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
+  disconnect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
+  update?:
+    | LockerUpdateWithWhereUniqueWithoutClusterInput[]
+    | LockerUpdateWithWhereUniqueWithoutClusterInput;
+  upsert?:
+    | LockerUpsertWithWhereUniqueWithoutClusterInput[]
+    | LockerUpsertWithWhereUniqueWithoutClusterInput;
+}
+
+export interface LockerUpsertNestedInput {
+  update: LockerUpdateDataInput;
+  create: LockerCreateInput;
+}
+
+export interface LockerCreateOneInput {
+  create?: LockerCreateInput;
+  connect?: LockerWhereUniqueInput;
+}
+
+export interface UserUpdateDataInput {
+  name?: String;
+  email?: String;
+  password?: String;
+  credit?: Int;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
 
 export interface NodeNode {
   id: ID_Output;
+}
+
+export interface BatchPayloadNode {
+  count: Long;
+}
+
+export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayloadNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface AggregateUserNode {
+  count: Int;
+}
+
+export interface AggregateUser
+  extends Promise<AggregateUserNode>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUserNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface LockerSessionPreviousValuesNode {
+  id: ID_Output;
+  state: Int;
+  startedAt: DateTimeOutput;
+  finishedAt?: DateTimeOutput;
+}
+
+export interface LockerSessionPreviousValues
+  extends Promise<LockerSessionPreviousValuesNode>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  state: () => Promise<Int>;
+  startedAt: () => Promise<DateTimeOutput>;
+  finishedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LockerSessionPreviousValuesSubscription
+  extends Promise<AsyncIterator<LockerSessionPreviousValuesNode>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  state: () => Promise<AsyncIterator<Int>>;
+  startedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  finishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserEdgeNode {
@@ -456,59 +752,130 @@ export interface UserEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface LockerPreviousValuesNode {
-  id: ID_Output;
-  busy: Boolean;
-  locked: Boolean;
-  open: Boolean;
+export interface AggregateLockerSessionNode {
+  count: Int;
 }
 
-export interface LockerPreviousValues
-  extends Promise<LockerPreviousValuesNode>,
+export interface AggregateLockerSession
+  extends Promise<AggregateLockerSessionNode>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
-  busy: () => Promise<Boolean>;
-  locked: () => Promise<Boolean>;
-  open: () => Promise<Boolean>;
+  count: () => Promise<Int>;
 }
 
-export interface LockerPreviousValuesSubscription
-  extends Promise<AsyncIterator<LockerPreviousValuesNode>>,
+export interface AggregateLockerSessionSubscription
+  extends Promise<AsyncIterator<AggregateLockerSessionNode>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface LockerSessionSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface LockerSessionSubscriptionPayload
+  extends Promise<LockerSessionSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = LockerSession>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = LockerSessionPreviousValues>() => T;
+}
+
+export interface LockerSessionSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<LockerSessionSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = LockerSessionSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = LockerSessionPreviousValuesSubscription>() => T;
+}
+
+export interface LockerSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface LockerSubscriptionPayload
+  extends Promise<LockerSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Locker>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = LockerPreviousValues>() => T;
+}
+
+export interface LockerSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<LockerSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = LockerSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = LockerPreviousValuesSubscription>() => T;
+}
+
+export interface LockerSessionEdgeNode {
+  cursor: String;
+}
+
+export interface LockerSessionEdge
+  extends Promise<LockerSessionEdgeNode>,
+    Fragmentable {
+  node: <T = LockerSession>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LockerSessionEdgeSubscription
+  extends Promise<AsyncIterator<LockerSessionEdgeNode>>,
+    Fragmentable {
+  node: <T = LockerSessionSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface LockerSessionConnectionNode {}
+
+export interface LockerSessionConnection
+  extends Promise<LockerSessionConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = Promise<Array<LockerSessionEdgeNode>>>() => T;
+  aggregate: <T = AggregateLockerSession>() => T;
+}
+
+export interface LockerSessionConnectionSubscription
+  extends Promise<AsyncIterator<LockerSessionConnectionNode>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <
+    T = Promise<AsyncIterator<Array<LockerSessionEdgeSubscription>>>
+  >() => T;
+  aggregate: <T = AggregateLockerSessionSubscription>() => T;
+}
+
+export interface UserNode {
+  id: ID_Output;
+  name: String;
+  email: String;
+  password: String;
+  credit: Int;
+}
+
+export interface User extends Promise<UserNode>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  credit: () => Promise<Int>;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<UserNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  busy: () => Promise<AsyncIterator<Boolean>>;
-  locked: () => Promise<AsyncIterator<Boolean>>;
-  open: () => Promise<AsyncIterator<Boolean>>;
-}
-
-export interface BatchPayloadNode {
-  count: Long;
-}
-
-export interface BatchPayload extends Promise<BatchPayloadNode>, Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayloadNode>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface LockerClusterPreviousValuesNode {
-  id: ID_Output;
-}
-
-export interface LockerClusterPreviousValues
-  extends Promise<LockerClusterPreviousValuesNode>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-}
-
-export interface LockerClusterPreviousValuesSubscription
-  extends Promise<AsyncIterator<LockerClusterPreviousValuesNode>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  credit: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface AggregateLockerNode {
@@ -525,24 +892,6 @@ export interface AggregateLockerSubscription
   extends Promise<AsyncIterator<AggregateLockerNode>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface LockerConnectionNode {}
-
-export interface LockerConnection
-  extends Promise<LockerConnectionNode>,
-    Fragmentable {
-  pageInfo: <T = PageInfo>() => T;
-  edges: <T = Promise<Array<LockerEdgeNode>>>() => T;
-  aggregate: <T = AggregateLocker>() => T;
-}
-
-export interface LockerConnectionSubscription
-  extends Promise<AsyncIterator<LockerConnectionNode>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<Array<LockerEdgeSubscription>>>>() => T;
-  aggregate: <T = AggregateLockerSubscription>() => T;
 }
 
 export interface PageInfoNode {
@@ -568,22 +917,22 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface LockerClusterEdgeNode {
-  cursor: String;
+export interface LockerConnectionNode {}
+
+export interface LockerConnection
+  extends Promise<LockerConnectionNode>,
+    Fragmentable {
+  pageInfo: <T = PageInfo>() => T;
+  edges: <T = Promise<Array<LockerEdgeNode>>>() => T;
+  aggregate: <T = AggregateLocker>() => T;
 }
 
-export interface LockerClusterEdge
-  extends Promise<LockerClusterEdgeNode>,
+export interface LockerConnectionSubscription
+  extends Promise<AsyncIterator<LockerConnectionNode>>,
     Fragmentable {
-  node: <T = LockerCluster>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface LockerClusterEdgeSubscription
-  extends Promise<AsyncIterator<LockerClusterEdgeNode>>,
-    Fragmentable {
-  node: <T = LockerClusterSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<Array<LockerEdgeSubscription>>>>() => T;
+  aggregate: <T = AggregateLockerSubscription>() => T;
 }
 
 export interface UserConnectionNode {}
@@ -602,6 +951,47 @@ export interface UserConnectionSubscription
   pageInfo: <T = PageInfoSubscription>() => T;
   edges: <T = Promise<AsyncIterator<Array<UserEdgeSubscription>>>>() => T;
   aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface LockerClusterEdgeNode {
+  cursor: String;
+}
+
+export interface LockerClusterEdge
+  extends Promise<LockerClusterEdgeNode>,
+    Fragmentable {
+  node: <T = LockerCluster>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LockerClusterEdgeSubscription
+  extends Promise<AsyncIterator<LockerClusterEdgeNode>>,
+    Fragmentable {
+  node: <T = LockerClusterSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserSubscriptionPayloadNode {
+  mutation: MutationType;
+  updatedFields?: String[];
+}
+
+export interface UserSubscriptionPayload
+  extends Promise<UserSubscriptionPayloadNode>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = User>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValues>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayloadNode>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
 export interface LockerNode {
@@ -629,43 +1019,49 @@ export interface LockerSubscription
   open: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface LockerSubscriptionPayloadNode {
-  mutation: MutationType;
-  updatedFields?: String[];
+export interface LockerSessionNode {
+  id: ID_Output;
+  state: Int;
+  startedAt: DateTimeOutput;
+  finishedAt?: DateTimeOutput;
 }
 
-export interface LockerSubscriptionPayload
-  extends Promise<LockerSubscriptionPayloadNode>,
+export interface LockerSession
+  extends Promise<LockerSessionNode>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = Locker>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = LockerPreviousValues>() => T;
+  id: () => Promise<ID_Output>;
+  user: <T = User>() => T;
+  locker: <T = Locker>() => T;
+  state: () => Promise<Int>;
+  startedAt: () => Promise<DateTimeOutput>;
+  finishedAt: () => Promise<DateTimeOutput>;
 }
 
-export interface LockerSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<LockerSubscriptionPayloadNode>>,
+export interface LockerSessionSubscription
+  extends Promise<AsyncIterator<LockerSessionNode>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = LockerSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = LockerPreviousValuesSubscription>() => T;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  user: <T = UserSubscription>() => T;
+  locker: <T = LockerSubscription>() => T;
+  state: () => Promise<AsyncIterator<Int>>;
+  startedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  finishedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface AggregateUserNode {
-  count: Int;
+export interface LockerClusterPreviousValuesNode {
+  id: ID_Output;
 }
 
-export interface AggregateUser
-  extends Promise<AggregateUserNode>,
+export interface LockerClusterPreviousValues
+  extends Promise<LockerClusterPreviousValuesNode>,
     Fragmentable {
-  count: () => Promise<Int>;
+  id: () => Promise<ID_Output>;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUserNode>>,
+export interface LockerClusterPreviousValuesSubscription
+  extends Promise<AsyncIterator<LockerClusterPreviousValuesNode>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
 }
 
 export interface LockerClusterSubscriptionPayloadNode {
@@ -691,26 +1087,37 @@ export interface LockerClusterSubscriptionPayloadSubscription
   previousValues: <T = LockerClusterPreviousValuesSubscription>() => T;
 }
 
-export interface UserNode {
+export interface LockerPreviousValuesNode {
   id: ID_Output;
-  name: String;
+  busy: Boolean;
+  locked: Boolean;
+  open: Boolean;
 }
 
-export interface User extends Promise<UserNode>, Fragmentable {
+export interface LockerPreviousValues
+  extends Promise<LockerPreviousValuesNode>,
+    Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  busy: () => Promise<Boolean>;
+  locked: () => Promise<Boolean>;
+  open: () => Promise<Boolean>;
 }
 
-export interface UserSubscription
-  extends Promise<AsyncIterator<UserNode>>,
+export interface LockerPreviousValuesSubscription
+  extends Promise<AsyncIterator<LockerPreviousValuesNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  busy: () => Promise<AsyncIterator<Boolean>>;
+  locked: () => Promise<AsyncIterator<Boolean>>;
+  open: () => Promise<AsyncIterator<Boolean>>;
 }
 
 export interface UserPreviousValuesNode {
   id: ID_Output;
   name: String;
+  email: String;
+  password: String;
+  credit: Int;
 }
 
 export interface UserPreviousValues
@@ -718,6 +1125,9 @@ export interface UserPreviousValues
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  credit: () => Promise<Int>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -725,29 +1135,9 @@ export interface UserPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserSubscriptionPayloadNode {
-  mutation: MutationType;
-  updatedFields?: String[];
-}
-
-export interface UserSubscriptionPayload
-  extends Promise<UserSubscriptionPayloadNode>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = User>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValues>() => T;
-}
-
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayloadNode>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  credit: () => Promise<AsyncIterator<Int>>;
 }
 
 export interface LockerEdgeNode {
@@ -845,13 +1235,23 @@ The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean;
 
+export type Long = string;
+
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
 
-export type Long = string;
+/*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 

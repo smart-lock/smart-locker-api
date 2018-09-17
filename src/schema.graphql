@@ -1,4 +1,5 @@
 # import Locker from "prisma-client/prisma.graphql"
+# import LockerSession from "prisma-client/prisma.graphql"
 
 type Query {
   hello: String
@@ -7,4 +8,5 @@ type Query {
 }
 type Mutation {
   kill: String
+  claimLocker (lockerId: ID!): LockerSession
 }

@@ -7,17 +7,12 @@ import { IAccount, accountFromReq } from '~/auth/account';
 import { PrismaComponent } from '~/components/prisma';
 
 export interface IContext {
-  db: Prisma
-  mqtt: IMQTTComponent
   account: IAccount
-  prismaBinding: PrismaComponent<PrismaBinding>
+  components: IComponents
 }
 export const contextFromReq = async (req: ContextParameters, deps: IComponents): Promise<IContext> => {
-  // console.log(deps)
   return {
-  db: prisma,
-  mqtt: deps.mqtt,
-  prismaBinding: deps.prismaBinding,
-  account: await accountFromReq(req, deps)
+    components: deps,
+    account: await accountFromReq(req, deps)
   }
 }

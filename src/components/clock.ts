@@ -4,6 +4,7 @@ export interface IClockComponent {
   getTimestamp: () => number
   getTimestampSeconds: () => number
   setTimestamp: (timestamp: number) => void
+  getDate: () => Date
 }
 
 export class ClockComponent implements ILifecycle, IClockComponent {
@@ -17,6 +18,10 @@ export class ClockComponent implements ILifecycle, IClockComponent {
 
   public getTimestampSeconds() {
     return Math.floor(+new Date() / 1000)
+  }
+
+  public getDate() {
+    return new Date()
   }
   public start() {
     // noop

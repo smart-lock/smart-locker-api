@@ -5,12 +5,13 @@ const main = async () => {
   const components: IComponents = await system.start()
   console.log('System is up')
 
-  // const adminToken = await components.token.encode({
-  //   id: '1',
-  //   email: 'rafael.correia.poli@gmail.com',
-  //   scopes: ['admin'],
-  // } as IAccount)
-  // console.log(adminToken)
+  const adminToken = await components.token.encode({
+    "id": "cjm5gw0sj003e0a53n7kka2vt",
+    "name": "Rafael Ribeiro Correia",
+    "email": "rafael@rafael.com",
+    scopes: ['admin'],
+  } as IAccount)
+  console.log(adminToken)
 }
 
 main()

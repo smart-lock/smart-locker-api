@@ -1,6 +1,9 @@
 type User {
   id: ID! @unique
   name: String!
+  email: String!
+  password: String!
+  credit: Int! @default(value: 0)
 }
 
 type LockerCluster {
@@ -15,4 +18,13 @@ type Locker {
   busy: Boolean! @default(value: "false")
   locked: Boolean! @default(value: "false")
   open: Boolean! @default(value: "false")
+}
+
+type LockerSession {
+  id: ID! @unique
+  user: User!
+  locker: Locker!
+  state: Int! @default(value: 0)
+  startedAt: DateTime!
+  finishedAt: DateTime
 }

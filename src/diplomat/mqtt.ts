@@ -5,9 +5,11 @@ import { IComponents } from '../system'
 // uuid:md5:version:versionString:1:2:-3
 
 export const mqttHandlers: IMQTTHandlerTable = {
-  'slc/+gid/info1/+lid': {
-    handler: async (topic: string, params: {gid: string, lid: string}, data: any, components: IComponents) => {
-      
+  'locker/1/dht': {
+    handler: async (topic: string, params, data: any, components: IComponents) => {
+      console.log(topic)
+      console.log(params)
+      console.log(data)
     },
   },
   'slc/activation/gateway': {

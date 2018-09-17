@@ -6,8 +6,7 @@ import { IClockComponent } from './clock';
 import { IS3Component } from '~/components/s3';
 
 
-const priv = `
------BEGIN RSA PRIVATE KEY-----
+const priv = `-----BEGIN RSA PRIVATE KEY-----
 MIIEogIBAAKCAQEApViUU4TSgnNbe3Iy7e5CD+uwfOYvdACiQTph7S1o/zkjERUw
 b5vIf5d4YzB+98ChGJhy+OqkrSIF5bVgEldNwpfUGkOO+BsE6KUJfVGJTbHbJK+3
 bpQ1LSnv+dII+d+lvx/TbSsWzfdMMnT06OJ4jjgB0atU1U5PhydB5wuMZWBbc1JX
@@ -33,11 +32,9 @@ A9B3/luyGDsCW92VEoQ3d3zV/aXA0sYVl8moMujzInTVPmCeX0aEdpoV7PO9Gg0W
 5UEDAoGAG9HV9/pSeEKWSlGauNpujrDBMZALTJ4asz0F20miMT1ssQgDlR2Aa1OD
 hMZmCigVo4cjPS+Ns9O5/mFKzDnh0sWLraSRveFqkrj6ks+GJk5HxaTIOM6IwDDX
 6RXqaQP4CbTscneV0HvylT9q7jnObLj/YRXtrmZnp+x62zlOei0=
------END RSA PRIVATE KEY-----
-`
+-----END RSA PRIVATE KEY-----`
 
-const pub = `
------BEGIN PUBLIC KEY-----
+const pub = `-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApViUU4TSgnNbe3Iy7e5C
 D+uwfOYvdACiQTph7S1o/zkjERUwb5vIf5d4YzB+98ChGJhy+OqkrSIF5bVgEldN
 wpfUGkOO+BsE6KUJfVGJTbHbJK+3bpQ1LSnv+dII+d+lvx/TbSsWzfdMMnT06OJ4
@@ -45,9 +42,7 @@ jjgB0atU1U5PhydB5wuMZWBbc1JXxAyDwHbd2a/nOxV0tYWzX4PauQPZPX8w1e+I
 iOL+IbQIK3veIs93FCY3YePo798y26MyAGVdejn2V/ZRT85ZmDqTjISDYmMyfmXU
 TlLvpuQBhL20eLxr58xmoNlHWBgHUAuBEcuuVdA1JgM+XVZr/IL9bZ7iPx/F15uF
 fQIDAQAB
------END PUBLIC KEY-----
-
-`
+-----END PUBLIC KEY-----`
 
 export interface IBasicJWTPayload {
   iat: number,

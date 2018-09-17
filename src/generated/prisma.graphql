@@ -1,11 +1,15 @@
-# source: https://smart-locker-api.herokuapp.com/smart-locker-api/dev
-# timestamp: Sun Sep 16 2018 17:05:21 GMT-0300 (-03)
+# source: http://localhost:4466
+# timestamp: Sun Sep 16 2018 19:50:34 GMT-0300 (-03)
 
 type AggregateLocker {
   count: Int!
 }
 
 type AggregateLockerCluster {
+  count: Int!
+}
+
+type AggregateLockerSession {
   count: Int!
 }
 
@@ -17,6 +21,8 @@ type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
 }
+
+scalar DateTime
 
 type Locker implements Node {
   id: ID!
@@ -200,6 +206,11 @@ input LockerCreateManyWithoutClusterInput {
   connect: [LockerWhereUniqueInput!]
 }
 
+input LockerCreateOneInput {
+  create: LockerCreateInput
+  connect: LockerWhereUniqueInput
+}
+
 input LockerCreateWithoutClusterInput {
   busy: Boolean
   locked: Boolean
@@ -235,6 +246,234 @@ type LockerPreviousValues {
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+}
+
+type LockerSession implements Node {
+  id: ID!
+  user(where: UserWhereInput): User!
+  locker(where: LockerWhereInput): Locker!
+  state: Int!
+  startedAt: DateTime!
+  finishedAt: DateTime
+}
+
+"""A connection to a list of items."""
+type LockerSessionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [LockerSessionEdge]!
+  aggregate: AggregateLockerSession!
+}
+
+input LockerSessionCreateInput {
+  state: Int
+  startedAt: DateTime!
+  finishedAt: DateTime
+  user: UserCreateOneInput!
+  locker: LockerCreateOneInput!
+}
+
+"""An edge in a connection."""
+type LockerSessionEdge {
+  """The item at the end of the edge."""
+  node: LockerSession!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum LockerSessionOrderByInput {
+  id_ASC
+  id_DESC
+  state_ASC
+  state_DESC
+  startedAt_ASC
+  startedAt_DESC
+  finishedAt_ASC
+  finishedAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type LockerSessionPreviousValues {
+  id: ID!
+  state: Int!
+  startedAt: DateTime!
+  finishedAt: DateTime
+}
+
+type LockerSessionSubscriptionPayload {
+  mutation: MutationType!
+  node: LockerSession
+  updatedFields: [String!]
+  previousValues: LockerSessionPreviousValues
+}
+
+input LockerSessionSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LockerSessionSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LockerSessionSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LockerSessionSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: LockerSessionWhereInput
+}
+
+input LockerSessionUpdateInput {
+  state: Int
+  startedAt: DateTime
+  finishedAt: DateTime
+  user: UserUpdateOneInput
+  locker: LockerUpdateOneInput
+}
+
+input LockerSessionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LockerSessionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LockerSessionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LockerSessionWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  state: Int
+
+  """All values that are not equal to given value."""
+  state_not: Int
+
+  """All values that are contained in given list."""
+  state_in: [Int!]
+
+  """All values that are not contained in given list."""
+  state_not_in: [Int!]
+
+  """All values less than the given value."""
+  state_lt: Int
+
+  """All values less than or equal the given value."""
+  state_lte: Int
+
+  """All values greater than the given value."""
+  state_gt: Int
+
+  """All values greater than or equal the given value."""
+  state_gte: Int
+  startedAt: DateTime
+
+  """All values that are not equal to given value."""
+  startedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  startedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  startedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  startedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  startedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  startedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  startedAt_gte: DateTime
+  finishedAt: DateTime
+
+  """All values that are not equal to given value."""
+  finishedAt_not: DateTime
+
+  """All values that are contained in given list."""
+  finishedAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  finishedAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  finishedAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  finishedAt_lte: DateTime
+
+  """All values greater than the given value."""
+  finishedAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  finishedAt_gte: DateTime
+  user: UserWhereInput
+  locker: LockerWhereInput
+}
+
+input LockerSessionWhereUniqueInput {
+  id: ID
 }
 
 type LockerSubscriptionPayload {
@@ -276,6 +515,13 @@ input LockerSubscriptionWhereInput {
   node: LockerWhereInput
 }
 
+input LockerUpdateDataInput {
+  busy: Boolean
+  locked: Boolean
+  open: Boolean
+  cluster: LockerClusterUpdateOneWithoutLockersInput
+}
+
 input LockerUpdateInput {
   busy: Boolean
   locked: Boolean
@@ -292,6 +538,14 @@ input LockerUpdateManyWithoutClusterInput {
   upsert: [LockerUpsertWithWhereUniqueWithoutClusterInput!]
 }
 
+input LockerUpdateOneInput {
+  create: LockerCreateInput
+  connect: LockerWhereUniqueInput
+  delete: Boolean
+  update: LockerUpdateDataInput
+  upsert: LockerUpsertNestedInput
+}
+
 input LockerUpdateWithoutClusterDataInput {
   busy: Boolean
   locked: Boolean
@@ -301,6 +555,11 @@ input LockerUpdateWithoutClusterDataInput {
 input LockerUpdateWithWhereUniqueWithoutClusterInput {
   where: LockerWhereUniqueInput!
   data: LockerUpdateWithoutClusterDataInput!
+}
+
+input LockerUpsertNestedInput {
+  update: LockerUpdateDataInput!
+  create: LockerCreateInput!
 }
 
 input LockerUpsertWithWhereUniqueWithoutClusterInput {
@@ -384,24 +643,30 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createLockerCluster(data: LockerClusterCreateInput!): LockerCluster!
+  createLockerSession(data: LockerSessionCreateInput!): LockerSession!
   createLocker(data: LockerCreateInput!): Locker!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  createUser(data: UserCreateInput!): User!
   updateLockerCluster(data: LockerClusterUpdateInput!, where: LockerClusterWhereUniqueInput!): LockerCluster
+  updateLockerSession(data: LockerSessionUpdateInput!, where: LockerSessionWhereUniqueInput!): LockerSession
   updateLocker(data: LockerUpdateInput!, where: LockerWhereUniqueInput!): Locker
-  deleteUser(where: UserWhereUniqueInput!): User
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteLockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
+  deleteLockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
   deleteLocker(where: LockerWhereUniqueInput!): Locker
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
   upsertLockerCluster(where: LockerClusterWhereUniqueInput!, create: LockerClusterCreateInput!, update: LockerClusterUpdateInput!): LockerCluster!
+  upsertLockerSession(where: LockerSessionWhereUniqueInput!, create: LockerSessionCreateInput!, update: LockerSessionUpdateInput!): LockerSession!
   upsertLocker(where: LockerWhereUniqueInput!, create: LockerCreateInput!, update: LockerUpdateInput!): Locker!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyLockerClusters(data: LockerClusterUpdateInput!, where: LockerClusterWhereInput): BatchPayload!
+  updateManyLockerSessions(data: LockerSessionUpdateInput!, where: LockerSessionWhereInput): BatchPayload!
   updateManyLockers(data: LockerUpdateInput!, where: LockerWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   deleteManyLockerClusters(where: LockerClusterWhereInput): BatchPayload!
+  deleteManyLockerSessions(where: LockerSessionWhereInput): BatchPayload!
   deleteManyLockers(where: LockerWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -432,15 +697,18 @@ type PageInfo {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   lockerClusters(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerCluster]!
+  lockerSessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession]!
   lockers(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Locker]!
-  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   lockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
+  lockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
   locker(where: LockerWhereUniqueInput!): Locker
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  user(where: UserWhereUniqueInput!): User
   lockerClustersConnection(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerClusterConnection!
+  lockerSessionsConnection(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerSessionConnection!
   lockersConnection(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -450,14 +718,18 @@ type Query {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   lockerCluster(where: LockerClusterSubscriptionWhereInput): LockerClusterSubscriptionPayload
+  lockerSession(where: LockerSessionSubscriptionWhereInput): LockerSessionSubscriptionPayload
   locker(where: LockerSubscriptionWhereInput): LockerSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User implements Node {
   id: ID!
   name: String!
+  email: String!
+  password: String!
+  credit: Int!
 }
 
 """A connection to a list of items."""
@@ -472,6 +744,14 @@ type UserConnection {
 
 input UserCreateInput {
   name: String!
+  email: String!
+  password: String!
+  credit: Int
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -488,6 +768,12 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+  credit_ASC
+  credit_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -497,6 +783,9 @@ enum UserOrderByInput {
 type UserPreviousValues {
   id: ID!
   name: String!
+  email: String!
+  password: String!
+  credit: Int!
 }
 
 type UserSubscriptionPayload {
@@ -538,8 +827,31 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  credit: Int
+}
+
 input UserUpdateInput {
   name: String
+  email: String
+  password: String
+  credit: Int
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -631,6 +943,108 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   name_not_ends_with: String
+  email: String
+
+  """All values that are not equal to given value."""
+  email_not: String
+
+  """All values that are contained in given list."""
+  email_in: [String!]
+
+  """All values that are not contained in given list."""
+  email_not_in: [String!]
+
+  """All values less than the given value."""
+  email_lt: String
+
+  """All values less than or equal the given value."""
+  email_lte: String
+
+  """All values greater than the given value."""
+  email_gt: String
+
+  """All values greater than or equal the given value."""
+  email_gte: String
+
+  """All values containing the given string."""
+  email_contains: String
+
+  """All values not containing the given string."""
+  email_not_contains: String
+
+  """All values starting with the given string."""
+  email_starts_with: String
+
+  """All values not starting with the given string."""
+  email_not_starts_with: String
+
+  """All values ending with the given string."""
+  email_ends_with: String
+
+  """All values not ending with the given string."""
+  email_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  credit: Int
+
+  """All values that are not equal to given value."""
+  credit_not: Int
+
+  """All values that are contained in given list."""
+  credit_in: [Int!]
+
+  """All values that are not contained in given list."""
+  credit_not_in: [Int!]
+
+  """All values less than the given value."""
+  credit_lt: Int
+
+  """All values less than or equal the given value."""
+  credit_lte: Int
+
+  """All values greater than the given value."""
+  credit_gt: Int
+
+  """All values greater than or equal the given value."""
+  credit_gte: Int
 }
 
 input UserWhereUniqueInput {
