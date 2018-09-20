@@ -26,11 +26,15 @@ type Locker {
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
 }
 
 type LockerCluster {
   id: ID!
   lockers(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Locker!]
+  macAddress: String!
 }
 
 type LockerClusterConnection {
@@ -41,10 +45,16 @@ type LockerClusterConnection {
 
 input LockerClusterCreateInput {
   lockers: LockerCreateManyWithoutClusterInput
+  macAddress: String!
 }
 
 input LockerClusterCreateOneWithoutLockersInput {
+  create: LockerClusterCreateWithoutLockersInput
   connect: LockerClusterWhereUniqueInput
+}
+
+input LockerClusterCreateWithoutLockersInput {
+  macAddress: String!
 }
 
 type LockerClusterEdge {
@@ -55,6 +65,8 @@ type LockerClusterEdge {
 enum LockerClusterOrderByInput {
   id_ASC
   id_DESC
+  macAddress_ASC
+  macAddress_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -63,6 +75,7 @@ enum LockerClusterOrderByInput {
 
 type LockerClusterPreviousValues {
   id: ID!
+  macAddress: String!
 }
 
 type LockerClusterSubscriptionPayload {
@@ -85,12 +98,25 @@ input LockerClusterSubscriptionWhereInput {
 
 input LockerClusterUpdateInput {
   lockers: LockerUpdateManyWithoutClusterInput
+  macAddress: String
 }
 
 input LockerClusterUpdateOneWithoutLockersInput {
+  create: LockerClusterCreateWithoutLockersInput
+  update: LockerClusterUpdateWithoutLockersDataInput
+  upsert: LockerClusterUpsertWithoutLockersInput
   delete: Boolean
   disconnect: Boolean
   connect: LockerClusterWhereUniqueInput
+}
+
+input LockerClusterUpdateWithoutLockersDataInput {
+  macAddress: String
+}
+
+input LockerClusterUpsertWithoutLockersInput {
+  update: LockerClusterUpdateWithoutLockersDataInput!
+  create: LockerClusterCreateWithoutLockersInput!
 }
 
 input LockerClusterWhereInput {
@@ -111,6 +137,20 @@ input LockerClusterWhereInput {
   lockers_every: LockerWhereInput
   lockers_some: LockerWhereInput
   lockers_none: LockerWhereInput
+  macAddress: String
+  macAddress_not: String
+  macAddress_in: [String!]
+  macAddress_not_in: [String!]
+  macAddress_lt: String
+  macAddress_lte: String
+  macAddress_gt: String
+  macAddress_gte: String
+  macAddress_contains: String
+  macAddress_not_contains: String
+  macAddress_starts_with: String
+  macAddress_not_starts_with: String
+  macAddress_ends_with: String
+  macAddress_not_ends_with: String
   AND: [LockerClusterWhereInput!]
   OR: [LockerClusterWhereInput!]
   NOT: [LockerClusterWhereInput!]
@@ -131,6 +171,9 @@ input LockerCreateInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
 }
 
 input LockerCreateManyWithoutClusterInput {
@@ -147,6 +190,9 @@ input LockerCreateWithoutClusterInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
 }
 
 type LockerEdge {
@@ -163,6 +209,12 @@ enum LockerOrderByInput {
   locked_DESC
   open_ASC
   open_DESC
+  sensorPin_ASC
+  sensorPin_DESC
+  alarmPin_ASC
+  alarmPin_DESC
+  lockPin_ASC
+  lockPin_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -174,6 +226,9 @@ type LockerPreviousValues {
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
 }
 
 type LockerSession {
@@ -325,6 +380,9 @@ input LockerUpdateDataInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
 }
 
 input LockerUpdateInput {
@@ -332,6 +390,9 @@ input LockerUpdateInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
 }
 
 input LockerUpdateManyWithoutClusterInput {
@@ -355,6 +416,9 @@ input LockerUpdateWithoutClusterDataInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
 }
 
 input LockerUpdateWithWhereUniqueWithoutClusterInput {
@@ -395,6 +459,30 @@ input LockerWhereInput {
   locked_not: Boolean
   open: Boolean
   open_not: Boolean
+  sensorPin: Int
+  sensorPin_not: Int
+  sensorPin_in: [Int!]
+  sensorPin_not_in: [Int!]
+  sensorPin_lt: Int
+  sensorPin_lte: Int
+  sensorPin_gt: Int
+  sensorPin_gte: Int
+  alarmPin: Int
+  alarmPin_not: Int
+  alarmPin_in: [Int!]
+  alarmPin_not_in: [Int!]
+  alarmPin_lt: Int
+  alarmPin_lte: Int
+  alarmPin_gt: Int
+  alarmPin_gte: Int
+  lockPin: Int
+  lockPin_not: Int
+  lockPin_in: [Int!]
+  lockPin_not_in: [Int!]
+  lockPin_lt: Int
+  lockPin_lte: Int
+  lockPin_gt: Int
+  lockPin_gte: Int
   AND: [LockerWhereInput!]
   OR: [LockerWhereInput!]
   NOT: [LockerWhereInput!]
