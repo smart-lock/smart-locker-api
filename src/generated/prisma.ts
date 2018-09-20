@@ -111,11 +111,15 @@ type Locker implements Node {
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
 }
 
 type LockerCluster implements Node {
   id: ID!
   lockers(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Locker!]
+  macAddress: String!
 }
 
 """A connection to a list of items."""
@@ -129,11 +133,17 @@ type LockerClusterConnection {
 }
 
 input LockerClusterCreateInput {
+  macAddress: String!
   lockers: LockerCreateManyWithoutClusterInput
 }
 
 input LockerClusterCreateOneWithoutLockersInput {
+  create: LockerClusterCreateWithoutLockersInput
   connect: LockerClusterWhereUniqueInput
+}
+
+input LockerClusterCreateWithoutLockersInput {
+  macAddress: String!
 }
 
 """An edge in a connection."""
@@ -148,6 +158,8 @@ type LockerClusterEdge {
 enum LockerClusterOrderByInput {
   id_ASC
   id_DESC
+  macAddress_ASC
+  macAddress_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -156,6 +168,7 @@ enum LockerClusterOrderByInput {
 
 type LockerClusterPreviousValues {
   id: ID!
+  macAddress: String!
 }
 
 type LockerClusterSubscriptionPayload {
@@ -198,13 +211,26 @@ input LockerClusterSubscriptionWhereInput {
 }
 
 input LockerClusterUpdateInput {
+  macAddress: String
   lockers: LockerUpdateManyWithoutClusterInput
 }
 
 input LockerClusterUpdateOneWithoutLockersInput {
+  create: LockerClusterCreateWithoutLockersInput
   connect: LockerClusterWhereUniqueInput
   disconnect: Boolean
   delete: Boolean
+  update: LockerClusterUpdateWithoutLockersDataInput
+  upsert: LockerClusterUpsertWithoutLockersInput
+}
+
+input LockerClusterUpdateWithoutLockersDataInput {
+  macAddress: String
+}
+
+input LockerClusterUpsertWithoutLockersInput {
+  update: LockerClusterUpdateWithoutLockersDataInput!
+  create: LockerClusterCreateWithoutLockersInput!
 }
 
 input LockerClusterWhereInput {
@@ -256,6 +282,46 @@ input LockerClusterWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  macAddress: String
+
+  """All values that are not equal to given value."""
+  macAddress_not: String
+
+  """All values that are contained in given list."""
+  macAddress_in: [String!]
+
+  """All values that are not contained in given list."""
+  macAddress_not_in: [String!]
+
+  """All values less than the given value."""
+  macAddress_lt: String
+
+  """All values less than or equal the given value."""
+  macAddress_lte: String
+
+  """All values greater than the given value."""
+  macAddress_gt: String
+
+  """All values greater than or equal the given value."""
+  macAddress_gte: String
+
+  """All values containing the given string."""
+  macAddress_contains: String
+
+  """All values not containing the given string."""
+  macAddress_not_contains: String
+
+  """All values starting with the given string."""
+  macAddress_starts_with: String
+
+  """All values not starting with the given string."""
+  macAddress_not_starts_with: String
+
+  """All values ending with the given string."""
+  macAddress_ends_with: String
+
+  """All values not ending with the given string."""
+  macAddress_not_ends_with: String
   lockers_every: LockerWhereInput
   lockers_some: LockerWhereInput
   lockers_none: LockerWhereInput
@@ -279,6 +345,9 @@ input LockerCreateInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
   cluster: LockerClusterCreateOneWithoutLockersInput
 }
 
@@ -296,6 +365,9 @@ input LockerCreateWithoutClusterInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
 }
 
 """An edge in a connection."""
@@ -316,6 +388,12 @@ enum LockerOrderByInput {
   locked_DESC
   open_ASC
   open_DESC
+  sensorPin_ASC
+  sensorPin_DESC
+  alarmPin_ASC
+  alarmPin_DESC
+  lockPin_ASC
+  lockPin_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -327,6 +405,9 @@ type LockerPreviousValues {
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
 }
 
 type LockerSession implements Node {
@@ -600,6 +681,9 @@ input LockerUpdateDataInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
   cluster: LockerClusterUpdateOneWithoutLockersInput
 }
 
@@ -607,6 +691,9 @@ input LockerUpdateInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
   cluster: LockerClusterUpdateOneWithoutLockersInput
 }
 
@@ -631,6 +718,9 @@ input LockerUpdateWithoutClusterDataInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
 }
 
 input LockerUpdateWithWhereUniqueWithoutClusterInput {
@@ -710,6 +800,72 @@ input LockerWhereInput {
 
   """All values that are not equal to given value."""
   open_not: Boolean
+  sensorPin: Int
+
+  """All values that are not equal to given value."""
+  sensorPin_not: Int
+
+  """All values that are contained in given list."""
+  sensorPin_in: [Int!]
+
+  """All values that are not contained in given list."""
+  sensorPin_not_in: [Int!]
+
+  """All values less than the given value."""
+  sensorPin_lt: Int
+
+  """All values less than or equal the given value."""
+  sensorPin_lte: Int
+
+  """All values greater than the given value."""
+  sensorPin_gt: Int
+
+  """All values greater than or equal the given value."""
+  sensorPin_gte: Int
+  alarmPin: Int
+
+  """All values that are not equal to given value."""
+  alarmPin_not: Int
+
+  """All values that are contained in given list."""
+  alarmPin_in: [Int!]
+
+  """All values that are not contained in given list."""
+  alarmPin_not_in: [Int!]
+
+  """All values less than the given value."""
+  alarmPin_lt: Int
+
+  """All values less than or equal the given value."""
+  alarmPin_lte: Int
+
+  """All values greater than the given value."""
+  alarmPin_gt: Int
+
+  """All values greater than or equal the given value."""
+  alarmPin_gte: Int
+  lockPin: Int
+
+  """All values that are not equal to given value."""
+  lockPin_not: Int
+
+  """All values that are contained in given list."""
+  lockPin_in: [Int!]
+
+  """All values that are not contained in given list."""
+  lockPin_not_in: [Int!]
+
+  """All values less than the given value."""
+  lockPin_lt: Int
+
+  """All values less than or equal the given value."""
+  lockPin_lte: Int
+
+  """All values greater than the given value."""
+  lockPin_gt: Int
+
+  """All values greater than or equal the given value."""
+  lockPin_gte: Int
   cluster: LockerClusterWhereInput
 }
 
@@ -1139,6 +1295,15 @@ export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDe
  * Types
 */
 
+export type LockerClusterOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'macAddress_ASC' |
+  'macAddress_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
 export type LockerOrderByInput =   'id_ASC' |
   'id_DESC' |
   'busy_ASC' |
@@ -1147,6 +1312,12 @@ export type LockerOrderByInput =   'id_ASC' |
   'locked_DESC' |
   'open_ASC' |
   'open_DESC' |
+  'sensorPin_ASC' |
+  'sensorPin_DESC' |
+  'alarmPin_ASC' |
+  'alarmPin_DESC' |
+  'lockPin_ASC' |
+  'lockPin_DESC' |
   'updatedAt_ASC' |
   'updatedAt_DESC' |
   'createdAt_ASC' |
@@ -1160,13 +1331,6 @@ export type LockerSessionOrderByInput =   'id_ASC' |
   'startedAt_DESC' |
   'finishedAt_ASC' |
   'finishedAt_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type LockerClusterOrderByInput =   'id_ASC' |
-  'id_DESC' |
   'updatedAt_ASC' |
   'updatedAt_DESC' |
   'createdAt_ASC' |
@@ -1191,10 +1355,12 @@ export type MutationType =   'CREATED' |
   'UPDATED' |
   'DELETED'
 
-export interface LockerCreateWithoutClusterInput {
-  busy?: Boolean
-  locked?: Boolean
-  open?: Boolean
+export interface LockerSessionCreateInput {
+  state?: Int
+  startedAt: DateTime
+  finishedAt?: DateTime
+  user: UserCreateOneInput
+  locker: LockerCreateOneInput
 }
 
 export interface LockerClusterWhereInput {
@@ -1215,6 +1381,20 @@ export interface LockerClusterWhereInput {
   id_not_starts_with?: ID_Input
   id_ends_with?: ID_Input
   id_not_ends_with?: ID_Input
+  macAddress?: String
+  macAddress_not?: String
+  macAddress_in?: String[] | String
+  macAddress_not_in?: String[] | String
+  macAddress_lt?: String
+  macAddress_lte?: String
+  macAddress_gt?: String
+  macAddress_gte?: String
+  macAddress_contains?: String
+  macAddress_not_contains?: String
+  macAddress_starts_with?: String
+  macAddress_not_starts_with?: String
+  macAddress_ends_with?: String
+  macAddress_not_ends_with?: String
   lockers_every?: LockerWhereInput
   lockers_some?: LockerWhereInput
   lockers_none?: LockerWhereInput
@@ -1228,11 +1408,9 @@ export interface LockerUpdateOneInput {
   upsert?: LockerUpsertNestedInput
 }
 
-export interface LockerCreateInput {
-  busy?: Boolean
-  locked?: Boolean
-  open?: Boolean
-  cluster?: LockerClusterCreateOneWithoutLockersInput
+export interface LockerClusterUpdateInput {
+  macAddress?: String
+  lockers?: LockerUpdateManyWithoutClusterInput
 }
 
 export interface UserUpsertNestedInput {
@@ -1240,11 +1418,14 @@ export interface UserUpsertNestedInput {
   create: UserCreateInput
 }
 
-export interface UserCreateInput {
-  name: String
-  email: String
-  password: String
-  credit?: Int
+export interface LockerCreateInput {
+  busy?: Boolean
+  locked?: Boolean
+  open?: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
+  cluster?: LockerClusterCreateOneWithoutLockersInput
 }
 
 export interface UserUpdateDataInput {
@@ -1292,31 +1473,15 @@ export interface LockerSessionUpdateInput {
   locker?: LockerUpdateOneInput
 }
 
-export interface LockerWhereInput {
-  AND?: LockerWhereInput[] | LockerWhereInput
-  OR?: LockerWhereInput[] | LockerWhereInput
-  NOT?: LockerWhereInput[] | LockerWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  busy?: Boolean
-  busy_not?: Boolean
-  locked?: Boolean
-  locked_not?: Boolean
-  open?: Boolean
-  open_not?: Boolean
-  cluster?: LockerClusterWhereInput
+export interface LockerClusterSubscriptionWhereInput {
+  AND?: LockerClusterSubscriptionWhereInput[] | LockerClusterSubscriptionWhereInput
+  OR?: LockerClusterSubscriptionWhereInput[] | LockerClusterSubscriptionWhereInput
+  NOT?: LockerClusterSubscriptionWhereInput[] | LockerClusterSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: LockerClusterWhereInput
 }
 
 export interface LockerUpsertWithWhereUniqueWithoutClusterInput {
@@ -1325,17 +1490,23 @@ export interface LockerUpsertWithWhereUniqueWithoutClusterInput {
   create: LockerCreateWithoutClusterInput
 }
 
-export interface UserUpdateInput {
-  name?: String
-  email?: String
-  password?: String
-  credit?: Int
+export interface LockerUpdateInput {
+  busy?: Boolean
+  locked?: Boolean
+  open?: Boolean
+  sensorPin?: Int
+  alarmPin?: Int
+  lockPin?: Int
+  cluster?: LockerClusterUpdateOneWithoutLockersInput
 }
 
 export interface LockerUpdateWithoutClusterDataInput {
   busy?: Boolean
   locked?: Boolean
   open?: Boolean
+  sensorPin?: Int
+  alarmPin?: Int
+  lockPin?: Int
 }
 
 export interface LockerClusterWhereUniqueInput {
@@ -1351,13 +1522,9 @@ export interface LockerWhereUniqueInput {
   id?: ID_Input
 }
 
-export interface LockerUpdateManyWithoutClusterInput {
-  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput
-  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
-  disconnect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
-  delete?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
-  update?: LockerUpdateWithWhereUniqueWithoutClusterInput[] | LockerUpdateWithWhereUniqueWithoutClusterInput
-  upsert?: LockerUpsertWithWhereUniqueWithoutClusterInput[] | LockerUpsertWithWhereUniqueWithoutClusterInput
+export interface LockerClusterCreateInput {
+  macAddress: String
+  lockers?: LockerCreateManyWithoutClusterInput
 }
 
 export interface LockerUpsertNestedInput {
@@ -1365,19 +1532,41 @@ export interface LockerUpsertNestedInput {
   create: LockerCreateInput
 }
 
-export interface LockerClusterUpdateInput {
-  lockers?: LockerUpdateManyWithoutClusterInput
+export interface LockerCreateManyWithoutClusterInput {
+  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput
+  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
+}
+
+export interface LockerClusterUpdateWithoutLockersDataInput {
+  macAddress?: String
+}
+
+export interface LockerCreateWithoutClusterInput {
+  busy?: Boolean
+  locked?: Boolean
+  open?: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
 }
 
 export interface LockerUpdateDataInput {
   busy?: Boolean
   locked?: Boolean
   open?: Boolean
+  sensorPin?: Int
+  alarmPin?: Int
+  lockPin?: Int
   cluster?: LockerClusterUpdateOneWithoutLockersInput
 }
 
-export interface LockerClusterCreateInput {
-  lockers?: LockerCreateManyWithoutClusterInput
+export interface LockerUpdateManyWithoutClusterInput {
+  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput
+  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
+  disconnect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
+  delete?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
+  update?: LockerUpdateWithWhereUniqueWithoutClusterInput[] | LockerUpdateWithWhereUniqueWithoutClusterInput
+  upsert?: LockerUpsertWithWhereUniqueWithoutClusterInput[] | LockerUpsertWithWhereUniqueWithoutClusterInput
 }
 
 export interface LockerSessionWhereInput {
@@ -1426,34 +1615,41 @@ export interface LockerSessionWhereInput {
   locker?: LockerWhereInput
 }
 
-export interface LockerCreateManyWithoutClusterInput {
-  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput
-  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
+export interface UserCreateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
 }
 
-export interface LockerClusterSubscriptionWhereInput {
-  AND?: LockerClusterSubscriptionWhereInput[] | LockerClusterSubscriptionWhereInput
-  OR?: LockerClusterSubscriptionWhereInput[] | LockerClusterSubscriptionWhereInput
-  NOT?: LockerClusterSubscriptionWhereInput[] | LockerClusterSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: LockerClusterWhereInput
+export interface UserUpdateInput {
+  name?: String
+  email?: String
+  password?: String
+  credit?: Int
 }
 
-export interface LockerClusterCreateOneWithoutLockersInput {
-  connect?: LockerClusterWhereUniqueInput
+export interface UserCreateInput {
+  name: String
+  email: String
+  password: String
+  credit?: Int
 }
 
 export interface LockerSessionWhereUniqueInput {
   id?: ID_Input
 }
 
-export interface LockerClusterUpdateOneWithoutLockersInput {
+export interface LockerClusterUpsertWithoutLockersInput {
+  update: LockerClusterUpdateWithoutLockersDataInput
+  create: LockerClusterCreateWithoutLockersInput
+}
+
+export interface LockerClusterCreateWithoutLockersInput {
+  macAddress: String
+}
+
+export interface LockerClusterCreateOneWithoutLockersInput {
+  create?: LockerClusterCreateWithoutLockersInput
   connect?: LockerClusterWhereUniqueInput
-  disconnect?: Boolean
-  delete?: Boolean
 }
 
 export interface LockerCreateOneInput {
@@ -1461,39 +1657,68 @@ export interface LockerCreateOneInput {
   connect?: LockerWhereUniqueInput
 }
 
-export interface UserCreateOneInput {
-  create?: UserCreateInput
-  connect?: UserWhereUniqueInput
-}
-
-export interface LockerSessionCreateInput {
-  state?: Int
-  startedAt: DateTime
-  finishedAt?: DateTime
-  user: UserCreateOneInput
-  locker: LockerCreateOneInput
-}
-
-export interface UserSubscriptionWhereInput {
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: UserWhereInput
+export interface LockerClusterUpdateOneWithoutLockersInput {
+  create?: LockerClusterCreateWithoutLockersInput
+  connect?: LockerClusterWhereUniqueInput
+  disconnect?: Boolean
+  delete?: Boolean
+  update?: LockerClusterUpdateWithoutLockersDataInput
+  upsert?: LockerClusterUpsertWithoutLockersInput
 }
 
 export interface UserWhereUniqueInput {
   id?: ID_Input
 }
 
-export interface LockerUpdateInput {
+export interface LockerWhereInput {
+  AND?: LockerWhereInput[] | LockerWhereInput
+  OR?: LockerWhereInput[] | LockerWhereInput
+  NOT?: LockerWhereInput[] | LockerWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
   busy?: Boolean
+  busy_not?: Boolean
   locked?: Boolean
+  locked_not?: Boolean
   open?: Boolean
-  cluster?: LockerClusterUpdateOneWithoutLockersInput
+  open_not?: Boolean
+  sensorPin?: Int
+  sensorPin_not?: Int
+  sensorPin_in?: Int[] | Int
+  sensorPin_not_in?: Int[] | Int
+  sensorPin_lt?: Int
+  sensorPin_lte?: Int
+  sensorPin_gt?: Int
+  sensorPin_gte?: Int
+  alarmPin?: Int
+  alarmPin_not?: Int
+  alarmPin_in?: Int[] | Int
+  alarmPin_not_in?: Int[] | Int
+  alarmPin_lt?: Int
+  alarmPin_lte?: Int
+  alarmPin_gt?: Int
+  alarmPin_gte?: Int
+  lockPin?: Int
+  lockPin_not?: Int
+  lockPin_in?: Int[] | Int
+  lockPin_not_in?: Int[] | Int
+  lockPin_lt?: Int
+  lockPin_lte?: Int
+  lockPin_gt?: Int
+  lockPin_gte?: Int
+  cluster?: LockerClusterWhereInput
 }
 
 export interface UserWhereInput {
@@ -1566,6 +1791,17 @@ export interface UserWhereInput {
   credit_gte?: Int
 }
 
+export interface UserSubscriptionWhereInput {
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: UserWhereInput
+}
+
 /*
  * An object with an ID
 
@@ -1582,17 +1818,19 @@ export interface UserPreviousValues {
   credit: Int
 }
 
-export interface User extends Node {
+export interface LockerSession extends Node {
   id: ID_Output
-  name: String
-  email: String
-  password: String
-  credit: Int
+  user: User
+  locker: Locker
+  state: Int
+  startedAt: DateTime
+  finishedAt?: DateTime
 }
 
 export interface LockerCluster extends Node {
   id: ID_Output
   lockers?: Locker[]
+  macAddress: String
 }
 
 export interface BatchPayload {
@@ -1618,6 +1856,9 @@ export interface Locker extends Node {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
 }
 
 /*
@@ -1647,13 +1888,11 @@ export interface AggregateLockerSession {
   count: Int
 }
 
-export interface LockerSession extends Node {
-  id: ID_Output
-  user: User
-  locker: Locker
-  state: Int
-  startedAt: DateTime
-  finishedAt?: DateTime
+export interface UserSubscriptionPayload {
+  mutation: MutationType
+  node?: User
+  updatedFields?: String[]
+  previousValues?: UserPreviousValues
 }
 
 /*
@@ -1671,6 +1910,9 @@ export interface LockerPreviousValues {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
 }
 
 /*
@@ -1732,6 +1974,7 @@ export interface LockerSubscriptionPayload {
 
 export interface LockerClusterPreviousValues {
   id: ID_Output
+  macAddress: String
 }
 
 /*
@@ -1743,11 +1986,12 @@ export interface LockerSessionEdge {
   cursor: String
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType
-  node?: User
-  updatedFields?: String[]
-  previousValues?: UserPreviousValues
+export interface User extends Node {
+  id: ID_Output
+  name: String
+  email: String
+  password: String
+  credit: Int
 }
 
 /*
@@ -1783,13 +2027,13 @@ The `Boolean` scalar type represents `true` or `false`.
 export type Boolean = boolean
 
 /*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string
-
-/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
 export type Int = number
+
+/*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string
 
 export type DateTime = Date | string
