@@ -9,7 +9,7 @@ type Query {
 type Mutation {
   kill: String
   claimLocker (lockerId: ID!): LockerSession
-  unclaimLocker (lockerID: ID!): LockerSession
-  lockLocker (lockerID: ID!) Locker
-  unlockLocker (lockerID: ID!): Locker
+  unclaimLocker (lockerId: ID!): LockerSession
+  lockLocker (lockerId: ID!): Locker
+  unlockLocker (lockerId: ID!): Locker
 }
