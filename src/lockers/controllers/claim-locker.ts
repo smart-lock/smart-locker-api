@@ -20,6 +20,10 @@ export const claimLocker = async (lockerId: string, account: IAccount, component
     throw new Error('LockerNotFound')
   }
 
+  if (locker.busy) {
+    throw new Error('LockerBusy')
+  }
+
   const lockerSession = await insertLockerSession(lockerId, account.id, components);
 
   await updateBusyState(lockerId, true, components);
