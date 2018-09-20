@@ -1,0 +1,12 @@
+mutation {
+  createUser(data:{
+    name:"Rafael Ribeiro Correia",
+    email:"rafael@rafael.com",
+    password:"q1w2e3",
+    credit: 1000
+  }) {
+		id
+    name
+    email
+  }
+}

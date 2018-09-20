@@ -1,0 +1,34 @@
+mutation {
+	createLockerCluster(data: {
+    macAddress:"AB:CD:EF:JH",
+    lockers: {
+      create: [{
+				busy: false,
+        locked: false,
+        open: false,
+        sensorPin: 1,
+        alarmPin: 2,
+        lockPin: 3,
+      }, {
+				busy: false,
+        locked: false,
+        open: false,
+        sensorPin: 4,
+        alarmPin: 5,
+        lockPin: 6,
+      }]
+    }
+  }) {
+    id
+    macAddress
+    lockers{
+			id
+      busy
+      locked
+      open
+      sensorPin
+      alarmPin
+      lockPin
+    }
+  }
+}
