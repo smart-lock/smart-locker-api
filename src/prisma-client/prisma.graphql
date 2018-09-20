@@ -26,6 +26,7 @@ type Locker {
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
@@ -45,7 +46,7 @@ type LockerClusterConnection {
 
 input LockerClusterCreateInput {
   lockers: LockerCreateManyWithoutClusterInput
-  macAddress: String!
+  macAddress: String
 }
 
 input LockerClusterCreateOneWithoutLockersInput {
@@ -54,7 +55,7 @@ input LockerClusterCreateOneWithoutLockersInput {
 }
 
 input LockerClusterCreateWithoutLockersInput {
-  macAddress: String!
+  macAddress: String
 }
 
 type LockerClusterEdge {
@@ -158,6 +159,7 @@ input LockerClusterWhereInput {
 
 input LockerClusterWhereUniqueInput {
   id: ID
+  macAddress: String
 }
 
 type LockerConnection {
@@ -171,6 +173,7 @@ input LockerCreateInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
@@ -190,6 +193,7 @@ input LockerCreateWithoutClusterInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
@@ -209,6 +213,8 @@ enum LockerOrderByInput {
   locked_DESC
   open_ASC
   open_DESC
+  alarm_ASC
+  alarm_DESC
   sensorPin_ASC
   sensorPin_DESC
   alarmPin_ASC
@@ -226,6 +232,7 @@ type LockerPreviousValues {
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
@@ -247,7 +254,19 @@ type LockerSessionConnection {
 }
 
 input LockerSessionCreateInput {
-  user: UserCreateOneInput!
+  user: UserCreateOneWithoutSessionsInput!
+  locker: LockerCreateOneInput!
+  state: Int
+  startedAt: DateTime!
+  finishedAt: DateTime
+}
+
+input LockerSessionCreateManyWithoutUserInput {
+  create: [LockerSessionCreateWithoutUserInput!]
+  connect: [LockerSessionWhereUniqueInput!]
+}
+
+input LockerSessionCreateWithoutUserInput {
   locker: LockerCreateOneInput!
   state: Int
   startedAt: DateTime!
@@ -300,11 +319,38 @@ input LockerSessionSubscriptionWhereInput {
 }
 
 input LockerSessionUpdateInput {
-  user: UserUpdateOneInput
+  user: UserUpdateOneWithoutSessionsInput
   locker: LockerUpdateOneInput
   state: Int
   startedAt: DateTime
   finishedAt: DateTime
+}
+
+input LockerSessionUpdateManyWithoutUserInput {
+  create: [LockerSessionCreateWithoutUserInput!]
+  delete: [LockerSessionWhereUniqueInput!]
+  connect: [LockerSessionWhereUniqueInput!]
+  disconnect: [LockerSessionWhereUniqueInput!]
+  update: [LockerSessionUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [LockerSessionUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input LockerSessionUpdateWithoutUserDataInput {
+  locker: LockerUpdateOneInput
+  state: Int
+  startedAt: DateTime
+  finishedAt: DateTime
+}
+
+input LockerSessionUpdateWithWhereUniqueWithoutUserInput {
+  where: LockerSessionWhereUniqueInput!
+  data: LockerSessionUpdateWithoutUserDataInput!
+}
+
+input LockerSessionUpsertWithWhereUniqueWithoutUserInput {
+  where: LockerSessionWhereUniqueInput!
+  update: LockerSessionUpdateWithoutUserDataInput!
+  create: LockerSessionCreateWithoutUserInput!
 }
 
 input LockerSessionWhereInput {
@@ -380,6 +426,7 @@ input LockerUpdateDataInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  alarm: Boolean
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
@@ -390,6 +437,7 @@ input LockerUpdateInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  alarm: Boolean
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
@@ -416,6 +464,7 @@ input LockerUpdateWithoutClusterDataInput {
   busy: Boolean
   locked: Boolean
   open: Boolean
+  alarm: Boolean
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
@@ -459,6 +508,8 @@ input LockerWhereInput {
   locked_not: Boolean
   open: Boolean
   open_not: Boolean
+  alarm: Boolean
+  alarm_not: Boolean
   sensorPin: Int
   sensorPin_not: Int
   sensorPin_in: [Int!]
@@ -567,6 +618,7 @@ type User {
   email: String!
   password: String!
   credit: Int!
+  sessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession!]
 }
 
 type UserConnection {
@@ -580,11 +632,19 @@ input UserCreateInput {
   email: String!
   password: String!
   credit: Int
+  sessions: LockerSessionCreateManyWithoutUserInput
 }
 
-input UserCreateOneInput {
-  create: UserCreateInput
+input UserCreateOneWithoutSessionsInput {
+  create: UserCreateWithoutSessionsInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutSessionsInput {
+  name: String!
+  email: String!
+  password: String!
+  credit: Int
 }
 
 type UserEdge {
@@ -635,31 +695,32 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateDataInput {
-  name: String
-  email: String
-  password: String
-  credit: Int
-}
-
 input UserUpdateInput {
   name: String
   email: String
   password: String
   credit: Int
+  sessions: LockerSessionUpdateManyWithoutUserInput
 }
 
-input UserUpdateOneInput {
-  create: UserCreateInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
+input UserUpdateOneWithoutSessionsInput {
+  create: UserCreateWithoutSessionsInput
+  update: UserUpdateWithoutSessionsDataInput
+  upsert: UserUpsertWithoutSessionsInput
   delete: Boolean
   connect: UserWhereUniqueInput
 }
 
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+input UserUpdateWithoutSessionsDataInput {
+  name: String
+  email: String
+  password: String
+  credit: Int
+}
+
+input UserUpsertWithoutSessionsInput {
+  update: UserUpdateWithoutSessionsDataInput!
+  create: UserCreateWithoutSessionsInput!
 }
 
 input UserWhereInput {
@@ -727,6 +788,9 @@ input UserWhereInput {
   credit_lte: Int
   credit_gt: Int
   credit_gte: Int
+  sessions_every: LockerSessionWhereInput
+  sessions_some: LockerSessionWhereInput
+  sessions_none: LockerSessionWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
