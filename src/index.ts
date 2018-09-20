@@ -6,7 +6,7 @@ const main = async () => {
   console.log('System is up')
 
   const adminToken = await components.token.encode({
-    "id": "cjm5gw0sj003e0a53n7kka2vt",
+    "id": "cjmb23gsa00120a20cnmcqny5",
     "name": "Rafael Ribeiro Correia",
     "email": "rafael@rafael.com",
     scopes: ['admin'],
