@@ -4,12 +4,13 @@ type User {
   email: String!
   password: String!
   credit: Int! @default(value: 0)
+  sessions: [LockerSession!]!
 }
 
 type LockerCluster {
   id: ID! @unique
   lockers: [Locker!]!
-  macAddress: String!
+  macAddress: String! @unique @default(value: "XXX")
 }
 
 type Locker {
@@ -19,7 +20,8 @@ type Locker {
   busy: Boolean! @default(value: "false")
   locked: Boolean! @default(value: "false")
   open: Boolean! @default(value: "false")
-
+  alarm: Boolean @default(value: "false")
+  
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
