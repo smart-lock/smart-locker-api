@@ -70,7 +70,7 @@ export const componentMap: IComponentMap = {
   },
   mqtt: {
     instance: new MQTTComponent(mqttHandlers),
-    dependenciesList: ['config'],
+    dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'clock'],
   },
   yoga: {
     instance: new YogaComponent<IContext>({
@@ -78,7 +78,7 @@ export const componentMap: IComponentMap = {
       resolvers,
       getContext: contextFromReq,
     }),
-    dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'token', 'clock', 'redis'],
+    dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'token', 'clock', 'redis', 'mqtt'],
   }
 }
 
