@@ -107,10 +107,12 @@ scalar DateTime
 
 type Locker implements Node {
   id: ID!
+  idInCluster: String!
   cluster(where: LockerClusterWhereInput): LockerCluster
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
@@ -344,9 +346,11 @@ type LockerConnection {
 }
 
 input LockerCreateInput {
+  idInCluster: String!
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
@@ -365,9 +369,11 @@ input LockerCreateOneInput {
 }
 
 input LockerCreateWithoutClusterInput {
+  idInCluster: String!
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
@@ -386,12 +392,16 @@ type LockerEdge {
 enum LockerOrderByInput {
   id_ASC
   id_DESC
+  idInCluster_ASC
+  idInCluster_DESC
   busy_ASC
   busy_DESC
   locked_ASC
   locked_DESC
   open_ASC
   open_DESC
+  closed_ASC
+  closed_DESC
   alarm_ASC
   alarm_DESC
   sensorPin_ASC
@@ -408,9 +418,11 @@ enum LockerOrderByInput {
 
 type LockerPreviousValues {
   id: ID!
+  idInCluster: String!
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
@@ -724,9 +736,11 @@ input LockerSubscriptionWhereInput {
 }
 
 input LockerUpdateDataInput {
+  idInCluster: String
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int
   alarmPin: Int
@@ -735,9 +749,11 @@ input LockerUpdateDataInput {
 }
 
 input LockerUpdateInput {
+  idInCluster: String
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int
   alarmPin: Int
@@ -763,9 +779,11 @@ input LockerUpdateOneInput {
 }
 
 input LockerUpdateWithoutClusterDataInput {
+  idInCluster: String
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int
   alarmPin: Int
@@ -837,6 +855,46 @@ input LockerWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  idInCluster: String
+
+  """All values that are not equal to given value."""
+  idInCluster_not: String
+
+  """All values that are contained in given list."""
+  idInCluster_in: [String!]
+
+  """All values that are not contained in given list."""
+  idInCluster_not_in: [String!]
+
+  """All values less than the given value."""
+  idInCluster_lt: String
+
+  """All values less than or equal the given value."""
+  idInCluster_lte: String
+
+  """All values greater than the given value."""
+  idInCluster_gt: String
+
+  """All values greater than or equal the given value."""
+  idInCluster_gte: String
+
+  """All values containing the given string."""
+  idInCluster_contains: String
+
+  """All values not containing the given string."""
+  idInCluster_not_contains: String
+
+  """All values starting with the given string."""
+  idInCluster_starts_with: String
+
+  """All values not starting with the given string."""
+  idInCluster_not_starts_with: String
+
+  """All values ending with the given string."""
+  idInCluster_ends_with: String
+
+  """All values not ending with the given string."""
+  idInCluster_not_ends_with: String
   busy: Boolean
 
   """All values that are not equal to given value."""
@@ -849,6 +907,10 @@ input LockerWhereInput {
 
   """All values that are not equal to given value."""
   open_not: Boolean
+  closed: Boolean
+
+  """All values that are not equal to given value."""
+  closed_not: Boolean
   alarm: Boolean
 
   """All values that are not equal to given value."""
@@ -1391,12 +1453,16 @@ export type LockerSessionOrderByInput =   'id_ASC' |
 
 export type LockerOrderByInput =   'id_ASC' |
   'id_DESC' |
+  'idInCluster_ASC' |
+  'idInCluster_DESC' |
   'busy_ASC' |
   'busy_DESC' |
   'locked_ASC' |
   'locked_DESC' |
   'open_ASC' |
   'open_DESC' |
+  'closed_ASC' |
+  'closed_DESC' |
   'alarm_ASC' |
   'alarm_DESC' |
   'sensorPin_ASC' |
@@ -1666,9 +1732,11 @@ export interface UserUpdateWithoutSessionsDataInput {
 }
 
 export interface LockerCreateInput {
+  idInCluster: String
   busy?: Boolean
   locked?: Boolean
   open?: Boolean
+  closed?: Boolean
   alarm?: Boolean
   sensorPin: Int
   alarmPin: Int
@@ -1690,9 +1758,11 @@ export interface LockerClusterCreateOneWithoutLockersInput {
 }
 
 export interface LockerUpdateWithoutClusterDataInput {
+  idInCluster?: String
   busy?: Boolean
   locked?: Boolean
   open?: Boolean
+  closed?: Boolean
   alarm?: Boolean
   sensorPin?: Int
   alarmPin?: Int
@@ -1713,9 +1783,11 @@ export interface LockerUpdateManyWithoutClusterInput {
 }
 
 export interface LockerUpdateDataInput {
+  idInCluster?: String
   busy?: Boolean
   locked?: Boolean
   open?: Boolean
+  closed?: Boolean
   alarm?: Boolean
   sensorPin?: Int
   alarmPin?: Int
@@ -1741,12 +1813,28 @@ export interface LockerWhereInput {
   id_not_starts_with?: ID_Input
   id_ends_with?: ID_Input
   id_not_ends_with?: ID_Input
+  idInCluster?: String
+  idInCluster_not?: String
+  idInCluster_in?: String[] | String
+  idInCluster_not_in?: String[] | String
+  idInCluster_lt?: String
+  idInCluster_lte?: String
+  idInCluster_gt?: String
+  idInCluster_gte?: String
+  idInCluster_contains?: String
+  idInCluster_not_contains?: String
+  idInCluster_starts_with?: String
+  idInCluster_not_starts_with?: String
+  idInCluster_ends_with?: String
+  idInCluster_not_ends_with?: String
   busy?: Boolean
   busy_not?: Boolean
   locked?: Boolean
   locked_not?: Boolean
   open?: Boolean
   open_not?: Boolean
+  closed?: Boolean
+  closed_not?: Boolean
   alarm?: Boolean
   alarm_not?: Boolean
   sensorPin?: Int
@@ -1793,9 +1881,11 @@ export interface LockerClusterSubscriptionWhereInput {
 }
 
 export interface LockerCreateWithoutClusterInput {
+  idInCluster: String
   busy?: Boolean
   locked?: Boolean
   open?: Boolean
+  closed?: Boolean
   alarm?: Boolean
   sensorPin: Int
   alarmPin: Int
@@ -1872,9 +1962,11 @@ export interface LockerClusterUpdateInput {
 }
 
 export interface LockerUpdateInput {
+  idInCluster?: String
   busy?: Boolean
   locked?: Boolean
   open?: Boolean
+  closed?: Boolean
   alarm?: Boolean
   sensorPin?: Int
   alarmPin?: Int
@@ -1939,9 +2031,11 @@ export interface Node {
 
 export interface LockerPreviousValues {
   id: ID_Output
+  idInCluster: String
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed?: Boolean
   alarm?: Boolean
   sensorPin: Int
   alarmPin: Int
@@ -2020,10 +2114,12 @@ export interface AggregateLockerCluster {
 
 export interface Locker extends Node {
   id: ID_Output
+  idInCluster: String
   cluster?: LockerCluster
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed?: Boolean
   alarm?: Boolean
   sensorPin: Int
   alarmPin: Int

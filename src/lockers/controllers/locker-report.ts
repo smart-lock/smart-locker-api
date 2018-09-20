@@ -1,30 +1,38 @@
 import { IComponents } from "~/system";
 import { LockerNode } from "~/prisma-client";
+import { firstOrNull } from "~/lockers/logic";
 
 export interface ILockerReport {
-  open: boolean,
+  closed: boolean,
   busy: boolean,
   locked: boolean,
   alarm: boolean,
 }
 
-export const updateLockerWithReport = async (macAddress: string, lockerId: string, report: ILockerReport, components: IComponents): Promise<LockerNode> => {
-  const locker = await components.prismaClient.db.locker({
-    id: lockerId,
+export const updateLockerWithReport = async (macAddress: string, idInCluster: string, report: ILockerReport, components: IComponents): Promise<LockerNode> => {
+  const result = await components.prismaClient.db.lockers({
+    where: {
+      idInCluster,
+      cluster: {
+        macAddress,
+      }
+    }
   })
 
+  const locker = firstOrNull(result)
+  
   if (!locker) {
     throw new Error('LockerNotFound')
   }
 
-  const { open, busy, locked, alarm } = report
+  const { closed, busy, locked, alarm } = report
 
   const updatedLocker = await components.prismaClient.db.updateLocker({
     where: {
-      id: lockerId,
+      id: locker.id,
     },
     data: {
-      open,
+      closed,
       busy,
       locked,
       alarm,

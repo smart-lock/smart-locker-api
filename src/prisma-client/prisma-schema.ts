@@ -22,10 +22,12 @@ scalar DateTime
 
 type Locker {
   id: ID!
+  idInCluster: String!
   cluster: LockerCluster
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
@@ -169,10 +171,12 @@ type LockerConnection {
 }
 
 input LockerCreateInput {
+  idInCluster: String!
   cluster: LockerClusterCreateOneWithoutLockersInput
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
@@ -190,9 +194,11 @@ input LockerCreateOneInput {
 }
 
 input LockerCreateWithoutClusterInput {
+  idInCluster: String!
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
@@ -207,12 +213,16 @@ type LockerEdge {
 enum LockerOrderByInput {
   id_ASC
   id_DESC
+  idInCluster_ASC
+  idInCluster_DESC
   busy_ASC
   busy_DESC
   locked_ASC
   locked_DESC
   open_ASC
   open_DESC
+  closed_ASC
+  closed_DESC
   alarm_ASC
   alarm_DESC
   sensorPin_ASC
@@ -229,9 +239,11 @@ enum LockerOrderByInput {
 
 type LockerPreviousValues {
   id: ID!
+  idInCluster: String!
   busy: Boolean!
   locked: Boolean!
   open: Boolean!
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int!
   alarmPin: Int!
@@ -422,10 +434,12 @@ input LockerSubscriptionWhereInput {
 }
 
 input LockerUpdateDataInput {
+  idInCluster: String
   cluster: LockerClusterUpdateOneWithoutLockersInput
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int
   alarmPin: Int
@@ -433,10 +447,12 @@ input LockerUpdateDataInput {
 }
 
 input LockerUpdateInput {
+  idInCluster: String
   cluster: LockerClusterUpdateOneWithoutLockersInput
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int
   alarmPin: Int
@@ -461,9 +477,11 @@ input LockerUpdateOneInput {
 }
 
 input LockerUpdateWithoutClusterDataInput {
+  idInCluster: String
   busy: Boolean
   locked: Boolean
   open: Boolean
+  closed: Boolean
   alarm: Boolean
   sensorPin: Int
   alarmPin: Int
@@ -501,6 +519,20 @@ input LockerWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  idInCluster: String
+  idInCluster_not: String
+  idInCluster_in: [String!]
+  idInCluster_not_in: [String!]
+  idInCluster_lt: String
+  idInCluster_lte: String
+  idInCluster_gt: String
+  idInCluster_gte: String
+  idInCluster_contains: String
+  idInCluster_not_contains: String
+  idInCluster_starts_with: String
+  idInCluster_not_starts_with: String
+  idInCluster_ends_with: String
+  idInCluster_not_ends_with: String
   cluster: LockerClusterWhereInput
   busy: Boolean
   busy_not: Boolean
@@ -508,6 +540,8 @@ input LockerWhereInput {
   locked_not: Boolean
   open: Boolean
   open_not: Boolean
+  closed: Boolean
+  closed_not: Boolean
   alarm: Boolean
   alarm_not: Boolean
   sensorPin: Int

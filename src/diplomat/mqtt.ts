@@ -8,11 +8,11 @@ import { Nullable } from '~/common/types';
 
 export interface IReportParams {
   macAddress: string,
-  lockerId: string
+  idInCluster: string
 }
 
 // 0:1:1:0
-// -> {busy: false, locked: true, open: true, alarm: false}
+// -> {busy: false, locked: true, closed: true, alarm: false}
 
 const zeroOrOneToBoolean = (zeroOrOne: '0' | '1') => Boolean(Number(zeroOrOne))
 
@@ -24,18 +24,19 @@ const reportExternalToInternal = (external: string): Nullable<ILockerReport> => 
   return {
     busy: zeroOrOneToBoolean(pieces[0]),
     locked: zeroOrOneToBoolean(pieces[1]),
-    open: zeroOrOneToBoolean(pieces[2]),
+    closed: zeroOrOneToBoolean(pieces[2]),
     alarm: zeroOrOneToBoolean(pieces[3]),
   }
 }
 export const mqttHandlers: IMQTTHandlerTable = {
-  'lockers/+macAddress/+lockerId/report': {
-    handler: async (topic: string, { macAddress, lockerId }: IReportParams, data: string, components: IComponents) => {
+  'lockers/+macAddress/+idInCluster/report': {
+    handler: async (topic: string, { macAddress, idInCluster }: IReportParams, data: string, components: IComponents) => {
+      console.log('CONSUMING!!')
       console.log(`macAddress: ${macAddress}`)
-      console.log(`lockerId: ${lockerId}`)
-      console.log(`data`)
+      console.log(`idInCluster: ${idInCluster}`)
+      console.log(`data: ${data}`)
 
-      await updateLockerWithReport(macAddress, lockerId, reportExternalToInternal(data), components)
+      await updateLockerWithReport(macAddress, idInCluster, reportExternalToInternal(data), components)
     },
   },
   'slc/activation/gateway': {

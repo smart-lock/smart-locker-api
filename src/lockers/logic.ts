@@ -16,4 +16,4 @@ export const firstOrNull = <T>(array: Array<T>): Nullable<T> => {
   return array[0];
 }
 
-export const topicForLocker = (cluster: LockerCluster, locker: Locker) => `lockers/${cluster.macAddress}/${locker.id}`;
+export const topicForLocker = (cluster: LockerCluster, locker: Locker) => `lockers/${cluster.macAddress}`;

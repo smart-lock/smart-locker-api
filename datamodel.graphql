@@ -15,11 +15,13 @@ type LockerCluster {
 
 type Locker {
   id: ID! @unique
+  idInCluster: String!
   cluster: LockerCluster
 
   busy: Boolean! @default(value: "false")
   locked: Boolean! @default(value: "false")
-  open: Boolean! @default(value: "false")
+  open: Boolean! @default(value: "false") @deprecated
+  closed: Boolean @default(value: "false")
   alarm: Boolean @default(value: "false")
   
   sensorPin: Int!

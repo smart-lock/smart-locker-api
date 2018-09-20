@@ -249,12 +249,16 @@ export type LockerSessionOrderByInput =
 export type LockerOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "idInCluster_ASC"
+  | "idInCluster_DESC"
   | "busy_ASC"
   | "busy_DESC"
   | "locked_ASC"
   | "locked_DESC"
   | "open_ASC"
   | "open_DESC"
+  | "closed_ASC"
+  | "closed_DESC"
   | "alarm_ASC"
   | "alarm_DESC"
   | "sensorPin_ASC"
@@ -330,6 +334,20 @@ export interface LockerWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  idInCluster?: String;
+  idInCluster_not?: String;
+  idInCluster_in?: String[] | String;
+  idInCluster_not_in?: String[] | String;
+  idInCluster_lt?: String;
+  idInCluster_lte?: String;
+  idInCluster_gt?: String;
+  idInCluster_gte?: String;
+  idInCluster_contains?: String;
+  idInCluster_not_contains?: String;
+  idInCluster_starts_with?: String;
+  idInCluster_not_starts_with?: String;
+  idInCluster_ends_with?: String;
+  idInCluster_not_ends_with?: String;
   cluster?: LockerClusterWhereInput;
   busy?: Boolean;
   busy_not?: Boolean;
@@ -337,6 +355,8 @@ export interface LockerWhereInput {
   locked_not?: Boolean;
   open?: Boolean;
   open_not?: Boolean;
+  closed?: Boolean;
+  closed_not?: Boolean;
   alarm?: Boolean;
   alarm_not?: Boolean;
   sensorPin?: Int;
@@ -401,9 +421,11 @@ export interface LockerUpdateOneInput {
 }
 
 export interface LockerCreateWithoutClusterInput {
+  idInCluster: String;
   busy?: Boolean;
   locked?: Boolean;
   open?: Boolean;
+  closed?: Boolean;
   alarm?: Boolean;
   sensorPin: Int;
   alarmPin: Int;
@@ -513,10 +535,12 @@ export interface LockerSessionCreateInput {
 }
 
 export interface LockerCreateInput {
+  idInCluster: String;
   cluster?: LockerClusterCreateOneWithoutLockersInput;
   busy?: Boolean;
   locked?: Boolean;
   open?: Boolean;
+  closed?: Boolean;
   alarm?: Boolean;
   sensorPin: Int;
   alarmPin: Int;
@@ -533,9 +557,11 @@ export interface LockerClusterCreateOneWithoutLockersInput {
 }
 
 export interface LockerUpdateWithoutClusterDataInput {
+  idInCluster?: String;
   busy?: Boolean;
   locked?: Boolean;
   open?: Boolean;
+  closed?: Boolean;
   alarm?: Boolean;
   sensorPin?: Int;
   alarmPin?: Int;
@@ -634,10 +660,12 @@ export interface LockerClusterWhereInput {
 }
 
 export interface LockerUpdateInput {
+  idInCluster?: String;
   cluster?: LockerClusterUpdateOneWithoutLockersInput;
   busy?: Boolean;
   locked?: Boolean;
   open?: Boolean;
+  closed?: Boolean;
   alarm?: Boolean;
   sensorPin?: Int;
   alarmPin?: Int;
@@ -655,10 +683,12 @@ export interface LockerUpdateWithWhereUniqueWithoutClusterInput {
 }
 
 export interface LockerUpdateDataInput {
+  idInCluster?: String;
   cluster?: LockerClusterUpdateOneWithoutLockersInput;
   busy?: Boolean;
   locked?: Boolean;
   open?: Boolean;
+  closed?: Boolean;
   alarm?: Boolean;
   sensorPin?: Int;
   alarmPin?: Int;
@@ -903,9 +933,11 @@ export interface AggregateUserSubscription
 
 export interface LockerNode {
   id: ID_Output;
+  idInCluster: String;
   busy: Boolean;
   locked: Boolean;
   open: Boolean;
+  closed?: Boolean;
   alarm?: Boolean;
   sensorPin: Int;
   alarmPin: Int;
@@ -914,10 +946,12 @@ export interface LockerNode {
 
 export interface Locker extends Promise<LockerNode>, Fragmentable {
   id: () => Promise<ID_Output>;
+  idInCluster: () => Promise<String>;
   cluster: <T = LockerCluster>() => T;
   busy: () => Promise<Boolean>;
   locked: () => Promise<Boolean>;
   open: () => Promise<Boolean>;
+  closed: () => Promise<Boolean>;
   alarm: () => Promise<Boolean>;
   sensorPin: () => Promise<Int>;
   alarmPin: () => Promise<Int>;
@@ -928,10 +962,12 @@ export interface LockerSubscription
   extends Promise<AsyncIterator<LockerNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  idInCluster: () => Promise<AsyncIterator<String>>;
   cluster: <T = LockerClusterSubscription>() => T;
   busy: () => Promise<AsyncIterator<Boolean>>;
   locked: () => Promise<AsyncIterator<Boolean>>;
   open: () => Promise<AsyncIterator<Boolean>>;
+  closed: () => Promise<AsyncIterator<Boolean>>;
   alarm: () => Promise<AsyncIterator<Boolean>>;
   sensorPin: () => Promise<AsyncIterator<Int>>;
   alarmPin: () => Promise<AsyncIterator<Int>>;
@@ -992,9 +1028,11 @@ export interface PageInfoSubscription
 
 export interface LockerPreviousValuesNode {
   id: ID_Output;
+  idInCluster: String;
   busy: Boolean;
   locked: Boolean;
   open: Boolean;
+  closed?: Boolean;
   alarm?: Boolean;
   sensorPin: Int;
   alarmPin: Int;
@@ -1005,9 +1043,11 @@ export interface LockerPreviousValues
   extends Promise<LockerPreviousValuesNode>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  idInCluster: () => Promise<String>;
   busy: () => Promise<Boolean>;
   locked: () => Promise<Boolean>;
   open: () => Promise<Boolean>;
+  closed: () => Promise<Boolean>;
   alarm: () => Promise<Boolean>;
   sensorPin: () => Promise<Int>;
   alarmPin: () => Promise<Int>;
@@ -1018,9 +1058,11 @@ export interface LockerPreviousValuesSubscription
   extends Promise<AsyncIterator<LockerPreviousValuesNode>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  idInCluster: () => Promise<AsyncIterator<String>>;
   busy: () => Promise<AsyncIterator<Boolean>>;
   locked: () => Promise<AsyncIterator<Boolean>>;
   open: () => Promise<AsyncIterator<Boolean>>;
+  closed: () => Promise<AsyncIterator<Boolean>>;
   alarm: () => Promise<AsyncIterator<Boolean>>;
   sensorPin: () => Promise<AsyncIterator<Int>>;
   alarmPin: () => Promise<AsyncIterator<Int>>;
