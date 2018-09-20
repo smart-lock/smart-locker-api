@@ -9,6 +9,7 @@ type User {
 type LockerCluster {
   id: ID! @unique
   lockers: [Locker!]!
+  macAddress: String!
 }
 
 type Locker {
@@ -18,6 +19,10 @@ type Locker {
   busy: Boolean! @default(value: "false")
   locked: Boolean! @default(value: "false")
   open: Boolean! @default(value: "false")
+
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
 }
 
 type LockerSession {
