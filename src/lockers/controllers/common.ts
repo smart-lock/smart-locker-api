@@ -14,7 +14,7 @@ export const findActiveLockerSessionForUser = async (userId: string, lockerId: s
       locker: {
         id: lockerId,
       },
-      finishedAt_lt: clock.getDate(),
+      finishedAt_lt: null,
       state: 0,
     }
   })
@@ -37,11 +37,12 @@ export const finishLockerSession = async (sessionId: string, components: ICompon
 export const findActiveLockerSessionForUserWithLockerInfo = async (userId: string, lockerId: string, components: IComponents): Promise<Nullable<LockerSession>> => {
   const result = await components.prismaBinding.db.query.lockerSessions({
     where: {
-      id: lockerId,
+      locker: {
+        id: lockerId,
+      },
       user: {
         id: userId,
       },
-      finishedAt_lt: components.clock.getDate(),
       state: 0,
     }
   }, `
