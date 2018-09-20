@@ -1,6 +1,7 @@
 import { IAccount } from "~/auth/account";
 import { IComponents } from "~/system";
 import { LockerSessionNode } from "~/prisma-client";
+import { updateBusyState, insertLockerSession } from "~/lockers/controllers/common";
 
 export const claimLocker = async (lockerId: string, account: IAccount, components: IComponents): Promise<LockerSessionNode> => {
   const user = await components.prismaClient.db.user({
@@ -19,20 +20,8 @@ export const claimLocker = async (lockerId: string, account: IAccount, component
     throw new Error('LockerNotFound')
   }
 
-  const lockerSession = await components.prismaClient.db.createLockerSession({
-    user: {
-      connect: {
-        id: account.id,
-      }
-    },
-    locker: {
-      connect: {
-        id: lockerId,
-      }
-    },
-    startedAt: components.clock.getDate(),
-    state: 0,
-  })
+  const lockerSession = await insertLockerSession(lockerId, account.id, components);
 
+  await updateBusyState(lockerId, true, components);
   return lockerSession
 }
