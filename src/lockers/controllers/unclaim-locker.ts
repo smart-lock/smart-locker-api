@@ -9,13 +9,14 @@ export const unclaimLocker = async (lockerId: string, account: IAccount, compone
   if (!session) {
     throw new Error('SessionNotFound')
   }
-  const finishedSession = await finishLockerSession(session.id, components)
-  await updateBusyState(lockerId, false, components);
   const { locker } = session
-
-  if (!locker.closed) {
-    throw new Error('LockerNotClosed')
+  if (locker.closed) {
+    throw new Error('LockerClosed')
   }
+  if (locker.locked) {
+    throw new Error('LockerLocked')
+  }
+  const finishedSession = await finishLockerSession(session.id, components)
   components.mqtt.publish(topicForLocker(locker.cluster, locker), `${locker.idInCluster}${CMD_UNCLAIM}`)
   return finishedSession
 }
