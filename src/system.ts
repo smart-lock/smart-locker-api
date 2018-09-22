@@ -16,6 +16,7 @@ import { RedisComponent, IRedisComponent, IRedisComponentConfig } from '~/compon
 import { PrismaComponent } from '~/components/prisma';
 import { prisma, Prisma } from '~/prisma-client'
 import { PrismaClientComponent } from '~/components/prisma-client';
+import { PubSubComponent } from '~/components/pubsub';
 
 export interface IConfig {
   devspace: string,
@@ -34,6 +35,7 @@ export interface IComponents {
   redis: IRedisComponent,
   prismaBinding: PrismaComponent<PrismaBinding>
   prismaClient: PrismaClientComponent<Prisma>
+  pubsub: PubSubComponent
 }
 
 const env = process.env.NODE_ENV as ENV || ENV.dev
@@ -70,7 +72,7 @@ export const componentMap: IComponentMap = {
   },
   mqtt: {
     instance: new MQTTComponent(mqttHandlers),
-    dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'clock'],
+    dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'clock', 'pubsub'],
   },
   yoga: {
     instance: new YogaComponent<IContext>({
@@ -78,7 +80,11 @@ export const componentMap: IComponentMap = {
       resolvers,
       getContext: contextFromReq,
     }),
-    dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'token', 'clock', 'redis', 'mqtt'],
+    dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'token', 'clock', 'redis', 'mqtt', 'pubsub'],
+  },
+  pubsub: {
+    instance: new PubSubComponent(),
+    dependenciesList: [],
   }
 }
 
