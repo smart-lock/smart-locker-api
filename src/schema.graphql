@@ -13,3 +13,13 @@ type Mutation {
   lockLocker (lockerId: ID!): Locker
   unlockLocker (lockerId: ID!): Locker
 }
+
+type Subscription {
+    lockerState(lockerId: ID!): Locker
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
