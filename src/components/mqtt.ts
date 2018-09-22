@@ -5,7 +5,8 @@ import * as mqttRegex from 'mqtt-regex'
 import { Maybe } from '~/common/types'
 
 export interface IMQTTComponent {
-  publish: (topic: string, message: string) => Promise<MQTT.Packet>
+  publish: (topic: string, message: string, options?: MQTT.IClientPublishOptions) => Promise<MQTT.IPublishPacket>
+  getClient: () => MQTT.MqttClient
 }
 
 type MQTTHandlerFn = (topic: string, params: object, data: string, components: any) => Promise<void>
@@ -30,11 +31,13 @@ export interface IHandlerCacheTable {
   [topicName: string]: IMQTTHandler
 }
 
-export class MQTTComponent implements ILifecycle {
+export class MQTTComponent implements ILifecycle, IMQTTComponent {
   public client: MQTT.MqttClient
   public handlerTable: IMQTTHandlerTable
   private handlerCache: IHandlerCacheTable
 
+  public getClient = () => this.client
+  
   public start(deps: any) {
     this.handlerCache = {}
     return new Promise((resolve, reject) => {
@@ -70,14 +73,14 @@ export class MQTTComponent implements ILifecycle {
     }
   }
 
-  public async publish(topic: string, message: string, options: MQTT.IClientPublishOptions) {
+  public publish(topic: string, message: string, options?: MQTT.IClientPublishOptions): Promise<MQTT.IPublishPacket> {
     return new Promise((resolve, reject) => {
-      this.client.publish(topic, message, options, (err, data) => {
+      this.client.publish(topic, message, options, (err, packet) => {
         if (err) {
           reject(err)
           return
         }
-        resolve(data)
+        resolve(packet as MQTT.IPublishPacket)
       })
     })
   }
