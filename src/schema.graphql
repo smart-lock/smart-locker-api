@@ -2,12 +2,12 @@
 # import LockerSession from "prisma-client/prisma.graphql"
 
 type Query {
-  hello: String
   locker: Locker
   lockerCluster (id: ID!): LockerCluster
+  myLockers: [Locker!]!
+  mySessions: [LockerSession!]!
 }
 type Mutation {
-  kill: String
   claimLocker (lockerId: ID!): LockerSession
   unclaimLocker (lockerId: ID!): LockerSession
   lockLocker (lockerId: ID!): Locker
@@ -15,7 +15,8 @@ type Mutation {
 }
 
 type Subscription {
-    lockerState(lockerId: ID!): Locker
+  lockerState(lockerId: ID!): Locker
+  myLockers: Locker
 }
 
 schema {
