@@ -6,6 +6,7 @@ type Query {
   lockerCluster (id: ID!): LockerCluster
   myLockers: [Locker!]!
   mySessions: [LockerSession!]!
+  lockerSession (id: ID!): LockerSession
 }
 type Mutation {
   claimLocker (lockerId: ID!): LockerSession

@@ -21,4 +21,11 @@ export const lockerQuery = {
       }
     }, info)
   },
+  lockerSession: (value, { id }, {components}: IContext, info: GraphQLResolveInfo) => {
+    return components.prismaBinding.db.query.lockerSession({
+      where: {
+        id
+      }
+    }, info)
+  }
 }
