@@ -300,23 +300,31 @@ export type LockerClusterOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserUpdateInput {
-  name?: String;
-  email?: String;
-  password?: String;
-  credit?: Int;
-  sessions?: LockerSessionUpdateManyWithoutUserInput;
+export interface LockerSessionUpdateManyWithoutUserInput {
+  create?:
+    | LockerSessionCreateWithoutUserInput[]
+    | LockerSessionCreateWithoutUserInput;
+  delete?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput;
+  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput;
+  disconnect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput;
+  update?:
+    | LockerSessionUpdateWithWhereUniqueWithoutUserInput[]
+    | LockerSessionUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | LockerSessionUpsertWithWhereUniqueWithoutUserInput[]
+    | LockerSessionUpsertWithWhereUniqueWithoutUserInput;
 }
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id?: ID_Input;
 }>;
 
-export interface LockerSessionUpdateWithoutUserDataInput {
-  locker?: LockerUpdateOneInput;
-  state?: Int;
-  startedAt?: DateTimeInput;
-  finishedAt?: DateTimeInput;
+export interface LockerUpdateOneInput {
+  create?: LockerCreateInput;
+  update?: LockerUpdateDataInput;
+  upsert?: LockerUpsertNestedInput;
+  delete?: Boolean;
+  connect?: LockerWhereUniqueInput;
 }
 
 export interface LockerWhereInput {
@@ -383,41 +391,10 @@ export interface LockerWhereInput {
   lockPin_lte?: Int;
   lockPin_gt?: Int;
   lockPin_gte?: Int;
+  currentOwner?: UserWhereInput;
   AND?: LockerWhereInput[] | LockerWhereInput;
   OR?: LockerWhereInput[] | LockerWhereInput;
   NOT?: LockerWhereInput[] | LockerWhereInput;
-}
-
-export interface LockerUpdateManyWithoutClusterInput {
-  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput;
-  delete?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
-  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
-  disconnect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
-  update?:
-    | LockerUpdateWithWhereUniqueWithoutClusterInput[]
-    | LockerUpdateWithWhereUniqueWithoutClusterInput;
-  upsert?:
-    | LockerUpsertWithWhereUniqueWithoutClusterInput[]
-    | LockerUpsertWithWhereUniqueWithoutClusterInput;
-}
-
-export interface LockerSessionUpsertWithWhereUniqueWithoutUserInput {
-  where: LockerSessionWhereUniqueInput;
-  update: LockerSessionUpdateWithoutUserDataInput;
-  create: LockerSessionCreateWithoutUserInput;
-}
-
-export interface LockerClusterUpdateInput {
-  lockers?: LockerUpdateManyWithoutClusterInput;
-  macAddress?: String;
-}
-
-export interface LockerUpdateOneInput {
-  create?: LockerCreateInput;
-  update?: LockerUpdateDataInput;
-  upsert?: LockerUpsertNestedInput;
-  delete?: Boolean;
-  connect?: LockerWhereUniqueInput;
 }
 
 export interface LockerCreateWithoutClusterInput {
@@ -430,6 +407,27 @@ export interface LockerCreateWithoutClusterInput {
   sensorPin: Int;
   alarmPin: Int;
   lockPin: Int;
+  currentOwner?: UserCreateOneInput;
+}
+
+export interface LockerSessionUpsertWithWhereUniqueWithoutUserInput {
+  where: LockerSessionWhereUniqueInput;
+  update: LockerSessionUpdateWithoutUserDataInput;
+  create: LockerSessionCreateWithoutUserInput;
+}
+
+export interface LockerUpdateDataInput {
+  idInCluster?: String;
+  cluster?: LockerClusterUpdateOneWithoutLockersInput;
+  busy?: Boolean;
+  locked?: Boolean;
+  open?: Boolean;
+  closed?: Boolean;
+  alarm?: Boolean;
+  sensorPin?: Int;
+  alarmPin?: Int;
+  lockPin?: Int;
+  currentOwner?: UserUpdateOneInput;
 }
 
 export interface LockerSessionSubscriptionWhereInput {
@@ -449,6 +447,14 @@ export interface LockerSessionSubscriptionWhereInput {
     | LockerSessionSubscriptionWhereInput;
 }
 
+export interface UserCreateInput {
+  name: String;
+  email: String;
+  password: String;
+  credit?: Int;
+  sessions?: LockerSessionCreateManyWithoutUserInput;
+}
+
 export interface LockerClusterSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
@@ -466,6 +472,13 @@ export interface LockerClusterSubscriptionWhereInput {
     | LockerClusterSubscriptionWhereInput;
 }
 
+export interface LockerSessionCreateManyWithoutUserInput {
+  create?:
+    | LockerSessionCreateWithoutUserInput[]
+    | LockerSessionCreateWithoutUserInput;
+  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput;
+}
+
 export interface UserSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
@@ -477,12 +490,11 @@ export interface UserSubscriptionWhereInput {
   NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
 }
 
-export interface UserCreateInput {
-  name: String;
-  email: String;
-  password: String;
-  credit?: Int;
-  sessions?: LockerSessionCreateManyWithoutUserInput;
+export interface LockerSessionCreateWithoutUserInput {
+  locker: LockerCreateOneInput;
+  state?: Int;
+  startedAt: DateTimeInput;
+  finishedAt?: DateTimeInput;
 }
 
 export interface UserUpdateWithoutSessionsDataInput {
@@ -492,11 +504,9 @@ export interface UserUpdateWithoutSessionsDataInput {
   credit?: Int;
 }
 
-export interface LockerSessionCreateManyWithoutUserInput {
-  create?:
-    | LockerSessionCreateWithoutUserInput[]
-    | LockerSessionCreateWithoutUserInput;
-  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput;
+export interface LockerCreateOneInput {
+  create?: LockerCreateInput;
+  connect?: LockerWhereUniqueInput;
 }
 
 export interface LockerSessionUpdateInput {
@@ -504,33 +514,6 @@ export interface LockerSessionUpdateInput {
   locker?: LockerUpdateOneInput;
   state?: Int;
   startedAt?: DateTimeInput;
-  finishedAt?: DateTimeInput;
-}
-
-export interface LockerSessionCreateWithoutUserInput {
-  locker: LockerCreateOneInput;
-  state?: Int;
-  startedAt: DateTimeInput;
-  finishedAt?: DateTimeInput;
-}
-
-export interface UserCreateWithoutSessionsInput {
-  name: String;
-  email: String;
-  password: String;
-  credit?: Int;
-}
-
-export interface LockerCreateOneInput {
-  create?: LockerCreateInput;
-  connect?: LockerWhereUniqueInput;
-}
-
-export interface LockerSessionCreateInput {
-  user: UserCreateOneWithoutSessionsInput;
-  locker: LockerCreateOneInput;
-  state?: Int;
-  startedAt: DateTimeInput;
   finishedAt?: DateTimeInput;
 }
 
@@ -545,15 +528,40 @@ export interface LockerCreateInput {
   sensorPin: Int;
   alarmPin: Int;
   lockPin: Int;
+  currentOwner?: UserCreateOneInput;
+}
+
+export interface UserCreateWithoutSessionsInput {
+  name: String;
+  email: String;
+  password: String;
+  credit?: Int;
+}
+
+export interface LockerClusterCreateOneWithoutLockersInput {
+  create?: LockerClusterCreateWithoutLockersInput;
+  connect?: LockerClusterWhereUniqueInput;
+}
+
+export interface LockerSessionCreateInput {
+  user: UserCreateOneWithoutSessionsInput;
+  locker: LockerCreateOneInput;
+  state?: Int;
+  startedAt: DateTimeInput;
+  finishedAt?: DateTimeInput;
+}
+
+export interface LockerClusterCreateWithoutLockersInput {
+  macAddress?: String;
 }
 
 export type LockerWhereUniqueInput = AtLeastOne<{
   id?: ID_Input;
 }>;
 
-export interface LockerClusterCreateOneWithoutLockersInput {
-  create?: LockerClusterCreateWithoutLockersInput;
-  connect?: LockerClusterWhereUniqueInput;
+export interface UserCreateOneInput {
+  create?: UserCreateInput;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface LockerUpdateWithoutClusterDataInput {
@@ -566,10 +574,15 @@ export interface LockerUpdateWithoutClusterDataInput {
   sensorPin?: Int;
   alarmPin?: Int;
   lockPin?: Int;
+  currentOwner?: UserUpdateOneInput;
 }
 
-export interface LockerClusterCreateWithoutLockersInput {
-  macAddress?: String;
+export interface UserUpdateInput {
+  name?: String;
+  email?: String;
+  password?: String;
+  credit?: Int;
+  sessions?: LockerSessionUpdateManyWithoutUserInput;
 }
 
 export type LockerSessionWhereUniqueInput = AtLeastOne<{
@@ -579,6 +592,16 @@ export type LockerSessionWhereUniqueInput = AtLeastOne<{
 export interface LockerCreateManyWithoutClusterInput {
   create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput;
   connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
+}
+
+export interface LockerClusterUpdateInput {
+  lockers?: LockerUpdateManyWithoutClusterInput;
+  macAddress?: String;
+}
+
+export interface LockerSessionUpdateWithWhereUniqueWithoutUserInput {
+  where: LockerSessionWhereUniqueInput;
+  data: LockerSessionUpdateWithoutUserDataInput;
 }
 
 export interface LockerSubscriptionWhereInput {
@@ -592,35 +615,17 @@ export interface LockerSubscriptionWhereInput {
   NOT?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput;
 }
 
-export interface LockerSessionUpdateManyWithoutUserInput {
-  create?:
-    | LockerSessionCreateWithoutUserInput[]
-    | LockerSessionCreateWithoutUserInput;
-  delete?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput;
-  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput;
-  disconnect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput;
-  update?:
-    | LockerSessionUpdateWithWhereUniqueWithoutUserInput[]
-    | LockerSessionUpdateWithWhereUniqueWithoutUserInput;
-  upsert?:
-    | LockerSessionUpsertWithWhereUniqueWithoutUserInput[]
-    | LockerSessionUpsertWithWhereUniqueWithoutUserInput;
+export interface LockerSessionUpdateWithoutUserDataInput {
+  locker?: LockerUpdateOneInput;
+  state?: Int;
+  startedAt?: DateTimeInput;
+  finishedAt?: DateTimeInput;
 }
 
 export interface UserUpsertWithoutSessionsInput {
   update: UserUpdateWithoutSessionsDataInput;
   create: UserCreateWithoutSessionsInput;
 }
-
-export interface LockerSessionUpdateWithWhereUniqueWithoutUserInput {
-  where: LockerSessionWhereUniqueInput;
-  data: LockerSessionUpdateWithoutUserDataInput;
-}
-
-export type LockerClusterWhereUniqueInput = AtLeastOne<{
-  id?: ID_Input;
-  macAddress?: String;
-}>;
 
 export interface LockerClusterWhereInput {
   id?: ID_Input;
@@ -659,6 +664,16 @@ export interface LockerClusterWhereInput {
   NOT?: LockerClusterWhereInput[] | LockerClusterWhereInput;
 }
 
+export type LockerClusterWhereUniqueInput = AtLeastOne<{
+  id?: ID_Input;
+  macAddress?: String;
+}>;
+
+export interface LockerClusterCreateInput {
+  lockers?: LockerCreateManyWithoutClusterInput;
+  macAddress?: String;
+}
+
 export interface LockerUpdateInput {
   idInCluster?: String;
   cluster?: LockerClusterUpdateOneWithoutLockersInput;
@@ -670,89 +685,7 @@ export interface LockerUpdateInput {
   sensorPin?: Int;
   alarmPin?: Int;
   lockPin?: Int;
-}
-
-export interface LockerClusterCreateInput {
-  lockers?: LockerCreateManyWithoutClusterInput;
-  macAddress?: String;
-}
-
-export interface LockerUpdateWithWhereUniqueWithoutClusterInput {
-  where: LockerWhereUniqueInput;
-  data: LockerUpdateWithoutClusterDataInput;
-}
-
-export interface LockerUpdateDataInput {
-  idInCluster?: String;
-  cluster?: LockerClusterUpdateOneWithoutLockersInput;
-  busy?: Boolean;
-  locked?: Boolean;
-  open?: Boolean;
-  closed?: Boolean;
-  alarm?: Boolean;
-  sensorPin?: Int;
-  alarmPin?: Int;
-  lockPin?: Int;
-}
-
-export interface LockerSessionWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  user?: UserWhereInput;
-  locker?: LockerWhereInput;
-  state?: Int;
-  state_not?: Int;
-  state_in?: Int[] | Int;
-  state_not_in?: Int[] | Int;
-  state_lt?: Int;
-  state_lte?: Int;
-  state_gt?: Int;
-  state_gte?: Int;
-  startedAt?: DateTimeInput;
-  startedAt_not?: DateTimeInput;
-  startedAt_in?: DateTimeInput[] | DateTimeInput;
-  startedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  startedAt_lt?: DateTimeInput;
-  startedAt_lte?: DateTimeInput;
-  startedAt_gt?: DateTimeInput;
-  startedAt_gte?: DateTimeInput;
-  finishedAt?: DateTimeInput;
-  finishedAt_not?: DateTimeInput;
-  finishedAt_in?: DateTimeInput[] | DateTimeInput;
-  finishedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  finishedAt_lt?: DateTimeInput;
-  finishedAt_lte?: DateTimeInput;
-  finishedAt_gt?: DateTimeInput;
-  finishedAt_gte?: DateTimeInput;
-  AND?: LockerSessionWhereInput[] | LockerSessionWhereInput;
-  OR?: LockerSessionWhereInput[] | LockerSessionWhereInput;
-  NOT?: LockerSessionWhereInput[] | LockerSessionWhereInput;
-}
-
-export interface LockerUpsertNestedInput {
-  update: LockerUpdateDataInput;
-  create: LockerCreateInput;
-}
-
-export interface LockerClusterUpsertWithoutLockersInput {
-  update: LockerClusterUpdateWithoutLockersDataInput;
-  create: LockerClusterCreateWithoutLockersInput;
-}
-
-export interface LockerClusterUpdateWithoutLockersDataInput {
-  macAddress?: String;
+  currentOwner?: UserUpdateOneInput;
 }
 
 export interface LockerClusterUpdateOneWithoutLockersInput {
@@ -764,12 +697,13 @@ export interface LockerClusterUpdateOneWithoutLockersInput {
   connect?: LockerClusterWhereUniqueInput;
 }
 
-export interface UserUpdateOneWithoutSessionsInput {
-  create?: UserCreateWithoutSessionsInput;
-  update?: UserUpdateWithoutSessionsDataInput;
-  upsert?: UserUpsertWithoutSessionsInput;
-  delete?: Boolean;
-  connect?: UserWhereUniqueInput;
+export interface LockerUpdateWithWhereUniqueWithoutClusterInput {
+  where: LockerWhereUniqueInput;
+  data: LockerUpdateWithoutClusterDataInput;
+}
+
+export interface LockerClusterUpdateWithoutLockersDataInput {
+  macAddress?: String;
 }
 
 export interface UserWhereInput {
@@ -845,15 +779,114 @@ export interface UserWhereInput {
   NOT?: UserWhereInput[] | UserWhereInput;
 }
 
-export interface LockerUpsertWithWhereUniqueWithoutClusterInput {
-  where: LockerWhereUniqueInput;
-  update: LockerUpdateWithoutClusterDataInput;
-  create: LockerCreateWithoutClusterInput;
+export interface LockerClusterUpsertWithoutLockersInput {
+  update: LockerClusterUpdateWithoutLockersDataInput;
+  create: LockerClusterCreateWithoutLockersInput;
+}
+
+export interface UserUpdateOneWithoutSessionsInput {
+  create?: UserCreateWithoutSessionsInput;
+  update?: UserUpdateWithoutSessionsDataInput;
+  upsert?: UserUpsertWithoutSessionsInput;
+  delete?: Boolean;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface LockerUpsertNestedInput {
+  update: LockerUpdateDataInput;
+  create: LockerCreateInput;
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput;
+  create: UserCreateInput;
+}
+
+export interface UserUpdateDataInput {
+  name?: String;
+  email?: String;
+  password?: String;
+  credit?: Int;
+  sessions?: LockerSessionUpdateManyWithoutUserInput;
+}
+
+export interface UserUpdateOneInput {
+  create?: UserCreateInput;
+  update?: UserUpdateDataInput;
+  upsert?: UserUpsertNestedInput;
+  delete?: Boolean;
+  disconnect?: Boolean;
+  connect?: UserWhereUniqueInput;
 }
 
 export interface UserCreateOneWithoutSessionsInput {
   create?: UserCreateWithoutSessionsInput;
   connect?: UserWhereUniqueInput;
+}
+
+export interface LockerSessionWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  user?: UserWhereInput;
+  locker?: LockerWhereInput;
+  state?: Int;
+  state_not?: Int;
+  state_in?: Int[] | Int;
+  state_not_in?: Int[] | Int;
+  state_lt?: Int;
+  state_lte?: Int;
+  state_gt?: Int;
+  state_gte?: Int;
+  startedAt?: DateTimeInput;
+  startedAt_not?: DateTimeInput;
+  startedAt_in?: DateTimeInput[] | DateTimeInput;
+  startedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  startedAt_lt?: DateTimeInput;
+  startedAt_lte?: DateTimeInput;
+  startedAt_gt?: DateTimeInput;
+  startedAt_gte?: DateTimeInput;
+  finishedAt?: DateTimeInput;
+  finishedAt_not?: DateTimeInput;
+  finishedAt_in?: DateTimeInput[] | DateTimeInput;
+  finishedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  finishedAt_lt?: DateTimeInput;
+  finishedAt_lte?: DateTimeInput;
+  finishedAt_gt?: DateTimeInput;
+  finishedAt_gte?: DateTimeInput;
+  AND?: LockerSessionWhereInput[] | LockerSessionWhereInput;
+  OR?: LockerSessionWhereInput[] | LockerSessionWhereInput;
+  NOT?: LockerSessionWhereInput[] | LockerSessionWhereInput;
+}
+
+export interface LockerUpdateManyWithoutClusterInput {
+  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput;
+  delete?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
+  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
+  disconnect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput;
+  update?:
+    | LockerUpdateWithWhereUniqueWithoutClusterInput[]
+    | LockerUpdateWithWhereUniqueWithoutClusterInput;
+  upsert?:
+    | LockerUpsertWithWhereUniqueWithoutClusterInput[]
+    | LockerUpsertWithWhereUniqueWithoutClusterInput;
+}
+
+export interface LockerUpsertWithWhereUniqueWithoutClusterInput {
+  where: LockerWhereUniqueInput;
+  update: LockerUpdateWithoutClusterDataInput;
+  create: LockerCreateWithoutClusterInput;
 }
 
 export interface NodeNode {
@@ -956,6 +989,7 @@ export interface Locker extends Promise<LockerNode>, Fragmentable {
   sensorPin: () => Promise<Int>;
   alarmPin: () => Promise<Int>;
   lockPin: () => Promise<Int>;
+  currentOwner: <T = User>() => T;
 }
 
 export interface LockerSubscription
@@ -972,6 +1006,7 @@ export interface LockerSubscription
   sensorPin: () => Promise<AsyncIterator<Int>>;
   alarmPin: () => Promise<AsyncIterator<Int>>;
   lockPin: () => Promise<AsyncIterator<Int>>;
+  currentOwner: <T = UserSubscription>() => T;
 }
 
 export interface LockerSessionNode {
