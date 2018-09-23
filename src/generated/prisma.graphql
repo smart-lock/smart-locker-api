@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Thu Sep 20 2018 19:20:32 GMT-0300 (-03)
+# timestamp: Sat Sep 22 2018 21:35:50 GMT-0300 (-03)
 
 type AggregateLocker {
   count: Int!
@@ -36,6 +36,7 @@ type Locker implements Node {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner(where: UserWhereInput): User
 }
 
 type LockerCluster implements Node {
@@ -275,6 +276,7 @@ input LockerCreateInput {
   alarmPin: Int!
   lockPin: Int!
   cluster: LockerClusterCreateOneWithoutLockersInput
+  currentOwner: UserCreateOneInput
 }
 
 input LockerCreateManyWithoutClusterInput {
@@ -297,6 +299,7 @@ input LockerCreateWithoutClusterInput {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner: UserCreateOneInput
 }
 
 """An edge in a connection."""
@@ -665,6 +668,7 @@ input LockerUpdateDataInput {
   alarmPin: Int
   lockPin: Int
   cluster: LockerClusterUpdateOneWithoutLockersInput
+  currentOwner: UserUpdateOneInput
 }
 
 input LockerUpdateInput {
@@ -678,6 +682,7 @@ input LockerUpdateInput {
   alarmPin: Int
   lockPin: Int
   cluster: LockerClusterUpdateOneWithoutLockersInput
+  currentOwner: UserUpdateOneInput
 }
 
 input LockerUpdateManyWithoutClusterInput {
@@ -707,6 +712,7 @@ input LockerUpdateWithoutClusterDataInput {
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
+  currentOwner: UserUpdateOneInput
 }
 
 input LockerUpdateWithWhereUniqueWithoutClusterInput {
@@ -901,6 +907,7 @@ input LockerWhereInput {
   """All values greater than or equal the given value."""
   lockPin_gte: Int
   cluster: LockerClusterWhereInput
+  currentOwner: UserWhereInput
 }
 
 input LockerWhereUniqueInput {
@@ -914,30 +921,30 @@ Long can represent values between -(2^63) and 2^63 - 1.
 scalar Long
 
 type Mutation {
-  createUser(data: UserCreateInput!): User!
   createLockerCluster(data: LockerClusterCreateInput!): LockerCluster!
   createLockerSession(data: LockerSessionCreateInput!): LockerSession!
   createLocker(data: LockerCreateInput!): Locker!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  createUser(data: UserCreateInput!): User!
   updateLockerCluster(data: LockerClusterUpdateInput!, where: LockerClusterWhereUniqueInput!): LockerCluster
   updateLockerSession(data: LockerSessionUpdateInput!, where: LockerSessionWhereUniqueInput!): LockerSession
   updateLocker(data: LockerUpdateInput!, where: LockerWhereUniqueInput!): Locker
-  deleteUser(where: UserWhereUniqueInput!): User
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteLockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
   deleteLockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
   deleteLocker(where: LockerWhereUniqueInput!): Locker
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
   upsertLockerCluster(where: LockerClusterWhereUniqueInput!, create: LockerClusterCreateInput!, update: LockerClusterUpdateInput!): LockerCluster!
   upsertLockerSession(where: LockerSessionWhereUniqueInput!, create: LockerSessionCreateInput!, update: LockerSessionUpdateInput!): LockerSession!
   upsertLocker(where: LockerWhereUniqueInput!, create: LockerCreateInput!, update: LockerUpdateInput!): Locker!
-  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyLockerClusters(data: LockerClusterUpdateInput!, where: LockerClusterWhereInput): BatchPayload!
   updateManyLockerSessions(data: LockerSessionUpdateInput!, where: LockerSessionWhereInput): BatchPayload!
   updateManyLockers(data: LockerUpdateInput!, where: LockerWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   deleteManyLockerClusters(where: LockerClusterWhereInput): BatchPayload!
   deleteManyLockerSessions(where: LockerSessionWhereInput): BatchPayload!
   deleteManyLockers(where: LockerWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -968,18 +975,18 @@ type PageInfo {
 }
 
 type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   lockerClusters(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerCluster]!
   lockerSessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession]!
   lockers(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Locker]!
-  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   lockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
   lockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
   locker(where: LockerWhereUniqueInput!): Locker
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  user(where: UserWhereUniqueInput!): User
   lockerClustersConnection(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerClusterConnection!
   lockerSessionsConnection(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerSessionConnection!
   lockersConnection(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerConnection!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -989,10 +996,10 @@ type Query {
 }
 
 type Subscription {
-  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   lockerCluster(where: LockerClusterSubscriptionWhereInput): LockerClusterSubscriptionPayload
   lockerSession(where: LockerSessionSubscriptionWhereInput): LockerSessionSubscriptionPayload
   locker(where: LockerSubscriptionWhereInput): LockerSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User implements Node {
@@ -1020,6 +1027,11 @@ input UserCreateInput {
   password: String!
   credit: Int
   sessions: LockerSessionCreateManyWithoutUserInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutSessionsInput {
@@ -1107,12 +1119,29 @@ input UserSubscriptionWhereInput {
   node: UserWhereInput
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  credit: Int
+  sessions: LockerSessionUpdateManyWithoutUserInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
   password: String
   credit: Int
   sessions: LockerSessionUpdateManyWithoutUserInput
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
 }
 
 input UserUpdateOneWithoutSessionsInput {
@@ -1128,6 +1157,11 @@ input UserUpdateWithoutSessionsDataInput {
   email: String
   password: String
   credit: Int
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutSessionsInput {

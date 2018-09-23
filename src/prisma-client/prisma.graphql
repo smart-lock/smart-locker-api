@@ -32,6 +32,7 @@ type Locker {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner: User
 }
 
 type LockerCluster {
@@ -181,6 +182,7 @@ input LockerCreateInput {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner: UserCreateOneInput
 }
 
 input LockerCreateManyWithoutClusterInput {
@@ -203,6 +205,7 @@ input LockerCreateWithoutClusterInput {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner: UserCreateOneInput
 }
 
 type LockerEdge {
@@ -444,6 +447,7 @@ input LockerUpdateDataInput {
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
+  currentOwner: UserUpdateOneInput
 }
 
 input LockerUpdateInput {
@@ -457,6 +461,7 @@ input LockerUpdateInput {
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
+  currentOwner: UserUpdateOneInput
 }
 
 input LockerUpdateManyWithoutClusterInput {
@@ -486,6 +491,7 @@ input LockerUpdateWithoutClusterDataInput {
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
+  currentOwner: UserUpdateOneInput
 }
 
 input LockerUpdateWithWhereUniqueWithoutClusterInput {
@@ -568,6 +574,7 @@ input LockerWhereInput {
   lockPin_lte: Int
   lockPin_gt: Int
   lockPin_gte: Int
+  currentOwner: UserWhereInput
   AND: [LockerWhereInput!]
   OR: [LockerWhereInput!]
   NOT: [LockerWhereInput!]
@@ -669,6 +676,11 @@ input UserCreateInput {
   sessions: LockerSessionCreateManyWithoutUserInput
 }
 
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateOneWithoutSessionsInput {
   create: UserCreateWithoutSessionsInput
   connect: UserWhereUniqueInput
@@ -729,12 +741,29 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  credit: Int
+  sessions: LockerSessionUpdateManyWithoutUserInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
   password: String
   credit: Int
   sessions: LockerSessionUpdateManyWithoutUserInput
+}
+
+input UserUpdateOneInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneWithoutSessionsInput {
@@ -750,6 +779,11 @@ input UserUpdateWithoutSessionsDataInput {
   email: String
   password: String
   credit: Int
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutSessionsInput {
