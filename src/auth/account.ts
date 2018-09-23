@@ -9,14 +9,24 @@ export interface IAccount {
   scopes: string[]
 }
 
-const getHeadersFromCtxParameters = (ctxParameters: ContextParameters): Nullable<IncomingHttpHeaders> => {
+export interface IAuthorizationInfo {
+  token: string
+}
+
+const getAuthorizationInfoFromContextParameters = (ctxParameters: ContextParameters): Nullable<IAuthorizationInfo> => {
   const { request, connection } = ctxParameters
+
   if (request) {
-    return request.headers
+    return {
+      token: request.headers.authorization,
+    }
   }
 
   if (connection) {
-    return connection.context
+    console.log(connection.context.Authorization)
+    return {
+      token: connection.context.Authorization,
+    }
   }
 
   return null
@@ -27,14 +37,13 @@ export interface IExpectedHeaders {
 }
 
 export const accountFromReq = async (ctxParameters: ContextParameters, deps: IComponents): Promise<IAccount | null> => {
-  const headers = getHeadersFromCtxParameters(ctxParameters)
-  const authorization = headers && headers.authorization
-  if (!authorization || Array.isArray(authorization)) {
+  const authorizationInfo = getAuthorizationInfoFromContextParameters(ctxParameters)
+  if (!authorizationInfo) {
     return null
   }
 
   try {
-    const decoded = await deps.token.validate<IAccount>(authorization)
+    const decoded = await deps.token.validate<IAccount>(authorizationInfo.token)
     return {
       id: decoded.id,
       email: decoded.email,
