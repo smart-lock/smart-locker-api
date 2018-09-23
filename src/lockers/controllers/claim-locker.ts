@@ -36,6 +36,16 @@ export const claimLocker = async (lockerId: string, account: IAccount, component
   }
 
   const lockerSession = await insertLockerSession(lockerId, account.id, components);
+  await components.prismaClient.db.updateLocker({
+    where: {
+      id: lockerId
+    },
+    data: {
+      currentOwner: {
+        connect: {id: account.id}
+      }
+    }
+  })
   
   await updateBusyState(lockerId, true, components);
   components.mqtt.publish(topicForLocker(locker.cluster, locker), `${locker.idInCluster}${CMD_CLAIM}`)
