@@ -27,6 +27,8 @@ type Locker {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+
+  currentOwner: User
 }
 
 type LockerSession {
