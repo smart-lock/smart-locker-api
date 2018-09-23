@@ -7,6 +7,8 @@ type Query {
   myLockers: [Locker!]!
   mySessions: [LockerSession!]!
   lockerSession (id: ID!): LockerSession
+
+  lockerClusterByMacAddress (macAddress: String!): LockerCluster
 }
 type Mutation {
   claimLocker (lockerId: ID!): LockerSession
