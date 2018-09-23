@@ -22,7 +22,16 @@ export const findActiveLockerSessionForUser = async (userId: string, lockerId: s
   return firstOrNull(result)
 }
 
-export const finishLockerSession = async (sessionId: string, components: IComponents): Promise<LockerSessionNode> => {
+export const finishLockerSession = async (sessionId: string, lockerId: string, components: IComponents): Promise<LockerSessionNode> => {
+  await components.prismaClient.db.updateLocker({
+    where: {
+      id: lockerId,
+    },
+    data: {
+      busy: false,
+      currentOwner: null,
+    }
+  })
   return components.prismaClient.db.updateLockerSession({
     where: {
       id: sessionId,
