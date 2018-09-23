@@ -27,5 +27,12 @@ export const lockerQuery = {
         id
       }
     }, info)
+  },
+  lockerClusterByMacAddress: (_, { macAddress }, { components }: IContext, info: GraphQLResolveInfo) => {
+    return components.prismaBinding.db.query.lockerCluster({
+      where: {
+        macAddress,
+      }
+    }, info)
   }
 }
