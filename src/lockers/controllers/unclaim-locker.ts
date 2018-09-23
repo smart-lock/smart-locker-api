@@ -16,7 +16,7 @@ export const unclaimLocker = async (lockerId: string, account: IAccount, compone
   if (locker.locked) {
     throw new Error('LockerLocked')
   }
-  const finishedSession = await finishLockerSession(session.id, components)
+  const finishedSession = await finishLockerSession(session.id, lockerId, components)
   components.mqtt.publish(topicForLocker(locker.cluster, locker), `${locker.idInCluster}${CMD_UNCLAIM}`)
   return finishedSession
 }
