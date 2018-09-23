@@ -149,6 +149,7 @@ export class TokenComponent implements ILifecycle, ITokenComponent {
   })
 
   public async start({ config, s3, redis, clock }: ITokenComponentDependencies) {
+    console.log('Starting token...')
     this.config = config
     this.s3 = s3
     this.redis = redis
@@ -158,6 +159,8 @@ export class TokenComponent implements ILifecycle, ITokenComponent {
     const publicKey = pub //await this.s3.getObject(tokenConfig.bucketName, tokenConfig.publicKeyPath)
     this.privateKey = privateKey
     this.publicKey = publicKey
+
+    console.log('Token started!')
   }
 
   public async stop() {

@@ -25,10 +25,12 @@ export class RedisComponent implements ILifecycle, IRedisComponent {
   }
 
   public async start({ config }: IRedisComponentDependencies) {
+    console.log('Starting redis...')
     const redisUri = config.getRequiredValue(['redis', 'uri']) as string
 
     const redis = await new Redis(redisUri)
     this.redis = redis
+    console.log('Redis started!')
   }
 
   public stop() {

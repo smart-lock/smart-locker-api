@@ -9,9 +9,11 @@ export class PubSubComponent implements ILifecycle {
   }
   
   public start () {
+    console.log('Starting PubSub')
     const pubsub = new PubSub();
 
     this.pubsub = pubsub
+    console.log('PubSub started!')
   }
 
   public stop() {

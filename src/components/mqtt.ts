@@ -39,6 +39,7 @@ export class MQTTComponent implements ILifecycle, IMQTTComponent {
   public getClient = () => this.client
   
   public start(deps: any) {
+    console.log('Starting MQTT...')
     this.handlerCache = {}
     return new Promise((resolve, reject) => {
       const config: IConfigComponent<{mqtt: IMQTTConfig}> = deps.config
@@ -54,10 +55,11 @@ export class MQTTComponent implements ILifecycle, IMQTTComponent {
 
       client.on('connect', async () => {
         await this.setupListeners(deps)
+        console.log('MQTT started!')
         resolve()
       })
-      client.on('error', () => {
-        reject()
+      client.on('error', (error) => {
+        reject(error)
       })
     })
   }

@@ -24,6 +24,9 @@ export class ClockComponent implements ILifecycle, IClockComponent {
     return new Date()
   }
   public start() {
+    console.log('Starting clock...')
+
+    console.log('Clock started!')
     // noop
   }
 
