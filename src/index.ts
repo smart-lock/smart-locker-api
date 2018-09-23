@@ -2,8 +2,9 @@ import { IComponents, system } from './system'
 import { IAccount } from '~/auth/account';
 
 const main = async () => {
+  console.log('Starting system...')
   const components: IComponents = await system.start()
-  console.log('System is up')
+  console.log('System OK!')
 
   const adminToken = await components.token.encode({
     "id": "cjmdts33e00130a58nm8cbk8s",
