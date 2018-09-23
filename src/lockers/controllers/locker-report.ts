@@ -34,10 +34,38 @@ export const updateLockerWithReport = async (macAddress: string, idInCluster: st
     throw new Error('LockerNotFound')
   }
 
+  const lockerUpdatePayload = {
+    id: locker.id,
+    ...report
+  }
+
   // Let GraphQL subscribers know about this
   components.pubsub.instance.publish(`lockers.${locker.id}`, {
-    lockerState: report
+    lockerState: lockerUpdatePayload
   })
+
+  const sessions = await components.prismaBinding.db.query.lockerSessions({
+    where: {
+      locker: {
+        id: locker.id,
+      },
+    }
+  }, `{
+    id
+    user {
+      id
+    }
+  }`)
+  const session = firstOrNull(sessions)
+
+  if (session) {
+    const channel = `${session.user.id}.lockers`
+    console.log(channel)
+    // If there is an active session, let the subscribed owner know
+    components.pubsub.instance.publish(channel, {
+      myLockers: lockerUpdatePayload,
+    })
+  }
 
   // Save on database
   const updatedLocker = await components.prismaClient.db.updateLocker({
