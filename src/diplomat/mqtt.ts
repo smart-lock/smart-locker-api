@@ -31,7 +31,6 @@ const reportExternalToInternal = (external: string): Nullable<ILockerReport> => 
 export const mqttHandlers: IMQTTHandlerTable = {
   'lockers/+macAddress/+idInCluster/report': {
     handler: async (topic: string, { macAddress, idInCluster }: IReportParams, data: string, components: IComponents) => {
-      console.log('CONSUMING!!')
       console.log(`macAddress: ${macAddress}`)
       console.log(`idInCluster: ${idInCluster}`)
       console.log(`data: ${data}`)
