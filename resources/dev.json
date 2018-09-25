@@ -2,6 +2,9 @@
   "yoga": {
     "port": 3002
   },
+  "service": {
+    "port": 3003
+  },
   "token": {
     "issuer": "envisioning",
     "audience": "user",
