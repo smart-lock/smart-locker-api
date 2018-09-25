@@ -17,8 +17,11 @@ import { PrismaComponent } from '~/components/prisma';
 import { prisma, Prisma } from '~/prisma-client'
 import { PrismaClientComponent } from '~/components/prisma-client';
 import { PubSubComponent } from '~/components/pubsub';
+import { ExpressService, IService } from '~/components/http-server';
+import { routes } from '~/routes';
 
 export interface IConfig {
+  service: IService,
   devspace: string,
   mqtt: IMQTTConfig,
   token: ITokenConfig
@@ -85,7 +88,11 @@ export const componentMap: IComponentMap = {
   pubsub: {
     instance: new PubSubComponent(),
     dependenciesList: [],
-  }
+  },
+  service: {
+    instance: new ExpressService(routes),
+    dependenciesList: ['config', 'token', 'prismaBinding', 'prismaClient', 'clock'],
+  },
 }
 
 export const system = new System<IComponents>(componentMap)
