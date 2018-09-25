@@ -29,6 +29,8 @@ type Locker {
   lockPin: Int!
 
   currentOwner: User
+
+  sessions: [LockerSession!]!
 }
 
 type LockerSession {

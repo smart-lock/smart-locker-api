@@ -5,58 +5,58 @@ import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'
 
 export interface Query {
     lockerClusters: <T = LockerCluster[]>(args: { where?: LockerClusterWhereInput, orderBy?: LockerClusterOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    lockerSessions: <T = LockerSession[]>(args: { where?: LockerSessionWhereInput, orderBy?: LockerSessionOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     lockers: <T = Locker[]>(args: { where?: LockerWhereInput, orderBy?: LockerOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    lockerSessions: <T = LockerSession[]>(args: { where?: LockerSessionWhereInput, orderBy?: LockerSessionOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     users: <T = User[]>(args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     lockerCluster: <T = LockerCluster | null>(args: { where: LockerClusterWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    lockerSession: <T = LockerSession | null>(args: { where: LockerSessionWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     locker: <T = Locker | null>(args: { where: LockerWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    lockerSession: <T = LockerSession | null>(args: { where: LockerSessionWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     user: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     lockerClustersConnection: <T = LockerClusterConnection>(args: { where?: LockerClusterWhereInput, orderBy?: LockerClusterOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    lockerSessionsConnection: <T = LockerSessionConnection>(args: { where?: LockerSessionWhereInput, orderBy?: LockerSessionOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     lockersConnection: <T = LockerConnection>(args: { where?: LockerWhereInput, orderBy?: LockerOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    lockerSessionsConnection: <T = LockerSessionConnection>(args: { where?: LockerSessionWhereInput, orderBy?: LockerSessionOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     usersConnection: <T = UserConnection>(args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     node: <T = Node | null>(args: { id: ID_Output }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
   }
 
 export interface Mutation {
     createLockerCluster: <T = LockerCluster>(args: { data: LockerClusterCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    createLockerSession: <T = LockerSession>(args: { data: LockerSessionCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createLocker: <T = Locker>(args: { data: LockerCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createLockerSession: <T = LockerSession>(args: { data: LockerSessionCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createUser: <T = User>(args: { data: UserCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateLockerCluster: <T = LockerCluster | null>(args: { data: LockerClusterUpdateInput, where: LockerClusterWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    updateLockerSession: <T = LockerSession | null>(args: { data: LockerSessionUpdateInput, where: LockerSessionWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateLocker: <T = Locker | null>(args: { data: LockerUpdateInput, where: LockerWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateLockerSession: <T = LockerSession | null>(args: { data: LockerSessionUpdateInput, where: LockerSessionWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateUser: <T = User | null>(args: { data: UserUpdateInput, where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteLockerCluster: <T = LockerCluster | null>(args: { where: LockerClusterWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    deleteLockerSession: <T = LockerSession | null>(args: { where: LockerSessionWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteLocker: <T = Locker | null>(args: { where: LockerWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteLockerSession: <T = LockerSession | null>(args: { where: LockerSessionWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteUser: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertLockerCluster: <T = LockerCluster>(args: { where: LockerClusterWhereUniqueInput, create: LockerClusterCreateInput, update: LockerClusterUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    upsertLockerSession: <T = LockerSession>(args: { where: LockerSessionWhereUniqueInput, create: LockerSessionCreateInput, update: LockerSessionUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertLocker: <T = Locker>(args: { where: LockerWhereUniqueInput, create: LockerCreateInput, update: LockerUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertLockerSession: <T = LockerSession>(args: { where: LockerSessionWhereUniqueInput, create: LockerSessionCreateInput, update: LockerSessionUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertUser: <T = User>(args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyLockerClusters: <T = BatchPayload>(args: { data: LockerClusterUpdateInput, where?: LockerClusterWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    updateManyLockerSessions: <T = BatchPayload>(args: { data: LockerSessionUpdateInput, where?: LockerSessionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyLockers: <T = BatchPayload>(args: { data: LockerUpdateInput, where?: LockerWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyLockerSessions: <T = BatchPayload>(args: { data: LockerSessionUpdateInput, where?: LockerSessionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyUsers: <T = BatchPayload>(args: { data: UserUpdateInput, where?: UserWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyLockerClusters: <T = BatchPayload>(args: { where?: LockerClusterWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
-    deleteManyLockerSessions: <T = BatchPayload>(args: { where?: LockerSessionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyLockers: <T = BatchPayload>(args: { where?: LockerWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyLockerSessions: <T = BatchPayload>(args: { where?: LockerSessionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyUsers: <T = BatchPayload>(args: { where?: UserWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> 
   }
 
 export interface Subscription {
     lockerCluster: <T = LockerClusterSubscriptionPayload | null>(args: { where?: LockerClusterSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
-    lockerSession: <T = LockerSessionSubscriptionPayload | null>(args: { where?: LockerSessionSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
     locker: <T = LockerSubscriptionPayload | null>(args: { where?: LockerSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    lockerSession: <T = LockerSessionSubscriptionPayload | null>(args: { where?: LockerSessionSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
     user: <T = UserSubscriptionPayload | null>(args: { where?: UserSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> 
   }
 
 export interface Exists {
   LockerCluster: (where?: LockerClusterWhereInput) => Promise<boolean>
-  LockerSession: (where?: LockerSessionWhereInput) => Promise<boolean>
   Locker: (where?: LockerWhereInput) => Promise<boolean>
+  LockerSession: (where?: LockerSessionWhereInput) => Promise<boolean>
   User: (where?: UserWhereInput) => Promise<boolean>
 }
 
@@ -118,6 +118,7 @@ type Locker implements Node {
   alarmPin: Int!
   lockPin: Int!
   currentOwner(where: UserWhereInput): User
+  sessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession!]
 }
 
 type LockerCluster implements Node {
@@ -358,6 +359,7 @@ input LockerCreateInput {
   lockPin: Int!
   cluster: LockerClusterCreateOneWithoutLockersInput
   currentOwner: UserCreateOneInput
+  sessions: LockerSessionCreateManyWithoutLockerInput
 }
 
 input LockerCreateManyWithoutClusterInput {
@@ -365,8 +367,8 @@ input LockerCreateManyWithoutClusterInput {
   connect: [LockerWhereUniqueInput!]
 }
 
-input LockerCreateOneInput {
-  create: LockerCreateInput
+input LockerCreateOneWithoutSessionsInput {
+  create: LockerCreateWithoutSessionsInput
   connect: LockerWhereUniqueInput
 }
 
@@ -380,6 +382,21 @@ input LockerCreateWithoutClusterInput {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner: UserCreateOneInput
+  sessions: LockerSessionCreateManyWithoutLockerInput
+}
+
+input LockerCreateWithoutSessionsInput {
+  idInCluster: String!
+  busy: Boolean
+  locked: Boolean
+  open: Boolean
+  closed: Boolean
+  alarm: Boolean
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
+  cluster: LockerClusterCreateOneWithoutLockersInput
   currentOwner: UserCreateOneInput
 }
 
@@ -456,7 +473,12 @@ input LockerSessionCreateInput {
   startedAt: DateTime!
   finishedAt: DateTime
   user: UserCreateOneWithoutSessionsInput!
-  locker: LockerCreateOneInput!
+  locker: LockerCreateOneWithoutSessionsInput!
+}
+
+input LockerSessionCreateManyWithoutLockerInput {
+  create: [LockerSessionCreateWithoutLockerInput!]
+  connect: [LockerSessionWhereUniqueInput!]
 }
 
 input LockerSessionCreateManyWithoutUserInput {
@@ -464,11 +486,18 @@ input LockerSessionCreateManyWithoutUserInput {
   connect: [LockerSessionWhereUniqueInput!]
 }
 
+input LockerSessionCreateWithoutLockerInput {
+  state: Int
+  startedAt: DateTime!
+  finishedAt: DateTime
+  user: UserCreateOneWithoutSessionsInput!
+}
+
 input LockerSessionCreateWithoutUserInput {
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
-  locker: LockerCreateOneInput!
+  locker: LockerCreateOneWithoutSessionsInput!
 }
 
 """An edge in a connection."""
@@ -546,7 +575,16 @@ input LockerSessionUpdateInput {
   startedAt: DateTime
   finishedAt: DateTime
   user: UserUpdateOneWithoutSessionsInput
-  locker: LockerUpdateOneInput
+  locker: LockerUpdateOneWithoutSessionsInput
+}
+
+input LockerSessionUpdateManyWithoutLockerInput {
+  create: [LockerSessionCreateWithoutLockerInput!]
+  connect: [LockerSessionWhereUniqueInput!]
+  disconnect: [LockerSessionWhereUniqueInput!]
+  delete: [LockerSessionWhereUniqueInput!]
+  update: [LockerSessionUpdateWithWhereUniqueWithoutLockerInput!]
+  upsert: [LockerSessionUpsertWithWhereUniqueWithoutLockerInput!]
 }
 
 input LockerSessionUpdateManyWithoutUserInput {
@@ -558,16 +596,34 @@ input LockerSessionUpdateManyWithoutUserInput {
   upsert: [LockerSessionUpsertWithWhereUniqueWithoutUserInput!]
 }
 
+input LockerSessionUpdateWithoutLockerDataInput {
+  state: Int
+  startedAt: DateTime
+  finishedAt: DateTime
+  user: UserUpdateOneWithoutSessionsInput
+}
+
 input LockerSessionUpdateWithoutUserDataInput {
   state: Int
   startedAt: DateTime
   finishedAt: DateTime
-  locker: LockerUpdateOneInput
+  locker: LockerUpdateOneWithoutSessionsInput
+}
+
+input LockerSessionUpdateWithWhereUniqueWithoutLockerInput {
+  where: LockerSessionWhereUniqueInput!
+  data: LockerSessionUpdateWithoutLockerDataInput!
 }
 
 input LockerSessionUpdateWithWhereUniqueWithoutUserInput {
   where: LockerSessionWhereUniqueInput!
   data: LockerSessionUpdateWithoutUserDataInput!
+}
+
+input LockerSessionUpsertWithWhereUniqueWithoutLockerInput {
+  where: LockerSessionWhereUniqueInput!
+  update: LockerSessionUpdateWithoutLockerDataInput!
+  create: LockerSessionCreateWithoutLockerInput!
 }
 
 input LockerSessionUpsertWithWhereUniqueWithoutUserInput {
@@ -738,20 +794,6 @@ input LockerSubscriptionWhereInput {
   node: LockerWhereInput
 }
 
-input LockerUpdateDataInput {
-  idInCluster: String
-  busy: Boolean
-  locked: Boolean
-  open: Boolean
-  closed: Boolean
-  alarm: Boolean
-  sensorPin: Int
-  alarmPin: Int
-  lockPin: Int
-  cluster: LockerClusterUpdateOneWithoutLockersInput
-  currentOwner: UserUpdateOneInput
-}
-
 input LockerUpdateInput {
   idInCluster: String
   busy: Boolean
@@ -764,6 +806,7 @@ input LockerUpdateInput {
   lockPin: Int
   cluster: LockerClusterUpdateOneWithoutLockersInput
   currentOwner: UserUpdateOneInput
+  sessions: LockerSessionUpdateManyWithoutLockerInput
 }
 
 input LockerUpdateManyWithoutClusterInput {
@@ -775,12 +818,12 @@ input LockerUpdateManyWithoutClusterInput {
   upsert: [LockerUpsertWithWhereUniqueWithoutClusterInput!]
 }
 
-input LockerUpdateOneInput {
-  create: LockerCreateInput
+input LockerUpdateOneWithoutSessionsInput {
+  create: LockerCreateWithoutSessionsInput
   connect: LockerWhereUniqueInput
   delete: Boolean
-  update: LockerUpdateDataInput
-  upsert: LockerUpsertNestedInput
+  update: LockerUpdateWithoutSessionsDataInput
+  upsert: LockerUpsertWithoutSessionsInput
 }
 
 input LockerUpdateWithoutClusterDataInput {
@@ -794,6 +837,21 @@ input LockerUpdateWithoutClusterDataInput {
   alarmPin: Int
   lockPin: Int
   currentOwner: UserUpdateOneInput
+  sessions: LockerSessionUpdateManyWithoutLockerInput
+}
+
+input LockerUpdateWithoutSessionsDataInput {
+  idInCluster: String
+  busy: Boolean
+  locked: Boolean
+  open: Boolean
+  closed: Boolean
+  alarm: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
+  cluster: LockerClusterUpdateOneWithoutLockersInput
+  currentOwner: UserUpdateOneInput
 }
 
 input LockerUpdateWithWhereUniqueWithoutClusterInput {
@@ -801,9 +859,9 @@ input LockerUpdateWithWhereUniqueWithoutClusterInput {
   data: LockerUpdateWithoutClusterDataInput!
 }
 
-input LockerUpsertNestedInput {
-  update: LockerUpdateDataInput!
-  create: LockerCreateInput!
+input LockerUpsertWithoutSessionsInput {
+  update: LockerUpdateWithoutSessionsDataInput!
+  create: LockerCreateWithoutSessionsInput!
 }
 
 input LockerUpsertWithWhereUniqueWithoutClusterInput {
@@ -989,6 +1047,9 @@ input LockerWhereInput {
   lockPin_gte: Int
   cluster: LockerClusterWhereInput
   currentOwner: UserWhereInput
+  sessions_every: LockerSessionWhereInput
+  sessions_some: LockerSessionWhereInput
+  sessions_none: LockerSessionWhereInput
 }
 
 input LockerWhereUniqueInput {
@@ -1003,28 +1064,28 @@ scalar Long
 
 type Mutation {
   createLockerCluster(data: LockerClusterCreateInput!): LockerCluster!
-  createLockerSession(data: LockerSessionCreateInput!): LockerSession!
   createLocker(data: LockerCreateInput!): Locker!
+  createLockerSession(data: LockerSessionCreateInput!): LockerSession!
   createUser(data: UserCreateInput!): User!
   updateLockerCluster(data: LockerClusterUpdateInput!, where: LockerClusterWhereUniqueInput!): LockerCluster
-  updateLockerSession(data: LockerSessionUpdateInput!, where: LockerSessionWhereUniqueInput!): LockerSession
   updateLocker(data: LockerUpdateInput!, where: LockerWhereUniqueInput!): Locker
+  updateLockerSession(data: LockerSessionUpdateInput!, where: LockerSessionWhereUniqueInput!): LockerSession
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   deleteLockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
-  deleteLockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
   deleteLocker(where: LockerWhereUniqueInput!): Locker
+  deleteLockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
   deleteUser(where: UserWhereUniqueInput!): User
   upsertLockerCluster(where: LockerClusterWhereUniqueInput!, create: LockerClusterCreateInput!, update: LockerClusterUpdateInput!): LockerCluster!
-  upsertLockerSession(where: LockerSessionWhereUniqueInput!, create: LockerSessionCreateInput!, update: LockerSessionUpdateInput!): LockerSession!
   upsertLocker(where: LockerWhereUniqueInput!, create: LockerCreateInput!, update: LockerUpdateInput!): Locker!
+  upsertLockerSession(where: LockerSessionWhereUniqueInput!, create: LockerSessionCreateInput!, update: LockerSessionUpdateInput!): LockerSession!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   updateManyLockerClusters(data: LockerClusterUpdateInput!, where: LockerClusterWhereInput): BatchPayload!
-  updateManyLockerSessions(data: LockerSessionUpdateInput!, where: LockerSessionWhereInput): BatchPayload!
   updateManyLockers(data: LockerUpdateInput!, where: LockerWhereInput): BatchPayload!
+  updateManyLockerSessions(data: LockerSessionUpdateInput!, where: LockerSessionWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   deleteManyLockerClusters(where: LockerClusterWhereInput): BatchPayload!
-  deleteManyLockerSessions(where: LockerSessionWhereInput): BatchPayload!
   deleteManyLockers(where: LockerWhereInput): BatchPayload!
+  deleteManyLockerSessions(where: LockerSessionWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
@@ -1057,16 +1118,16 @@ type PageInfo {
 
 type Query {
   lockerClusters(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerCluster]!
-  lockerSessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession]!
   lockers(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Locker]!
+  lockerSessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   lockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
-  lockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
   locker(where: LockerWhereUniqueInput!): Locker
+  lockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
   user(where: UserWhereUniqueInput!): User
   lockerClustersConnection(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerClusterConnection!
-  lockerSessionsConnection(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerSessionConnection!
   lockersConnection(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerConnection!
+  lockerSessionsConnection(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerSessionConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
 
   """Fetches an object given its ID"""
@@ -1078,8 +1139,8 @@ type Query {
 
 type Subscription {
   lockerCluster(where: LockerClusterSubscriptionWhereInput): LockerClusterSubscriptionPayload
-  lockerSession(where: LockerSessionSubscriptionWhereInput): LockerSessionSubscriptionPayload
   locker(where: LockerSubscriptionWhereInput): LockerSubscriptionPayload
+  lockerSession(where: LockerSessionSubscriptionWhereInput): LockerSessionSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -1523,9 +1584,11 @@ export type MutationType =   'CREATED' |
   'UPDATED' |
   'DELETED'
 
-export interface LockerClusterCreateOneWithoutLockersInput {
-  create?: LockerClusterCreateWithoutLockersInput
-  connect?: LockerClusterWhereUniqueInput
+export interface LockerSessionCreateWithoutLockerInput {
+  state?: Int
+  startedAt: DateTime
+  finishedAt?: DateTime
+  user: UserCreateOneWithoutSessionsInput
 }
 
 export interface LockerClusterWhereInput {
@@ -1565,9 +1628,12 @@ export interface LockerClusterWhereInput {
   lockers_none?: LockerWhereInput
 }
 
-export interface UserCreateOneWithoutSessionsInput {
-  create?: UserCreateWithoutSessionsInput
-  connect?: UserWhereUniqueInput
+export interface LockerSessionCreateInput {
+  state?: Int
+  startedAt: DateTime
+  finishedAt?: DateTime
+  user: UserCreateOneWithoutSessionsInput
+  locker: LockerCreateOneWithoutSessionsInput
 }
 
 export interface LockerSessionWhereInput {
@@ -1616,11 +1682,9 @@ export interface LockerSessionWhereInput {
   locker?: LockerWhereInput
 }
 
-export interface UserCreateWithoutSessionsInput {
-  name: String
-  email: String
-  password: String
-  credit?: Int
+export interface LockerClusterUpdateInput {
+  macAddress?: String
+  lockers?: LockerUpdateManyWithoutClusterInput
 }
 
 export interface UserWhereInput {
@@ -1696,50 +1760,6 @@ export interface UserWhereInput {
   sessions_none?: LockerSessionWhereInput
 }
 
-export interface LockerClusterUpdateOneWithoutLockersInput {
-  create?: LockerClusterCreateWithoutLockersInput
-  connect?: LockerClusterWhereUniqueInput
-  disconnect?: Boolean
-  delete?: Boolean
-  update?: LockerClusterUpdateWithoutLockersDataInput
-  upsert?: LockerClusterUpsertWithoutLockersInput
-}
-
-export interface LockerSessionUpdateManyWithoutUserInput {
-  create?: LockerSessionCreateWithoutUserInput[] | LockerSessionCreateWithoutUserInput
-  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
-  disconnect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
-  delete?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
-  update?: LockerSessionUpdateWithWhereUniqueWithoutUserInput[] | LockerSessionUpdateWithWhereUniqueWithoutUserInput
-  upsert?: LockerSessionUpsertWithWhereUniqueWithoutUserInput[] | LockerSessionUpsertWithWhereUniqueWithoutUserInput
-}
-
-export interface LockerClusterCreateInput {
-  macAddress?: String
-  lockers?: LockerCreateManyWithoutClusterInput
-}
-
-export interface LockerClusterUpdateInput {
-  macAddress?: String
-  lockers?: LockerUpdateManyWithoutClusterInput
-}
-
-export interface LockerCreateManyWithoutClusterInput {
-  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput
-  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
-}
-
-export interface LockerSubscriptionWhereInput {
-  AND?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput
-  OR?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput
-  NOT?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: LockerWhereInput
-}
-
 export interface LockerCreateWithoutClusterInput {
   idInCluster: String
   busy?: Boolean
@@ -1751,6 +1771,59 @@ export interface LockerCreateWithoutClusterInput {
   alarmPin: Int
   lockPin: Int
   currentOwner?: UserCreateOneInput
+  sessions?: LockerSessionCreateManyWithoutLockerInput
+}
+
+export interface LockerUpdateWithoutSessionsDataInput {
+  idInCluster?: String
+  busy?: Boolean
+  locked?: Boolean
+  open?: Boolean
+  closed?: Boolean
+  alarm?: Boolean
+  sensorPin?: Int
+  alarmPin?: Int
+  lockPin?: Int
+  cluster?: LockerClusterUpdateOneWithoutLockersInput
+  currentOwner?: UserUpdateOneInput
+}
+
+export interface UserCreateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
+}
+
+export interface LockerUpdateManyWithoutClusterInput {
+  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput
+  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
+  disconnect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
+  delete?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
+  update?: LockerUpdateWithWhereUniqueWithoutClusterInput[] | LockerUpdateWithWhereUniqueWithoutClusterInput
+  upsert?: LockerUpsertWithWhereUniqueWithoutClusterInput[] | LockerUpsertWithWhereUniqueWithoutClusterInput
+}
+
+export interface UserCreateInput {
+  name: String
+  email: String
+  password: String
+  credit?: Int
+  sessions?: LockerSessionCreateManyWithoutUserInput
+}
+
+export interface LockerSessionSubscriptionWhereInput {
+  AND?: LockerSessionSubscriptionWhereInput[] | LockerSessionSubscriptionWhereInput
+  OR?: LockerSessionSubscriptionWhereInput[] | LockerSessionSubscriptionWhereInput
+  NOT?: LockerSessionSubscriptionWhereInput[] | LockerSessionSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: LockerSessionWhereInput
+}
+
+export interface LockerSessionCreateManyWithoutUserInput {
+  create?: LockerSessionCreateWithoutUserInput[] | LockerSessionCreateWithoutUserInput
+  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
 }
 
 export interface LockerClusterSubscriptionWhereInput {
@@ -1764,9 +1837,11 @@ export interface LockerClusterSubscriptionWhereInput {
   node?: LockerClusterWhereInput
 }
 
-export interface UserCreateOneInput {
-  create?: UserCreateInput
-  connect?: UserWhereUniqueInput
+export interface LockerSessionCreateWithoutUserInput {
+  state?: Int
+  startedAt: DateTime
+  finishedAt?: DateTime
+  locker: LockerCreateOneWithoutSessionsInput
 }
 
 export interface LockerClusterWhereUniqueInput {
@@ -1774,21 +1849,27 @@ export interface LockerClusterWhereUniqueInput {
   macAddress?: String
 }
 
-export interface UserCreateInput {
-  name: String
-  email: String
-  password: String
-  credit?: Int
-  sessions?: LockerSessionCreateManyWithoutUserInput
+export interface LockerCreateOneWithoutSessionsInput {
+  create?: LockerCreateWithoutSessionsInput
+  connect?: LockerWhereUniqueInput
 }
 
-export interface LockerWhereUniqueInput {
+export interface LockerSessionWhereUniqueInput {
   id?: ID_Input
 }
 
-export interface LockerSessionCreateManyWithoutUserInput {
-  create?: LockerSessionCreateWithoutUserInput[] | LockerSessionCreateWithoutUserInput
-  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
+export interface LockerCreateWithoutSessionsInput {
+  idInCluster: String
+  busy?: Boolean
+  locked?: Boolean
+  open?: Boolean
+  closed?: Boolean
+  alarm?: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
+  cluster?: LockerClusterCreateOneWithoutLockersInput
+  currentOwner?: UserCreateOneInput
 }
 
 export interface UserUpdateInput {
@@ -1799,29 +1880,85 @@ export interface UserUpdateInput {
   sessions?: LockerSessionUpdateManyWithoutUserInput
 }
 
-export interface LockerSessionCreateWithoutUserInput {
+export interface LockerClusterCreateOneWithoutLockersInput {
+  create?: LockerClusterCreateWithoutLockersInput
+  connect?: LockerClusterWhereUniqueInput
+}
+
+export interface LockerUpdateInput {
+  idInCluster?: String
+  busy?: Boolean
+  locked?: Boolean
+  open?: Boolean
+  closed?: Boolean
+  alarm?: Boolean
+  sensorPin?: Int
+  alarmPin?: Int
+  lockPin?: Int
+  cluster?: LockerClusterUpdateOneWithoutLockersInput
+  currentOwner?: UserUpdateOneInput
+  sessions?: LockerSessionUpdateManyWithoutLockerInput
+}
+
+export interface LockerClusterCreateWithoutLockersInput {
+  macAddress?: String
+}
+
+export interface LockerSessionUpsertWithWhereUniqueWithoutLockerInput {
+  where: LockerSessionWhereUniqueInput
+  update: LockerSessionUpdateWithoutLockerDataInput
+  create: LockerSessionCreateWithoutLockerInput
+}
+
+export interface LockerSessionCreateManyWithoutLockerInput {
+  create?: LockerSessionCreateWithoutLockerInput[] | LockerSessionCreateWithoutLockerInput
+  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
+}
+
+export interface UserUpdateWithoutSessionsDataInput {
+  name?: String
+  email?: String
+  password?: String
+  credit?: Int
+}
+
+export interface LockerUpsertWithoutSessionsInput {
+  update: LockerUpdateWithoutSessionsDataInput
+  create: LockerCreateWithoutSessionsInput
+}
+
+export interface LockerSessionUpdateWithoutLockerDataInput {
   state?: Int
-  startedAt: DateTime
+  startedAt?: DateTime
   finishedAt?: DateTime
-  locker: LockerCreateOneInput
+  user?: UserUpdateOneWithoutSessionsInput
 }
 
-export interface UserUpsertWithoutSessionsInput {
-  update: UserUpdateWithoutSessionsDataInput
-  create: UserCreateWithoutSessionsInput
-}
-
-export interface LockerCreateOneInput {
-  create?: LockerCreateInput
-  connect?: LockerWhereUniqueInput
-}
-
-export interface UserUpdateOneWithoutSessionsInput {
+export interface UserCreateOneWithoutSessionsInput {
   create?: UserCreateWithoutSessionsInput
   connect?: UserWhereUniqueInput
-  delete?: Boolean
-  update?: UserUpdateWithoutSessionsDataInput
-  upsert?: UserUpsertWithoutSessionsInput
+}
+
+export interface LockerSessionUpdateManyWithoutLockerInput {
+  create?: LockerSessionCreateWithoutLockerInput[] | LockerSessionCreateWithoutLockerInput
+  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
+  disconnect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
+  delete?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
+  update?: LockerSessionUpdateWithWhereUniqueWithoutLockerInput[] | LockerSessionUpdateWithWhereUniqueWithoutLockerInput
+  upsert?: LockerSessionUpsertWithWhereUniqueWithoutLockerInput[] | LockerSessionUpsertWithWhereUniqueWithoutLockerInput
+}
+
+export interface UserCreateWithoutSessionsInput {
+  name: String
+  email: String
+  password: String
+  credit?: Int
+}
+
+export interface LockerSessionUpsertWithWhereUniqueWithoutUserInput {
+  where: LockerSessionWhereUniqueInput
+  update: LockerSessionUpdateWithoutUserDataInput
+  create: LockerSessionCreateWithoutUserInput
 }
 
 export interface LockerCreateInput {
@@ -1836,15 +1973,66 @@ export interface LockerCreateInput {
   lockPin: Int
   cluster?: LockerClusterCreateOneWithoutLockersInput
   currentOwner?: UserCreateOneInput
+  sessions?: LockerSessionCreateManyWithoutLockerInput
 }
 
-export interface LockerUpsertWithWhereUniqueWithoutClusterInput {
+export interface LockerCreateManyWithoutClusterInput {
+  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput
+  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
+}
+
+export interface LockerClusterUpsertWithoutLockersInput {
+  update: LockerClusterUpdateWithoutLockersDataInput
+  create: LockerClusterCreateWithoutLockersInput
+}
+
+export interface LockerSubscriptionWhereInput {
+  AND?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput
+  OR?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput
+  NOT?: LockerSubscriptionWhereInput[] | LockerSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: LockerWhereInput
+}
+
+export interface LockerClusterUpdateWithoutLockersDataInput {
+  macAddress?: String
+}
+
+export interface LockerWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface LockerClusterUpdateOneWithoutLockersInput {
+  create?: LockerClusterCreateWithoutLockersInput
+  connect?: LockerClusterWhereUniqueInput
+  disconnect?: Boolean
+  delete?: Boolean
+  update?: LockerClusterUpdateWithoutLockersDataInput
+  upsert?: LockerClusterUpsertWithoutLockersInput
+}
+
+export interface LockerSessionUpdateInput {
+  state?: Int
+  startedAt?: DateTime
+  finishedAt?: DateTime
+  user?: UserUpdateOneWithoutSessionsInput
+  locker?: LockerUpdateOneWithoutSessionsInput
+}
+
+export interface LockerUpdateWithWhereUniqueWithoutClusterInput {
   where: LockerWhereUniqueInput
-  update: LockerUpdateWithoutClusterDataInput
-  create: LockerCreateWithoutClusterInput
+  data: LockerUpdateWithoutClusterDataInput
 }
 
-export interface LockerUpdateDataInput {
+export interface UserUpsertWithoutSessionsInput {
+  update: UserUpdateWithoutSessionsDataInput
+  create: UserCreateWithoutSessionsInput
+}
+
+export interface LockerUpdateWithoutClusterDataInput {
   idInCluster?: String
   busy?: Boolean
   locked?: Boolean
@@ -1854,50 +2042,35 @@ export interface LockerUpdateDataInput {
   sensorPin?: Int
   alarmPin?: Int
   lockPin?: Int
-  cluster?: LockerClusterUpdateOneWithoutLockersInput
   currentOwner?: UserUpdateOneInput
+  sessions?: LockerSessionUpdateManyWithoutLockerInput
 }
 
-export interface LockerSessionUpsertWithWhereUniqueWithoutUserInput {
+export interface LockerSessionUpdateWithWhereUniqueWithoutLockerInput {
   where: LockerSessionWhereUniqueInput
-  update: LockerSessionUpdateWithoutUserDataInput
-  create: LockerSessionCreateWithoutUserInput
+  data: LockerSessionUpdateWithoutLockerDataInput
 }
 
-export interface LockerClusterCreateWithoutLockersInput {
-  macAddress?: String
-}
-
-export interface LockerClusterUpsertWithoutLockersInput {
-  update: LockerClusterUpdateWithoutLockersDataInput
-  create: LockerClusterCreateWithoutLockersInput
-}
-
-export interface LockerSessionCreateInput {
-  state?: Int
-  startedAt: DateTime
-  finishedAt?: DateTime
-  user: UserCreateOneWithoutSessionsInput
-  locker: LockerCreateOneInput
-}
-
-export interface UserSubscriptionWhereInput {
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: UserWhereInput
-}
-
-export interface LockerUpdateOneInput {
-  create?: LockerCreateInput
-  connect?: LockerWhereUniqueInput
+export interface UserUpdateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
+  disconnect?: Boolean
   delete?: Boolean
-  update?: LockerUpdateDataInput
-  upsert?: LockerUpsertNestedInput
+  update?: UserUpdateDataInput
+  upsert?: UserUpsertNestedInput
+}
+
+export interface LockerClusterCreateInput {
+  macAddress?: String
+  lockers?: LockerCreateManyWithoutClusterInput
+}
+
+export interface UserUpdateDataInput {
+  name?: String
+  email?: String
+  password?: String
+  credit?: Int
+  sessions?: LockerSessionUpdateManyWithoutUserInput
 }
 
 export interface LockerWhereInput {
@@ -1968,17 +2141,30 @@ export interface LockerWhereInput {
   lockPin_gte?: Int
   cluster?: LockerClusterWhereInput
   currentOwner?: UserWhereInput
+  sessions_every?: LockerSessionWhereInput
+  sessions_some?: LockerSessionWhereInput
+  sessions_none?: LockerSessionWhereInput
+}
+
+export interface LockerUpsertWithWhereUniqueWithoutClusterInput {
+  where: LockerWhereUniqueInput
+  update: LockerUpdateWithoutClusterDataInput
+  create: LockerCreateWithoutClusterInput
+}
+
+export interface LockerUpdateOneWithoutSessionsInput {
+  create?: LockerCreateWithoutSessionsInput
+  connect?: LockerWhereUniqueInput
+  delete?: Boolean
+  update?: LockerUpdateWithoutSessionsDataInput
+  upsert?: LockerUpsertWithoutSessionsInput
 }
 
 export interface LockerSessionUpdateWithoutUserDataInput {
   state?: Int
   startedAt?: DateTime
   finishedAt?: DateTime
-  locker?: LockerUpdateOneInput
-}
-
-export interface UserWhereUniqueInput {
-  id?: ID_Input
+  locker?: LockerUpdateOneWithoutSessionsInput
 }
 
 export interface LockerSessionUpdateWithWhereUniqueWithoutUserInput {
@@ -1986,106 +2172,41 @@ export interface LockerSessionUpdateWithWhereUniqueWithoutUserInput {
   data: LockerSessionUpdateWithoutUserDataInput
 }
 
-export interface UserUpdateWithoutSessionsDataInput {
-  name?: String
-  email?: String
-  password?: String
-  credit?: Int
+export interface LockerSessionUpdateManyWithoutUserInput {
+  create?: LockerSessionCreateWithoutUserInput[] | LockerSessionCreateWithoutUserInput
+  connect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
+  disconnect?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
+  delete?: LockerSessionWhereUniqueInput[] | LockerSessionWhereUniqueInput
+  update?: LockerSessionUpdateWithWhereUniqueWithoutUserInput[] | LockerSessionUpdateWithWhereUniqueWithoutUserInput
+  upsert?: LockerSessionUpsertWithWhereUniqueWithoutUserInput[] | LockerSessionUpsertWithWhereUniqueWithoutUserInput
 }
 
-export interface LockerUpdateManyWithoutClusterInput {
-  create?: LockerCreateWithoutClusterInput[] | LockerCreateWithoutClusterInput
-  connect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
-  disconnect?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
-  delete?: LockerWhereUniqueInput[] | LockerWhereUniqueInput
-  update?: LockerUpdateWithWhereUniqueWithoutClusterInput[] | LockerUpdateWithWhereUniqueWithoutClusterInput
-  upsert?: LockerUpsertWithWhereUniqueWithoutClusterInput[] | LockerUpsertWithWhereUniqueWithoutClusterInput
+export interface UserUpdateOneWithoutSessionsInput {
+  create?: UserCreateWithoutSessionsInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateWithoutSessionsDataInput
+  upsert?: UserUpsertWithoutSessionsInput
+}
+
+export interface UserWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface UserSubscriptionWhereInput {
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: UserWhereInput
 }
 
 export interface UserUpsertNestedInput {
   update: UserUpdateDataInput
   create: UserCreateInput
-}
-
-export interface LockerClusterUpdateWithoutLockersDataInput {
-  macAddress?: String
-}
-
-export interface UserUpdateDataInput {
-  name?: String
-  email?: String
-  password?: String
-  credit?: Int
-  sessions?: LockerSessionUpdateManyWithoutUserInput
-}
-
-export interface UserUpdateOneInput {
-  create?: UserCreateInput
-  connect?: UserWhereUniqueInput
-  disconnect?: Boolean
-  delete?: Boolean
-  update?: UserUpdateDataInput
-  upsert?: UserUpsertNestedInput
-}
-
-export interface LockerUpdateWithoutClusterDataInput {
-  idInCluster?: String
-  busy?: Boolean
-  locked?: Boolean
-  open?: Boolean
-  closed?: Boolean
-  alarm?: Boolean
-  sensorPin?: Int
-  alarmPin?: Int
-  lockPin?: Int
-  currentOwner?: UserUpdateOneInput
-}
-
-export interface LockerUpdateWithWhereUniqueWithoutClusterInput {
-  where: LockerWhereUniqueInput
-  data: LockerUpdateWithoutClusterDataInput
-}
-
-export interface LockerSessionSubscriptionWhereInput {
-  AND?: LockerSessionSubscriptionWhereInput[] | LockerSessionSubscriptionWhereInput
-  OR?: LockerSessionSubscriptionWhereInput[] | LockerSessionSubscriptionWhereInput
-  NOT?: LockerSessionSubscriptionWhereInput[] | LockerSessionSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: LockerSessionWhereInput
-}
-
-export interface LockerUpsertNestedInput {
-  update: LockerUpdateDataInput
-  create: LockerCreateInput
-}
-
-export interface LockerSessionUpdateInput {
-  state?: Int
-  startedAt?: DateTime
-  finishedAt?: DateTime
-  user?: UserUpdateOneWithoutSessionsInput
-  locker?: LockerUpdateOneInput
-}
-
-export interface LockerUpdateInput {
-  idInCluster?: String
-  busy?: Boolean
-  locked?: Boolean
-  open?: Boolean
-  closed?: Boolean
-  alarm?: Boolean
-  sensorPin?: Int
-  alarmPin?: Int
-  lockPin?: Int
-  cluster?: LockerClusterUpdateOneWithoutLockersInput
-  currentOwner?: UserUpdateOneInput
-}
-
-export interface LockerSessionWhereUniqueInput {
-  id?: ID_Input
 }
 
 /*
@@ -2173,9 +2294,10 @@ export interface Locker extends Node {
   alarmPin: Int
   lockPin: Int
   currentOwner?: User
+  sessions?: LockerSession[]
 }
 
-export interface AggregateLocker {
+export interface AggregateLockerSession {
   count: Int
 }
 
@@ -2192,31 +2314,25 @@ export interface LockerSession extends Node {
  * A connection to a list of items.
 
  */
-export interface LockerConnection {
+export interface LockerSessionConnection {
   pageInfo: PageInfo
-  edges: LockerEdge[]
-  aggregate: AggregateLocker
+  edges: LockerSessionEdge[]
+  aggregate: AggregateLockerSession
 }
 
-export interface LockerPreviousValues {
+export interface LockerSessionPreviousValues {
   id: ID_Output
-  idInCluster: String
-  busy: Boolean
-  locked: Boolean
-  open: Boolean
-  closed?: Boolean
-  alarm?: Boolean
-  sensorPin: Int
-  alarmPin: Int
-  lockPin: Int
+  state: Int
+  startedAt: DateTime
+  finishedAt?: DateTime
 }
 
 /*
  * An edge in a connection.
 
  */
-export interface LockerSessionEdge {
-  node: LockerSession
+export interface LockerEdge {
+  node: Locker
   cursor: String
 }
 
@@ -2235,18 +2351,17 @@ export interface AggregateUser {
   count: Int
 }
 
-export interface LockerSessionPreviousValues {
+export interface LockerPreviousValues {
   id: ID_Output
-  state: Int
-  startedAt: DateTime
-  finishedAt?: DateTime
-}
-
-export interface LockerSessionSubscriptionPayload {
-  mutation: MutationType
-  node?: LockerSession
-  updatedFields?: String[]
-  previousValues?: LockerSessionPreviousValues
+  idInCluster: String
+  busy: Boolean
+  locked: Boolean
+  open: Boolean
+  closed?: Boolean
+  alarm?: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
 }
 
 export interface LockerSubscriptionPayload {
@@ -2254,6 +2369,13 @@ export interface LockerSubscriptionPayload {
   node?: Locker
   updatedFields?: String[]
   previousValues?: LockerPreviousValues
+}
+
+export interface LockerSessionSubscriptionPayload {
+  mutation: MutationType
+  node?: LockerSession
+  updatedFields?: String[]
+  previousValues?: LockerSessionPreviousValues
 }
 
 export interface LockerClusterPreviousValues {
@@ -2284,13 +2406,13 @@ export interface LockerClusterEdge {
  * A connection to a list of items.
 
  */
-export interface LockerSessionConnection {
+export interface LockerConnection {
   pageInfo: PageInfo
-  edges: LockerSessionEdge[]
-  aggregate: AggregateLockerSession
+  edges: LockerEdge[]
+  aggregate: AggregateLocker
 }
 
-export interface AggregateLockerSession {
+export interface AggregateLocker {
   count: Int
 }
 
@@ -2298,8 +2420,8 @@ export interface AggregateLockerSession {
  * An edge in a connection.
 
  */
-export interface LockerEdge {
-  node: Locker
+export interface LockerSessionEdge {
+  node: LockerSession
   cursor: String
 }
 
