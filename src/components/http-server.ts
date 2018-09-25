@@ -22,6 +22,9 @@ export class ExpressService implements IService, ILifecycle {
       const port = deps.config.getConfig().service.port
       this.app.use((req: any, res: any, next: any) => {
         req.components = deps
+        req.context = {
+          components: deps,
+        }
         next()
       })
       this.app.use(this.routes)
