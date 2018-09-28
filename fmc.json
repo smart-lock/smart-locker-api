@@ -1,0 +1,25 @@
+{
+  "name": "smart",
+  "containers": [{
+    "name": "smart",
+    "image": "formicarium/chamber-node:0.0.6",
+    "syncable?": true,
+    "env": {
+      "START_AFTER_PULL": "false"
+    }
+  }],
+  "interfaces": [
+    {
+      "port": 3002,
+      "type": "http",
+      "name": "default",
+      "container": "smart"
+    },
+    {
+      "port": 3003,
+      "type": "http",
+      "name": "rest",
+      "container": "smart"
+    }
+  ]
+}
