@@ -51,6 +51,7 @@ routes.get('/locker-cluster/:macAddress', asyncHandler(async ({ context, params 
     macAddress
     lockers{
 			id
+      idInCluster
       busy
       locked
       open
@@ -63,12 +64,13 @@ routes.get('/locker-cluster/:macAddress', asyncHandler(async ({ context, params 
   if (!lockerCluster) {
     throw Boom.notFound('LockerClusterNotFound')
   }
+
   res.json(lockerCluster)
 }))
 
 
 routes.use((err, req, res, next) => {
-  const status = err && err.output && err.output.statusCode
+  const status = err && err.output && err.output.statusCode || 500
   const payload = err && err.output && err.output.payload || {
     statusCode: 500,
     error: 'Internal Server Error',
