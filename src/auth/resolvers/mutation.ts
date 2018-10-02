@@ -43,7 +43,7 @@ export const authMutation = {
       user,
     }
   },
-  signUp: async ({ data: { email, password, name }} : ISignUpArgs, { components }: IContext) => {
+  signUp: async (_, { data: { email, password, name }} : ISignUpArgs, { components }: IContext) => {
     const existingUser = await findUserByEmail(email, components.prismaClient)
     
     if (existingUser) {
