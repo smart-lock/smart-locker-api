@@ -37,7 +37,7 @@ export interface IExpectedHeaders {
 
 export const accountFromReq = async (ctxParameters: ContextParameters, deps: IComponents): Promise<IAccount | null> => {
   const authorizationInfo = getAuthorizationInfoFromContextParameters(ctxParameters)
-  if (!authorizationInfo) {
+  if (!authorizationInfo.token) {
     return null
   }
 
