@@ -8,8 +8,9 @@ type Query {
   myLockers: [Locker!]!
   mySessions: [LockerSession!]!
   lockerSession (id: ID!): LockerSession
-
   lockerClusterByMacAddress (macAddress: String!): LockerCluster
+
+  me: User!
 }
 
 input SignUpInput {
@@ -41,8 +42,6 @@ type Mutation {
 type Subscription {
   lockerState(lockerId: ID!): Locker
   myLockers: Locker
-
-  me: User!
 }
 
 schema {
