@@ -1,38 +1,52 @@
-import { IContext } from "~/graphql/context";
+import { IAuthenticatedContext } from "~/graphql/context";
 import { GraphQLResolveInfo } from "graphql";
+import { combineResolvers } from 'graphql-resolvers'
+import { authenticated } from "~/auth/middlewares";
 
 export const lockerQuery = {
-  myLockers: async (value, args, { components, account }: IContext, info: GraphQLResolveInfo) => {
-    return components.prismaBinding.db.query.lockers({
-      where: {
-        currentOwner: {
-          id: account.id,
+  myLockers: combineResolvers(
+    authenticated,
+    async (_, __, { components, account }: IAuthenticatedContext, info: GraphQLResolveInfo) => {
+      return components.prismaBinding.db.query.lockers({
+        where: {
+          currentOwner: {
+            id: account.id,
+          }
         }
-      }
-    }, info)
-  },
-  mySessions: async (value, args, { components, account }: IContext, info: GraphQLResolveInfo) => {
-    return components.prismaBinding.db.query.lockerSessions({
-      where: {
-        user: {
-          id: account.id
-        },
-        state: 0,
-      }
-    }, info)
-  },
-  lockerSession: (value, { id }, {components}: IContext, info: GraphQLResolveInfo) => {
-    return components.prismaBinding.db.query.lockerSession({
-      where: {
-        id
-      }
-    }, info)
-  },
-  lockerClusterByMacAddress: (_, { macAddress }, { components }: IContext, info: GraphQLResolveInfo) => {
-    return components.prismaBinding.db.query.lockerCluster({
-      where: {
-        macAddress,
-      }
-    }, info)
-  }
+      }, info)
+    },
+  ),
+  mySessions: combineResolvers(
+    authenticated,
+    async (_, __, { components, account }: IAuthenticatedContext, info: GraphQLResolveInfo) => {
+      return components.prismaBinding.db.query.lockerSessions({
+        where: {
+          user: {
+            id: account.id
+          },
+          state: 0,
+        }
+      }, info)
+    },
+  ),
+  lockerSession: combineResolvers(
+    authenticated,
+      (_, { id }, {components}: IAuthenticatedContext, info: GraphQLResolveInfo) => {
+      return components.prismaBinding.db.query.lockerSession({
+        where: {
+          id
+        }
+      }, info)
+    },
+  ),
+  lockerClusterByMacAddress: combineResolvers(
+    authenticated,
+    (_, { macAddress }, { components }: IAuthenticatedContext, info: GraphQLResolveInfo) => {
+      return components.prismaBinding.db.query.lockerCluster({
+        where: {
+          macAddress,
+        }
+      }, info)
+    }
+  ),
 }
