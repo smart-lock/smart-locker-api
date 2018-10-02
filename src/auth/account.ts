@@ -1,7 +1,6 @@
 import { ContextParameters } from "graphql-yoga/dist/types";
 import { IComponents } from "~/system";
 import { Nullable } from "~/common/types";
-import { IncomingHttpHeaders } from "http2";
 
 export interface IAccount {
   id: string
