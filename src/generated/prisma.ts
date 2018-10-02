@@ -1509,6 +1509,7 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }
 `
 
@@ -2191,6 +2192,7 @@ export interface UserUpdateOneWithoutSessionsInput {
 
 export interface UserWhereUniqueInput {
   id?: ID_Input
+  email?: String
 }
 
 export interface UserSubscriptionWhereInput {

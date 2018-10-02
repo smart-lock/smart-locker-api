@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Tue Sep 25 2018 15:29:15 GMT-0300 (-03)
+# timestamp: Tue Oct 02 2018 18:17:46 GMT-0300 (-03)
 
 type AggregateLocker {
   count: Int!
@@ -1428,4 +1428,5 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }

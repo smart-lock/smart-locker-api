@@ -1,7 +1,7 @@
 type User {
   id: ID! @unique
   name: String!
-  email: String!
+  email: String! @unique
   password: String!
   credit: Int! @default(value: 0)
   sessions: [LockerSession!]!

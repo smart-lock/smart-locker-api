@@ -33,6 +33,7 @@ type Locker {
   alarmPin: Int!
   lockPin: Int!
   currentOwner: User
+  sessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession!]
 }
 
 type LockerCluster {
@@ -183,6 +184,7 @@ input LockerCreateInput {
   alarmPin: Int!
   lockPin: Int!
   currentOwner: UserCreateOneInput
+  sessions: LockerSessionCreateManyWithoutLockerInput
 }
 
 input LockerCreateManyWithoutClusterInput {
@@ -190,13 +192,28 @@ input LockerCreateManyWithoutClusterInput {
   connect: [LockerWhereUniqueInput!]
 }
 
-input LockerCreateOneInput {
-  create: LockerCreateInput
+input LockerCreateOneWithoutSessionsInput {
+  create: LockerCreateWithoutSessionsInput
   connect: LockerWhereUniqueInput
 }
 
 input LockerCreateWithoutClusterInput {
   idInCluster: String!
+  busy: Boolean
+  locked: Boolean
+  open: Boolean
+  closed: Boolean
+  alarm: Boolean
+  sensorPin: Int!
+  alarmPin: Int!
+  lockPin: Int!
+  currentOwner: UserCreateOneInput
+  sessions: LockerSessionCreateManyWithoutLockerInput
+}
+
+input LockerCreateWithoutSessionsInput {
+  idInCluster: String!
+  cluster: LockerClusterCreateOneWithoutLockersInput
   busy: Boolean
   locked: Boolean
   open: Boolean
@@ -270,10 +287,15 @@ type LockerSessionConnection {
 
 input LockerSessionCreateInput {
   user: UserCreateOneWithoutSessionsInput!
-  locker: LockerCreateOneInput!
+  locker: LockerCreateOneWithoutSessionsInput!
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
+}
+
+input LockerSessionCreateManyWithoutLockerInput {
+  create: [LockerSessionCreateWithoutLockerInput!]
+  connect: [LockerSessionWhereUniqueInput!]
 }
 
 input LockerSessionCreateManyWithoutUserInput {
@@ -281,8 +303,15 @@ input LockerSessionCreateManyWithoutUserInput {
   connect: [LockerSessionWhereUniqueInput!]
 }
 
+input LockerSessionCreateWithoutLockerInput {
+  user: UserCreateOneWithoutSessionsInput!
+  state: Int
+  startedAt: DateTime!
+  finishedAt: DateTime
+}
+
 input LockerSessionCreateWithoutUserInput {
-  locker: LockerCreateOneInput!
+  locker: LockerCreateOneWithoutSessionsInput!
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
@@ -335,10 +364,19 @@ input LockerSessionSubscriptionWhereInput {
 
 input LockerSessionUpdateInput {
   user: UserUpdateOneWithoutSessionsInput
-  locker: LockerUpdateOneInput
+  locker: LockerUpdateOneWithoutSessionsInput
   state: Int
   startedAt: DateTime
   finishedAt: DateTime
+}
+
+input LockerSessionUpdateManyWithoutLockerInput {
+  create: [LockerSessionCreateWithoutLockerInput!]
+  delete: [LockerSessionWhereUniqueInput!]
+  connect: [LockerSessionWhereUniqueInput!]
+  disconnect: [LockerSessionWhereUniqueInput!]
+  update: [LockerSessionUpdateWithWhereUniqueWithoutLockerInput!]
+  upsert: [LockerSessionUpsertWithWhereUniqueWithoutLockerInput!]
 }
 
 input LockerSessionUpdateManyWithoutUserInput {
@@ -350,16 +388,34 @@ input LockerSessionUpdateManyWithoutUserInput {
   upsert: [LockerSessionUpsertWithWhereUniqueWithoutUserInput!]
 }
 
-input LockerSessionUpdateWithoutUserDataInput {
-  locker: LockerUpdateOneInput
+input LockerSessionUpdateWithoutLockerDataInput {
+  user: UserUpdateOneWithoutSessionsInput
   state: Int
   startedAt: DateTime
   finishedAt: DateTime
 }
 
+input LockerSessionUpdateWithoutUserDataInput {
+  locker: LockerUpdateOneWithoutSessionsInput
+  state: Int
+  startedAt: DateTime
+  finishedAt: DateTime
+}
+
+input LockerSessionUpdateWithWhereUniqueWithoutLockerInput {
+  where: LockerSessionWhereUniqueInput!
+  data: LockerSessionUpdateWithoutLockerDataInput!
+}
+
 input LockerSessionUpdateWithWhereUniqueWithoutUserInput {
   where: LockerSessionWhereUniqueInput!
   data: LockerSessionUpdateWithoutUserDataInput!
+}
+
+input LockerSessionUpsertWithWhereUniqueWithoutLockerInput {
+  where: LockerSessionWhereUniqueInput!
+  update: LockerSessionUpdateWithoutLockerDataInput!
+  create: LockerSessionCreateWithoutLockerInput!
 }
 
 input LockerSessionUpsertWithWhereUniqueWithoutUserInput {
@@ -436,20 +492,6 @@ input LockerSubscriptionWhereInput {
   NOT: [LockerSubscriptionWhereInput!]
 }
 
-input LockerUpdateDataInput {
-  idInCluster: String
-  cluster: LockerClusterUpdateOneWithoutLockersInput
-  busy: Boolean
-  locked: Boolean
-  open: Boolean
-  closed: Boolean
-  alarm: Boolean
-  sensorPin: Int
-  alarmPin: Int
-  lockPin: Int
-  currentOwner: UserUpdateOneInput
-}
-
 input LockerUpdateInput {
   idInCluster: String
   cluster: LockerClusterUpdateOneWithoutLockersInput
@@ -462,6 +504,7 @@ input LockerUpdateInput {
   alarmPin: Int
   lockPin: Int
   currentOwner: UserUpdateOneInput
+  sessions: LockerSessionUpdateManyWithoutLockerInput
 }
 
 input LockerUpdateManyWithoutClusterInput {
@@ -473,16 +516,31 @@ input LockerUpdateManyWithoutClusterInput {
   upsert: [LockerUpsertWithWhereUniqueWithoutClusterInput!]
 }
 
-input LockerUpdateOneInput {
-  create: LockerCreateInput
-  update: LockerUpdateDataInput
-  upsert: LockerUpsertNestedInput
+input LockerUpdateOneWithoutSessionsInput {
+  create: LockerCreateWithoutSessionsInput
+  update: LockerUpdateWithoutSessionsDataInput
+  upsert: LockerUpsertWithoutSessionsInput
   delete: Boolean
   connect: LockerWhereUniqueInput
 }
 
 input LockerUpdateWithoutClusterDataInput {
   idInCluster: String
+  busy: Boolean
+  locked: Boolean
+  open: Boolean
+  closed: Boolean
+  alarm: Boolean
+  sensorPin: Int
+  alarmPin: Int
+  lockPin: Int
+  currentOwner: UserUpdateOneInput
+  sessions: LockerSessionUpdateManyWithoutLockerInput
+}
+
+input LockerUpdateWithoutSessionsDataInput {
+  idInCluster: String
+  cluster: LockerClusterUpdateOneWithoutLockersInput
   busy: Boolean
   locked: Boolean
   open: Boolean
@@ -499,9 +557,9 @@ input LockerUpdateWithWhereUniqueWithoutClusterInput {
   data: LockerUpdateWithoutClusterDataInput!
 }
 
-input LockerUpsertNestedInput {
-  update: LockerUpdateDataInput!
-  create: LockerCreateInput!
+input LockerUpsertWithoutSessionsInput {
+  update: LockerUpdateWithoutSessionsDataInput!
+  create: LockerCreateWithoutSessionsInput!
 }
 
 input LockerUpsertWithWhereUniqueWithoutClusterInput {
@@ -575,6 +633,9 @@ input LockerWhereInput {
   lockPin_gt: Int
   lockPin_gte: Int
   currentOwner: UserWhereInput
+  sessions_every: LockerSessionWhereInput
+  sessions_some: LockerSessionWhereInput
+  sessions_none: LockerSessionWhereInput
   AND: [LockerWhereInput!]
   OR: [LockerWhereInput!]
   NOT: [LockerWhereInput!]
@@ -866,4 +927,5 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }
