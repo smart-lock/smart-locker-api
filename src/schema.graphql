@@ -1,5 +1,6 @@
 # import Locker from "prisma-client/prisma.graphql"
 # import LockerSession from "prisma-client/prisma.graphql"
+# import User from "prisma-client/prisma.graphql"
 
 type Query {
   locker: Locker
@@ -10,16 +11,38 @@ type Query {
 
   lockerClusterByMacAddress (macAddress: String!): LockerCluster
 }
+
+input SignUpInput {
+  email: String!
+  password: String!
+  name: String!
+}
+
+type AuthenticationPayload {
+  user: User!
+  token: String!
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   claimLocker (lockerId: ID!): LockerSession
   unclaimLocker (lockerId: ID!): LockerSession
   lockLocker (lockerId: ID!): Locker
   unlockLocker (lockerId: ID!): Locker
+
+  signUp (data: SignUpInput!): AuthenticationPayload
+  signIn (data: SignInInput!): AuthenticationPayload
 }
 
 type Subscription {
   lockerState(lockerId: ID!): Locker
   myLockers: Locker
+
+  me: User!
 }
 
 schema {
