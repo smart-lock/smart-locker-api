@@ -16,14 +16,8 @@
   },
   "linterOptions": {
     "exclude": [
-      "src/prisma-client",
-      "src/generated"
-    ]
-  },
-  "cliOptions": {
-    "exclude": [
-      "src/prisma-client",
-      "src/generated"
+      "src/prisma-client/*",
+      "src/generated/*"
     ]
   }
 }
