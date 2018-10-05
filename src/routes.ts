@@ -1,13 +1,13 @@
-import * as express from 'express'
 import * as bodyParser from 'body-parser'
-import * as cors from 'cors'
-import * as morgan from 'morgan'
-import { IContext } from '~/graphql/context';
 import * as Boom from 'boom'
-import { asyncHandler } from '~/common/async-handler';
-import { firstOrNull } from '~/lockers/logic';
+import * as cors from 'cors'
+import * as express from 'express'
+import * as morgan from 'morgan'
+import { asyncHandler } from '~/common/async-handler'
+import { IContext } from '~/graphql/context'
+import { firstOrNull } from '~/lockers/logic'
 
-export interface RequestWithContext extends express.Request {
+export interface IRequestWithContext extends express.Request {
   context: IContext
 }
 
@@ -17,15 +17,15 @@ routes.use(cors())
 routes.use(bodyParser.json())
 routes.use(morgan('tiny'))
 
-routes.get('/locker-cluster/:macAddress/next-locker', asyncHandler(async ({ context, params }: RequestWithContext, res) => {
+routes.get('/locker-cluster/:macAddress/next-locker', asyncHandler(async ({ context, params }: IRequestWithContext, res) => {
   const { macAddress } = params
   const lockers = await context.components.prismaClient.db.lockers({
     where: {
       cluster: {
-        macAddress
+        macAddress,
       },
       busy: false,
-    }
+    },
   })
 
   console.log(lockers)
@@ -36,16 +36,16 @@ routes.get('/locker-cluster/:macAddress/next-locker', asyncHandler(async ({ cont
     throw Boom.badRequest('NoLockerAvailable')
   }
 
-  res.json(locker);
+  res.json(locker)
 }))
 
-routes.get('/locker-cluster/:macAddress', asyncHandler(async ({ context, params }: RequestWithContext, res) => {
+routes.get('/locker-cluster/:macAddress', asyncHandler(async ({ context, params }: IRequestWithContext, res) => {
   const { macAddress } = params
 
   const lockerCluster = await context.components.prismaBinding.db.query.lockerCluster({
     where: {
       macAddress,
-    }
+    },
   }, `{
     id
     macAddress
@@ -67,7 +67,6 @@ routes.get('/locker-cluster/:macAddress', asyncHandler(async ({ context, params 
 
   res.json(lockerCluster)
 }))
-
 
 routes.use((err, req, res, next) => {
   const status = err && err.output && err.output.statusCode || 500

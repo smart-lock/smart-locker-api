@@ -1,9 +1,9 @@
-import { ILifecycle } from './lifecycle';
 import * as jwt from 'jsonwebtoken'
+import { IS3Component } from '~/components/s3'
+import { IClockComponent } from './clock'
 import { IConfigComponent } from './config'
-import { IRedisComponent } from './redis';
-import { IClockComponent } from './clock';
-import { IS3Component } from '~/components/s3';
+import { ILifecycle } from './lifecycle'
+import { IRedisComponent } from './redis'
 
 const priv = `-----BEGIN RSA PRIVATE KEY-----
 MIIEogIBAAKCAQEApViUU4TSgnNbe3Iy7e5CD+uwfOYvdACiQTph7S1o/zkjERUw
@@ -165,7 +165,7 @@ export class TokenComponent implements ILifecycle, ITokenComponent {
       privateKey = await this.s3.getObject(tokenConfig.bucketName, tokenConfig.privateKeyPath)
       publicKey = await this.s3.getObject(tokenConfig.bucketName, tokenConfig.publicKeyPath)
     }
-    
+
     this.privateKey = privateKey
     this.publicKey = publicKey
 

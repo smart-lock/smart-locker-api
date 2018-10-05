@@ -1,5 +1,5 @@
-import { lockerMutation } from "~/lockers/resolvers/mutation";
-import { lockerQuery } from "~/lockers/resolvers/query";
+import { lockerMutation } from '~/lockers/resolvers/mutation'
+import { lockerQuery } from '~/lockers/resolvers/query'
 
 export const lockersResolvers = {
   Query: lockerQuery,

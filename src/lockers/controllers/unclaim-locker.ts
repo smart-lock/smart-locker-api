@@ -1,8 +1,8 @@
-import { IAccount } from "~/auth/account";
-import { IComponents } from "~/system";
-import { LockerSessionNode } from "~/prisma-client";
-import { finishLockerSession, findActiveLockerSessionForUserWithLockerInfo } from "~/lockers/controllers/common";
-import { topicForLocker, CMD_UNCLAIM } from "~/lockers/logic";
+import { IAccount } from '~/auth/account'
+import { findActiveLockerSessionForUserWithLockerInfo, finishLockerSession } from '~/lockers/controllers/common'
+import { CMD_UNCLAIM, topicForLocker } from '~/lockers/logic'
+import { LockerSessionNode } from '~/prisma-client'
+import { IComponents } from '~/system'
 
 export const unclaimLocker = async (lockerId: string, account: IAccount, components: IComponents): Promise<LockerSessionNode> => {
   const session = await findActiveLockerSessionForUserWithLockerInfo(account.id, lockerId, components)

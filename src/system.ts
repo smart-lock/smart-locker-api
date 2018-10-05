@@ -1,24 +1,24 @@
-import { ConfigComponent, IConfigComponent } from './components/config'
 import * as AWS from 'aws-sdk'
-import { MQTTComponent, IMQTTConfig, IMQTTComponent } from './components/mqtt'
-import { mqttHandlers } from './diplomat/mqtt'
-import { IS3Component, S3Component } from '~/components/s3';
-import { ITokenComponent, TokenComponent, ITokenConfig } from '~/components/token';
-import { ENV } from '~/common/consts';
-import { IComponentMap, System } from '~/components/system';
 import * as path from 'path'
-import { YogaComponent } from '~/components/yoga';
+import { ENV } from '~/common/consts'
+import { ClockComponent, IClockComponent } from '~/components/clock'
+import { ExpressService, IService } from '~/components/http-server'
+import { PrismaComponent } from '~/components/prisma'
+import { PrismaClientComponent } from '~/components/prisma-client'
+import { PubSubComponent } from '~/components/pubsub'
+import { IRedisComponent, IRedisComponentConfig, RedisComponent } from '~/components/redis'
+import { IS3Component, S3Component } from '~/components/s3'
+import { IComponentMap, System } from '~/components/system'
+import { ITokenComponent, ITokenConfig, TokenComponent } from '~/components/token'
+import { YogaComponent } from '~/components/yoga'
 import { Prisma as PrismaBinding } from '~/generated/prisma'
-import { resolvers } from '~/resolvers';
-import { IContext, contextFromReq } from '~/graphql/context';
-import { ClockComponent, IClockComponent } from '~/components/clock';
-import { RedisComponent, IRedisComponent, IRedisComponentConfig } from '~/components/redis';
-import { PrismaComponent } from '~/components/prisma';
+import { contextFromReq, IContext } from '~/graphql/context'
 import { prisma, Prisma } from '~/prisma-client'
-import { PrismaClientComponent } from '~/components/prisma-client';
-import { PubSubComponent } from '~/components/pubsub';
-import { ExpressService, IService } from '~/components/http-server';
-import { routes } from '~/routes';
+import { resolvers } from '~/resolvers'
+import { routes } from '~/routes'
+import { ConfigComponent, IConfigComponent } from './components/config'
+import { IMQTTComponent, IMQTTConfig, MQTTComponent } from './components/mqtt'
+import { mqttHandlers } from './diplomat/mqtt'
 
 export interface IConfig {
   service: IService,
@@ -55,11 +55,11 @@ export const componentMap: IComponentMap = {
   },
   clock: {
     instance: new ClockComponent(),
-    dependenciesList: []
+    dependenciesList: [],
   },
   redis: {
     instance: new RedisComponent(),
-    dependenciesList: ['config']
+    dependenciesList: ['config'],
   },
   s3: {
     instance: new S3Component(new AWS.S3()),

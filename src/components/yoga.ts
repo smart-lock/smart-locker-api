@@ -1,9 +1,9 @@
-import { ILifecycle } from "~/components/lifecycle";
 import { GraphQLServer } from 'graphql-yoga'
-import { IConfigComponent } from "~/components/config";
-import { Server as HTTPServer } from 'http';
-import { Server as HTTPSServer } from 'https';
-import { ContextParameters } from "graphql-yoga/dist/types";
+import { ContextParameters } from 'graphql-yoga/dist/types'
+import { Server as HTTPServer } from 'http'
+import { Server as HTTPSServer } from 'https'
+import { IConfigComponent } from '~/components/config'
+import { ILifecycle } from '~/components/lifecycle'
 
 type GenericServer = HTTPServer | HTTPSServer
 
@@ -24,7 +24,7 @@ export class YogaComponent<T> implements ILifecycle {
   private httpServer: GenericServer
   private options: IYogaComponentOptions<T>
 
-  constructor(options: IYogaComponentOptions<T>) {  
+  constructor(options: IYogaComponentOptions<T>) {
     this.options = options
   }
   public async start(deps: IYogaComponentDependencies) {

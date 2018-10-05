@@ -1,6 +1,6 @@
 import * as AWS from 'aws-sdk'
-import { Body, ObjectCannedACL } from 'aws-sdk/clients/s3';
-import { ILifecycle } from '~/components/lifecycle';
+import { Body, ObjectCannedACL } from 'aws-sdk/clients/s3'
+import { ILifecycle } from '~/components/lifecycle'
 
 export interface IS3Component {
   getObject(bucketName: string, path: string): Promise<AWS.S3.Body>

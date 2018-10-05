@@ -1,8 +1,8 @@
-import { GraphQLResolveInfo } from "graphql";
-import { IAuthenticatedContext } from "~/graphql/context";
 import * as Boom from 'boom'
+import { GraphQLResolveInfo } from 'graphql'
 import { combineResolvers } from 'graphql-resolvers'
-import { authenticated } from "~/auth/middlewares";
+import { authenticated } from '~/auth/middlewares'
+import { IAuthenticatedContext } from '~/graphql/context'
 
 export const authQuery = {
   me: combineResolvers(
@@ -12,8 +12,8 @@ export const authQuery = {
       if (!user) {
         throw Boom.notFound('UserNotFound')
       }
-  
+
       return user
-    }
-  )
+    },
+  ),
 }

@@ -1,7 +1,7 @@
-import { IAuthenticatedContext } from "~/graphql/context";
-import { GraphQLResolveInfo } from "graphql";
+import { GraphQLResolveInfo } from 'graphql'
 import { combineResolvers } from 'graphql-resolvers'
-import { authenticated } from "~/auth/middlewares";
+import { authenticated } from '~/auth/middlewares'
+import { IAuthenticatedContext } from '~/graphql/context'
 
 export const lockerQuery = {
   myLockers: combineResolvers(
@@ -11,8 +11,8 @@ export const lockerQuery = {
         where: {
           currentOwner: {
             id: account.id,
-          }
-        }
+          },
+        },
       }, info)
     },
   ),
@@ -22,10 +22,10 @@ export const lockerQuery = {
       return components.prismaBinding.db.query.lockerSessions({
         where: {
           user: {
-            id: account.id
+            id: account.id,
           },
           state: 0,
-        }
+        },
       }, info)
     },
   ),
@@ -34,8 +34,8 @@ export const lockerQuery = {
       (_, { id }, {components}: IAuthenticatedContext, info: GraphQLResolveInfo) => {
       return components.prismaBinding.db.query.lockerSession({
         where: {
-          id
-        }
+          id,
+        },
       }, info)
     },
   ),
@@ -45,8 +45,8 @@ export const lockerQuery = {
       return components.prismaBinding.db.query.lockerCluster({
         where: {
           macAddress,
-        }
+        },
       }, info)
-    }
+    },
   ),
 }

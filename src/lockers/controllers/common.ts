@@ -1,8 +1,8 @@
-import { LockerSessionNode, LockerNode } from "~/prisma-client";
-import { LockerSession } from "~/generated/prisma"
-import { IComponents } from "~/system";
-import { Nullable } from "~/common/types";
-import { firstOrNull } from "~/lockers/logic";
+import { Nullable } from '~/common/types'
+import { LockerSession } from '~/generated/prisma'
+import { firstOrNull } from '~/lockers/logic'
+import { LockerNode, LockerSessionNode } from '~/prisma-client'
+import { IComponents } from '~/system'
 
 export const findActiveLockerSessionForUser = async (userId: string, lockerId: string, components: IComponents): Promise<Nullable<LockerSessionNode>> => {
   const { prismaClient } = components
@@ -16,7 +16,7 @@ export const findActiveLockerSessionForUser = async (userId: string, lockerId: s
       },
       finishedAt_lt: null,
       state: 0,
-    }
+    },
   })
 
   return firstOrNull(result)
@@ -30,7 +30,7 @@ export const finishLockerSession = async (sessionId: string, lockerId: string, c
     data: {
       busy: false,
       currentOwner: null,
-    }
+    },
   })
   return components.prismaClient.db.updateLockerSession({
     where: {
@@ -39,7 +39,7 @@ export const finishLockerSession = async (sessionId: string, lockerId: string, c
     data: {
       finishedAt: components.clock.getDate(),
       state: 1,
-    }
+    },
   })
 }
 
@@ -53,7 +53,7 @@ export const findActiveLockerSessionForUserWithLockerInfo = async (userId: strin
         id: userId,
       },
       state: 0,
-    }
+    },
   }, `
   {
     id
@@ -71,39 +71,39 @@ export const findActiveLockerSessionForUserWithLockerInfo = async (userId: strin
     }
   }`)
 
-  return firstOrNull(result);
+  return firstOrNull(result)
 }
 
 export const updateLockState = async (lockerId: string, locked: boolean, components: IComponents): Promise<LockerNode> => {
   return components.prismaClient.db.updateLocker({
     where: {
-      id: lockerId
+      id: lockerId,
     },
     data: {
       locked,
-    }
+    },
   })
 }
 
 export const updateBusyState = async (lockerId: string, busy: boolean, components: IComponents): Promise<LockerNode> => {
   return components.prismaClient.db.updateLocker({
     where: {
-      id: lockerId
+      id: lockerId,
     },
     data: {
       busy,
-    }
+    },
   })
 }
 
 export const updateOpenState = async (lockerId: string, open: boolean, components: IComponents): Promise<LockerNode> => {
   return components.prismaClient.db.updateLocker({
     where: {
-      id: lockerId
+      id: lockerId,
     },
     data: {
       open,
-    }
+    },
   })
 }
 
@@ -112,12 +112,12 @@ export const insertLockerSession = (lockerId: string, userId: string, components
     user: {
       connect: {
         id: userId,
-      }
+      },
     },
     locker: {
       connect: {
         id: lockerId,
-      }
+      },
     },
     startedAt: components.clock.getDate(),
     state: 0,

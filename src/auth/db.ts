@@ -1,6 +1,6 @@
-import { PrismaClientComponent } from '~/components/prisma-client';
-import { Prisma } from '~/prisma-client';
 import * as bcrypt from 'bcryptjs'
+import { PrismaClientComponent } from '~/components/prisma-client'
+import { Prisma } from '~/prisma-client'
 
 export const findUserByEmail = (email: string, prismaClient: PrismaClientComponent<Prisma>) => {
   return prismaClient.db.user({

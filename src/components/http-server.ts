@@ -1,6 +1,6 @@
 import * as express from 'express'
-import { Server } from 'http';
-import { ILifecycle } from '~/components/lifecycle';
+import { Server } from 'http'
+import { ILifecycle } from '~/components/lifecycle'
 
 export interface IService {
   getServer(): Server
@@ -35,22 +35,22 @@ export class ExpressService implements IService, ILifecycle {
 
         this.server = server
         resolve()
-      });
+      })
 
       server.on('connection', (conn: any) => {
-        const key = conn.remoteAddress + ':' + conn.remotePort;
-        this.connections[key] = conn;
+        const key = conn.remoteAddress + ':' + conn.remotePort
+        this.connections[key] = conn
         conn.on('close', () => {
-          delete this.connections[key];
-        });
-      });
+          delete this.connections[key]
+        })
+      })
     })
   }
 
   public stop() {
     // TODO: Close server
     for (const key of Object.keys(this.connections)) {
-      this.connections[key].destroy();
+      this.connections[key].destroy()
     }
 
     return new Promise((resolve, reject) => {
@@ -59,7 +59,7 @@ export class ExpressService implements IService, ILifecycle {
           return reject(err)
         }
         resolve()
-      });
+      })
     })
   }
 

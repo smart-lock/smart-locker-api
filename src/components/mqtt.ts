@@ -1,8 +1,8 @@
-import { ILifecycle } from './lifecycle'
 import * as MQTT from 'mqtt'
-import { IConfigComponent } from './config'
 import * as mqttRegex from 'mqtt-regex'
 import { Maybe } from '~/common/types'
+import { IConfigComponent } from './config'
+import { ILifecycle } from './lifecycle'
 
 export interface IMQTTComponent {
   publish: (topic: string, message: string, options?: MQTT.IClientPublishOptions) => Promise<MQTT.IPublishPacket>
@@ -20,8 +20,8 @@ export interface IMQTTConfig {
 }
 
 export interface IMQTTHandler {
-  handler: MQTTHandlerFn,
-  regex?: any,
+  handler: MQTTHandlerFn
+  regex?: any
 }
 
 export interface IMQTTHandlerTable {
@@ -36,8 +36,12 @@ export class MQTTComponent implements ILifecycle, IMQTTComponent {
   public handlerTable: IMQTTHandlerTable
   private handlerCache: IHandlerCacheTable
 
+  constructor(handlerTable: IMQTTHandlerTable) {
+    this.handlerTable = handlerTable
+  }
+
   public getClient = () => this.client
-  
+
   public start(deps: any) {
     console.log('Starting MQTT...')
     this.handlerCache = {}
@@ -62,10 +66,6 @@ export class MQTTComponent implements ILifecycle, IMQTTComponent {
         reject(error)
       })
     })
-  }
-
-  constructor(handlerTable: IMQTTHandlerTable) {
-    this.handlerTable = handlerTable
   }
 
   public async stop() {

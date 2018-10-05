@@ -1,6 +1,6 @@
-import { ILifecycle } from './lifecycle';
 import * as Redis from 'ioredis'
-import { IConfigComponent } from './config';
+import { IConfigComponent } from './config'
+import { ILifecycle } from './lifecycle'
 
 export interface IRedisComponentConfig {
   uri: string

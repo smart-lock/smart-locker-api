@@ -1,5 +1,5 @@
 import { topoSort } from '@thunder-js/toposort'
-import { ILifecycle } from './lifecycle';
+import { ILifecycle } from './lifecycle'
 
 export interface ISystem<T> {
   getStartedComponents(): T

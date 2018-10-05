@@ -1,11 +1,11 @@
 import * as R from 'ramda'
-import { IAccount } from '~/auth/account';
-import { UserNode } from '~/prisma-client';
-import { ITokenComponent } from '~/components/token';
+import { IAccount } from '~/auth/account'
+import { ITokenComponent } from '~/components/token'
+import { UserNode } from '~/prisma-client'
 
 export const hasScopes = (requiredScopes: string[], accountScopes: string[]): boolean => {
   if (!accountScopes) {
-    return false;
+    return false
   }
   return R.intersection(requiredScopes, accountScopes).length > 0
 }

@@ -1,4 +1,4 @@
-import { IContext } from "~/graphql/context";
+import { IContext } from '~/graphql/context'
 
 export const lockerSession = {
   LockerSession: {
@@ -12,5 +12,5 @@ export const lockerSession = {
         id,
       }).locker()
     },
-  }
+  },
 }

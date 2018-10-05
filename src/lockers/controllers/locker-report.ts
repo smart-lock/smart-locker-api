@@ -1,15 +1,15 @@
-import { IComponents } from "~/system";
-import { LockerNode } from "~/prisma-client";
-import { firstOrNull } from "~/lockers/logic";
+import { firstOrNull } from '~/lockers/logic'
+import { LockerNode } from '~/prisma-client'
+import { IComponents } from '~/system'
 
 export interface ILockerReport {
-  closed: boolean,
-  busy: boolean,
-  locked: boolean,
-  alarm: boolean,
+  closed: boolean
+  busy: boolean
+  locked: boolean
+  alarm: boolean
 }
 /**
- *updateLockerWithReport
+ * updateLockerWithReport
  *
  * @param {string} macAddress
  * @param {string} idInCluster
@@ -24,11 +24,11 @@ export const updateLockerWithReport = async (macAddress: string, idInCluster: st
       idInCluster,
       cluster: {
         macAddress,
-      }
-    }
+      },
+    },
   })
   const locker = firstOrNull(result)
-  
+
   // Throw an error if the lock does not exist
   if (!locker) {
     throw new Error('LockerNotFound')
@@ -36,12 +36,12 @@ export const updateLockerWithReport = async (macAddress: string, idInCluster: st
 
   const lockerUpdatePayload = {
     id: locker.id,
-    ...report
+    ...report,
   }
 
   // Let GraphQL subscribers know about this
   components.pubsub.instance.publish(`lockers.${locker.id}`, {
-    lockerState: lockerUpdatePayload
+    lockerState: lockerUpdatePayload,
   })
 
   const sessions = await components.prismaBinding.db.query.lockerSessions({
@@ -49,7 +49,7 @@ export const updateLockerWithReport = async (macAddress: string, idInCluster: st
       locker: {
         id: locker.id,
       },
-    }
+    },
   }, `{
     id
     user {
@@ -72,10 +72,8 @@ export const updateLockerWithReport = async (macAddress: string, idInCluster: st
     where: {
       id: locker.id,
     },
-    data: report
+    data: report,
   })
-
-
 
   return updatedLocker
 }

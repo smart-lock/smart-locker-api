@@ -1,6 +1,6 @@
-import { ContextParameters } from "graphql-yoga/dist/types";
-import { IComponents } from "~/system";
-import { Nullable } from "~/common/types";
+import { ContextParameters } from 'graphql-yoga/dist/types'
+import { Nullable } from '~/common/types'
+import { IComponents } from '~/system'
 
 export interface IAccount {
   id: string

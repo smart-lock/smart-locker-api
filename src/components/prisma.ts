@@ -1,5 +1,5 @@
+import { ILifecycle } from '~/components/lifecycle'
 import { IConfigComponent } from './config'
-import { ILifecycle } from '~/components/lifecycle';
 
 export interface IPrismaComponent<T> {
   db: T

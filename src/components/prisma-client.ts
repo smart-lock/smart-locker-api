@@ -1,4 +1,4 @@
-import { ILifecycle } from '~/components/lifecycle';
+import { ILifecycle } from '~/components/lifecycle'
 
 export class PrismaClientComponent<T> implements ILifecycle {
   public db: T
@@ -6,10 +6,10 @@ export class PrismaClientComponent<T> implements ILifecycle {
   constructor(db: T) {
     this.db = db
   }
-  start() {
+  public start() {
     //  noop
   }
-  stop() {
+  public stop() {
     //  noop
   }
 }

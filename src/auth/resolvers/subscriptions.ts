@@ -1,6 +1,6 @@
-import { IAuthenticatedContext } from "~/graphql/context";
 import { combineResolvers } from 'graphql-resolvers'
-import { authenticated } from "~/auth/middlewares";
+import { authenticated } from '~/auth/middlewares'
+import { IAuthenticatedContext } from '~/graphql/context'
 
 export const lockerSubscriptions = {
   myLockers: {
@@ -10,7 +10,7 @@ export const lockerSubscriptions = {
         const pubsubInstance = components.pubsub.instance
         const channel = `${account.id}.lockers`
         return pubsubInstance.asyncIterator(channel)
-      }
+      },
     ),
   },
   lockerState: {
@@ -22,5 +22,5 @@ export const lockerSubscriptions = {
         return pubsubInstance.asyncIterator(channel)
       },
     ),
-  }
+  },
 }

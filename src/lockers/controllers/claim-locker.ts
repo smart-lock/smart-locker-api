@@ -1,12 +1,12 @@
-import { IAccount } from "~/auth/account";
-import { IComponents } from "~/system";
-import { LockerSessionNode } from "~/prisma-client";
-import { updateBusyState, insertLockerSession, findActiveLockerSessionForUser } from "~/lockers/controllers/common";
-import { topicForLocker, CMD_CLAIM } from "~/lockers/logic";
+import { IAccount } from '~/auth/account'
+import { findActiveLockerSessionForUser, insertLockerSession, updateBusyState } from '~/lockers/controllers/common'
+import { CMD_CLAIM, topicForLocker } from '~/lockers/logic'
+import { LockerSessionNode } from '~/prisma-client'
+import { IComponents } from '~/system'
 
 export const claimLocker = async (lockerId: string, account: IAccount, components: IComponents): Promise<LockerSessionNode> => {
   const user = await components.prismaClient.db.user({
-    id: account.id
+    id: account.id,
   })
 
   if (user.credit < 100) {
@@ -16,7 +16,7 @@ export const claimLocker = async (lockerId: string, account: IAccount, component
   const locker = await components.prismaBinding.db.query.locker({
     where: {
       id: lockerId,
-    }
+    },
   }, `{
     id
     idInCluster
@@ -30,26 +30,26 @@ export const claimLocker = async (lockerId: string, account: IAccount, component
   if (!locker) {
     throw new Error('LockerNotFound')
   }
-  
+
   const session = await findActiveLockerSessionForUser(account.id, lockerId, components)
 
   if (session) {
     throw new Error('LockerBusy')
   }
 
-  const lockerSession = await insertLockerSession(lockerId, account.id, components);
+  const lockerSession = await insertLockerSession(lockerId, account.id, components)
   await components.prismaClient.db.updateLocker({
     where: {
-      id: lockerId
+      id: lockerId,
     },
     data: {
       currentOwner: {
-        connect: {id: account.id}
-      }
-    }
+        connect: {id: account.id},
+      },
+    },
   })
-  
-  await updateBusyState(lockerId, true, components);
+
+  await updateBusyState(lockerId, true, components)
   components.mqtt.publish(topicForLocker(locker.cluster, locker), `${locker.idInCluster}${CMD_CLAIM}`)
 
   console.log(topicForLocker(locker.cluster, locker), `${locker.idInCluster}${CMD_CLAIM}`)

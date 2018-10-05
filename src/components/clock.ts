@@ -1,4 +1,4 @@
-import { ILifecycle } from './lifecycle';
+import { ILifecycle } from './lifecycle'
 
 export interface IClockComponent {
   getTimestamp: () => number
