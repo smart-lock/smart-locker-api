@@ -24,24 +24,27 @@
     "ramda": "^0.25.0"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^3.0.0",
+    "@semantic-release/git": "^7.0.1",
+    "@types/jest": "^22.1.1",
+    "jest": "^22.2.1",
+    "ts-jest": "^22.0.3",
     "@types/boom": "^7.2.0",
     "@types/express": "^4.16.0",
     "@types/fs-extra": "^5.0.4",
     "@types/handlebars": "^4.0.39",
     "@types/ramda": "^0.25.38",
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.1.0",
     "env-cmd": "^8.0.2",
     "graphql-cli": "^2.16.7",
     "nodemon": "^1.18.4",
     "prisma": "1.17.0-beta.11",
+    "semantic-release": "^15.9.5",
     "ts-node": "^7.0.1",
     "tsconfig-paths": "^3.6.0",
     "tslint": "^5.11.0",
-    "typescript": "^3.0.3",
-    "semantic-release": "^15.9.5",
-    "commitizen": "^2.9.6",
-    "cz-conventional-changelog": "^2.1.0",
-    "@semantic-release/changelog": "^3.0.0",
-    "@semantic-release/git": "^7.0.1"
+    "typescript": "^3.0.3"
   },
   "scripts": {
     "start": "NODE_ENV=prod ts-node src/index.ts",
