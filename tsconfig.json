@@ -4,8 +4,10 @@
     "moduleResolution": "node",
     "module": "commonjs",
     "baseUrl": ".",
+    "outDir": "dist",
     "sourceMap": true,
-
+    "allowJs": false,
+    "noUnusedLocals": true,
     "paths": {
       "~/*": ["src/*"]
     },
