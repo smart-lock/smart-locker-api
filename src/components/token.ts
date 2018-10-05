@@ -5,7 +5,6 @@ import { IRedisComponent } from './redis';
 import { IClockComponent } from './clock';
 import { IS3Component } from '~/components/s3';
 
-
 const priv = `-----BEGIN RSA PRIVATE KEY-----
 MIIEogIBAAKCAQEApViUU4TSgnNbe3Iy7e5CD+uwfOYvdACiQTph7S1o/zkjERUw
 b5vIf5d4YzB+98ChGJhy+OqkrSIF5bVgEldNwpfUGkOO+BsE6KUJfVGJTbHbJK+3
@@ -155,8 +154,18 @@ export class TokenComponent implements ILifecycle, ITokenComponent {
     this.redis = redis
     this.clock = clock
     const tokenConfig = this.config.getConfig().token
-    const privateKey = priv //await this.s3.getObject(tokenConfig.bucketName, tokenConfig.privateKeyPath)
-    const publicKey = pub //await this.s3.getObject(tokenConfig.bucketName, tokenConfig.publicKeyPath)
+    const env = this.config.getRequiredValue(['env'])
+
+    let privateKey
+    let publicKey
+    if (env === 'dev') {
+      privateKey = priv
+      publicKey = pub
+    } else {
+      privateKey = await this.s3.getObject(tokenConfig.bucketName, tokenConfig.privateKeyPath)
+      publicKey = await this.s3.getObject(tokenConfig.bucketName, tokenConfig.publicKeyPath)
+    }
+    
     this.privateKey = privateKey
     this.publicKey = publicKey
 

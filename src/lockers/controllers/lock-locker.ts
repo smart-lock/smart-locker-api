@@ -1,6 +1,6 @@
 import { IAccount } from "~/auth/account";
 import { IComponents } from "~/system";
-import { findActiveLockerSessionForUserWithLockerInfo, updateLockState } from "~/lockers/controllers/common";
+import { findActiveLockerSessionForUserWithLockerInfo } from "~/lockers/controllers/common";
 import { topicForLocker, CMD_LOCK } from "~/lockers/logic";
 import { LockerNode } from "~/prisma-client";
 

@@ -1,11 +1,11 @@
 import { LockerSessionNode, LockerNode } from "~/prisma-client";
-import { LockerSession, Locker } from "~/generated/prisma"
+import { LockerSession } from "~/generated/prisma"
 import { IComponents } from "~/system";
 import { Nullable } from "~/common/types";
 import { firstOrNull } from "~/lockers/logic";
 
 export const findActiveLockerSessionForUser = async (userId: string, lockerId: string, components: IComponents): Promise<Nullable<LockerSessionNode>> => {
-  const { prismaClient, clock } = components
+  const { prismaClient } = components
   const result = await prismaClient.db.lockerSessions({
     where: {
       user: {
