@@ -1,0 +1,29 @@
+{
+  "env": "prod",
+  "yoga": {
+    "port": "{{YOGA_PORT}}"
+  },
+  "service": {
+    "port": "{{SERVICE_PORT}}"
+  },
+  "token": {
+    "issuer": "smart-lock",
+    "audience": "user",
+    "jwtDuration": "30d",
+    "publicKeyPath": "prod/pub.pem",
+    "privateKeyPath": "prod/priv.pem",
+    "bucketName": "smart-lock-secrets"
+  },
+  "mqtt": {
+    "host": "{{MQTT_HOST}}",
+    "sslPort": "{{MQTT_SSL_PORT}}",
+    "user": "{{MQTT_USER}}",
+    "password": "{{MQTT_PASSWORD}}"
+  },
+  "redis": {
+    "uri": "{{REDIS_URI}}"
+  },
+  "prisma": {
+    "endpoint": "{{PRISMA_URL}}"
+  }
+}
