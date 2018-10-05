@@ -3,14 +3,17 @@
     "target": "es5",
     "moduleResolution": "node",
     "module": "commonjs",
-    "baseUrl": ".",
+    "baseUrl": "src",
     "outDir": "dist",
     "sourceMap": true,
     "allowJs": false,
     "noUnusedLocals": true,
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["./*"]
     },
-    "lib": ["dom", "es2015", "esnext.asynciterable"]
-  }
+    "lib": ["dom", "es2015", "esnext.asynciterable"],
+  },
+  "exclude": [
+    "node_modules/"
+  ]
 }
