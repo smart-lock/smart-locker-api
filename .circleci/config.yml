@@ -81,8 +81,8 @@ jobs:
           command: |
             export NPM_PACKAGE_VERSION=$(node -pe "require('./package.json').version")
             docker login -u $DOCKERHUB_LOGIN -p $DOCKERHUB_PASSWORD
-            docker tag app smart-lock/smart-locker-api:${NPM_PACKAGE_VERSION}
-            docker push smart-lock/smart-locker-api:${NPM_PACKAGE_VERSION}
+            docker tag app smartlock/smart-locker-api:${NPM_PACKAGE_VERSION}
+            docker push smartlock/smart-locker-api:${NPM_PACKAGE_VERSION}
 
 
 
