@@ -3,6 +3,7 @@ import { IContext } from '~/graphql/context';
 import * as bcrypt from 'bcryptjs'
 import { findUserByEmail, createUser } from '~/auth/db';
 import { encodeUser } from '~/auth/logic';
+
 export interface ISignInArgs {
   data: {
     email: string
@@ -17,10 +18,6 @@ export interface ISignUpArgs {
     name: string
   }
 }
-
-
-
-
 
 export const authMutation = {
   signIn: async (_, { data: { email, password } }: ISignInArgs, { components }: IContext) => {
