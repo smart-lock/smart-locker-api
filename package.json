@@ -36,12 +36,28 @@
     "ts-node": "^7.0.1",
     "tsconfig-paths": "^3.6.0",
     "tslint": "^5.11.0",
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "semantic-release": "^15.9.5",
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.1.0",
+    "@semantic-release/changelog": "^3.0.0",
+    "@semantic-release/git": "^7.0.1"
   },
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "NODE_ENV=prod ts-node src/index.ts",
     "dev": "env-cmd config/.dev.env nodemon",
-    "docker:dev": "docker-compose up",
+    "test": "env-cmd config/.test.env jest --config jest.json",
+    "test:watch": "yarn test --watchAll",
+    "test:flow": "jest --config jest.flow.json --runInBand",
+    "test:flow:ci": "env-cmd config/.ci.env yarn test:flow",
+    "test:flow:host": "env-cmd config/.test.env yarn test:flow",
+    "test:flow:host:watch": "yarn test:flow:host --watchAll",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up",
+    "semantic-release": "semantic-release",
+    "commit": "git-cz",
+    "check-typescript": "tsc",
+    "lint": "tslint --project ./tsconfig.json --config ./tslint.json",
+    "lint-fix": "tslint --fix --project ./tsconfig.json --config ./tslint.json",
     "prisma": "prisma"
   }
 }
