@@ -1,6 +1,9 @@
 {
   "name": "@smart-lock/smart-locker-api",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
