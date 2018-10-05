@@ -16,12 +16,14 @@
   },
   "linterOptions": {
     "exclude": [
-      "src/prisma-client/*"
+      "src/prisma-client",
+      "src/generated"
     ]
   },
   "cliOptions": {
     "exclude": [
-      "src/prisma-client/*"
+      "src/prisma-client",
+      "src/generated"
     ]
   }
 }
