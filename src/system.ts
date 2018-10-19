@@ -10,9 +10,7 @@ import { IRedisComponent, IRedisComponentConfig, RedisComponent } from '~/compon
 import { IS3Component, S3Component } from '~/components/s3'
 import { IComponentMap, System } from '~/components/system'
 import { ITokenComponent, ITokenConfig, TokenComponent } from '~/components/token'
-import { YogaComponent } from '~/components/yoga'
 import { Prisma as PrismaBinding } from '~/generated/prisma'
-import { IContext } from '~/graphql/context'
 import { prisma, Prisma } from '~/prisma-client'
 import { routes } from '~/routes'
 import { ConfigComponent, IConfigComponent } from './components/config'
@@ -32,7 +30,6 @@ export interface IComponents {
   token: ITokenComponent,
   s3: IS3Component
   mqtt: IMQTTComponent
-  yoga: YogaComponent<IContext>
   clock: IClockComponent,
   redis: IRedisComponent,
   prismaBinding: PrismaComponent<PrismaBinding>
