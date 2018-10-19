@@ -4,18 +4,6 @@ import { authenticated } from '~/auth/middlewares'
 import { IAuthenticatedContext } from '~/graphql/context'
 
 export const lockerQuery = {
-  myLockers: combineResolvers(
-    authenticated,
-    async (_, __, { components, account }: IAuthenticatedContext, info: GraphQLResolveInfo) => {
-      return components.prismaBinding.db.query.lockers({
-        where: {
-          currentOwner: {
-            id: account.id,
-          },
-        },
-      }, info)
-    },
-  ),
   mySessions: combineResolvers(
     authenticated,
     async (_, __, { components, account }: IAuthenticatedContext, info: GraphQLResolveInfo) => {

@@ -29,7 +29,6 @@ export const finishLockerSession = async (sessionId: string, lockerId: string, c
     },
     data: {
       busy: false,
-      currentOwner: null,
     },
   })
   return components.prismaClient.db.updateLockerSession({

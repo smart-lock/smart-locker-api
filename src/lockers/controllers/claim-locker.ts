@@ -3,7 +3,7 @@ import { findUserById } from '~/auth/db'
 import { CMD_CLAIM, topicForLocker, userHasCredit } from '~/lockers/logic'
 import { LockerSessionNode } from '~/prisma-client'
 import { IComponents } from '~/system'
-import { findLockerById, updateLockerCurrentOwner } from '../db/locker'
+import { findLockerById } from '../db/locker'
 import { updateBusyState } from '../db/locker-state'
 import { findActiveLockerSessionForUser, insertLockerSession } from '../db/sessions'
 
@@ -21,7 +21,6 @@ export const claimLocker = async (lockerId: string, account: IAccount, component
     throw new Error('LockerBusy')
   }
   const lockerSession = await insertLockerSession(lockerId, account.id, components)
-  await updateLockerCurrentOwner(lockerId, account.id, components)
   await updateBusyState(lockerId, true, components)
   components.mqtt.publish(topicForLocker(locker.cluster, locker), `${locker.idInCluster}${CMD_CLAIM}`)
   return lockerSession

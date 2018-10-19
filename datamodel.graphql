@@ -28,8 +28,6 @@ type Locker {
   alarmPin: Int!
   lockPin: Int!
 
-  currentOwner: User
-
   sessions: [LockerSession!]!
 }
 

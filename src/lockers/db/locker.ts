@@ -16,17 +16,6 @@ export const findLockerById = (id: string, { prismaBinding }: IComponents) => pr
   }
 }`)
 
-export const updateLockerCurrentOwner = (lockerId: string, userId: string, { prismaClient }: IComponents) => prismaClient.db.updateLocker({
-  where: {
-    id: lockerId,
-  },
-  data: {
-    currentOwner: {
-      connect: { id: userId },
-    },
-  },
-})
-
 export const findLockerInCluster = (
   idInCluster: string,
   macAddress: string, { prismaClient }: IComponents): Promise<LockerNode | null> => prismaClient.db.lockers({

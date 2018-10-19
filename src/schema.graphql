@@ -5,7 +5,6 @@
 type Query {
   locker: Locker
   lockerCluster (id: ID!): LockerCluster
-  myLockers: [Locker!]!
   mySessions: [LockerSession!]!
   lockerSession (id: ID!): LockerSession
   lockerClusterByMacAddress (macAddress: String!): LockerCluster
