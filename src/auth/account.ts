@@ -1,5 +1,7 @@
+import { Request } from 'express'
 import { ContextParameters } from 'graphql-yoga/dist/types'
 import { Nullable } from '~/common/types'
+import { ITokenComponent } from '~/components/token'
 import { IComponents } from '~/system'
 
 export interface IAccount {
@@ -50,6 +52,29 @@ export const accountFromReq = async (ctxParameters: ContextParameters, deps: ICo
     }
   } catch (err) {
     console.log(err)
+    return null
+  }
+}
+
+export interface IModifiedRequest extends Request {
+  components: {
+    token: ITokenComponent,
+  }
+}
+
+export const accountFromExpressReq = async (req: IModifiedRequest): Promise<IAccount | null> => {
+  const authorization = req.headers && req.headers.authorization
+  if (!authorization || Array.isArray(authorization)) {
+    return null
+  }
+  try {
+    const decoded = await req.components.token.validate<IAccount>(authorization)
+    return {
+      id: decoded.id,
+      email: decoded.email,
+      scopes: decoded.scopes || [],
+    }
+  } catch (err) {
     return null
   }
 }

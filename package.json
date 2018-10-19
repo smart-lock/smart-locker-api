@@ -9,6 +9,7 @@
   "license": "MIT",
   "dependencies": {
     "@thunder-js/toposort": "^1.0.1",
+    "apollo-server-express": "1.3.4",
     "aws-sdk": "^2.328.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -16,6 +17,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "fs-extra": "^7.0.0",
+    "graphql-import": "^0.7.1",
     "graphql-resolvers": "^0.2.2",
     "graphql-subscriptions": "^1.0.0",
     "graphql-tools": "^4.0.0",

@@ -1,11 +1,13 @@
 import * as bodyParser from 'body-parser'
-import * as Boom from 'boom'
 import * as cors from 'cors'
 import * as express from 'express'
 import * as morgan from 'morgan'
 import { asyncHandler } from '~/common/async-handler'
 import { IContext } from '~/graphql/context'
-import { firstOrNull } from '~/lockers/logic'
+import { errorHandler } from './error-handler'
+import { graphiqlHandler, graphqlHandler } from './graphql/handler'
+import { getLockerCluster } from './lockers/controllers/get-locker-cluster'
+import { nextLocker } from './lockers/controllers/next-locker'
 
 export interface IRequestWithContext extends express.Request {
   context: IContext
@@ -17,63 +19,20 @@ routes.use(cors())
 routes.use(bodyParser.json())
 routes.use(morgan('tiny'))
 
-routes.get('/locker-cluster/:macAddress/next-locker', asyncHandler(async ({ context, params }: IRequestWithContext, res) => {
+const nextLockerHandler = async ({ context, params }: IRequestWithContext, res) => {
   const { macAddress } = params
-  const lockers = await context.components.prismaClient.db.lockers({
-    where: {
-      cluster: {
-        macAddress,
-      },
-      busy: false,
-    },
-  })
-
-  console.log(lockers)
-
-  const locker = firstOrNull(lockers)
-
-  if (!locker) {
-    throw Boom.badRequest('NoLockerAvailable')
-  }
-
+  const locker = await nextLocker(macAddress, context.components)
   res.json(locker)
-}))
+}
 
-routes.get('/locker-cluster/:macAddress', asyncHandler(async ({ context, params }: IRequestWithContext, res) => {
+const getLockerClusterHandler = async ({ context, params }: IRequestWithContext, res) => {
   const { macAddress } = params
-
-  const lockerCluster = await context.components.prismaBinding.db.query.lockerCluster({
-    where: {
-      macAddress,
-    },
-  }, `{
-    id
-    macAddress
-    lockers{
-			id
-      idInCluster
-      busy
-      locked
-      open
-      sensorPin
-      alarmPin
-      lockPin
-    }
-  }`)
-
-  if (!lockerCluster) {
-    throw Boom.notFound('LockerClusterNotFound')
-  }
-
+  const lockerCluster = await getLockerCluster(macAddress, context.components)
   res.json(lockerCluster)
-}))
+}
 
-routes.use((err, req, res, next) => {
-  const status = err && err.output && err.output.statusCode || 500
-  const payload = err && err.output && err.output.payload || {
-    statusCode: 500,
-    error: 'Internal Server Error',
-    message: err.toString(),
-  }
-  res.status(status).json(payload)
-})
+routes.get('/locker-cluster/:macAddress/next-locker', asyncHandler(nextLockerHandler))
+routes.get('/locker-cluster/:macAddress', asyncHandler(getLockerClusterHandler))
+routes.post('/graphql', graphqlHandler)
+routes.get('/graphql', graphiqlHandler)
+routes.use(errorHandler)

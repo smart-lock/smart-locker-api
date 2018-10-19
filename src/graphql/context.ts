@@ -1,5 +1,5 @@
 import { ContextParameters } from 'graphql-yoga/dist/types'
-import { accountFromReq, IAccount } from '~/auth/account'
+import { accountFromExpressReq, accountFromReq, IAccount } from '~/auth/account'
 import { IComponents } from '~/system'
 
 export interface IContext {
@@ -15,5 +15,12 @@ export const contextFromReq = async (req: ContextParameters, deps: IComponents):
   return {
     components: deps,
     account: await accountFromReq(req, deps),
+  }
+}
+
+export const contextFromExpressReq = async (req): Promise<IAuthenticatedContext | IContext> => {
+  return {
+    components: req.components,
+    account: await accountFromExpressReq(req),
   }
 }
