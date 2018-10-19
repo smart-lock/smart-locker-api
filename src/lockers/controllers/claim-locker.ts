@@ -1,8 +1,9 @@
 import { IAccount } from '~/auth/account'
-import { findActiveLockerSessionForUser, insertLockerSession, updateBusyState } from '~/lockers/controllers/common'
 import { CMD_CLAIM, topicForLocker } from '~/lockers/logic'
 import { LockerSessionNode } from '~/prisma-client'
 import { IComponents } from '~/system'
+import { updateBusyState } from '../db/locker-state'
+import { findActiveLockerSessionForUser, insertLockerSession } from '../db/sessions'
 
 export const claimLocker = async (lockerId: string, account: IAccount, components: IComponents): Promise<LockerSessionNode> => {
   const user = await components.prismaClient.db.user({
