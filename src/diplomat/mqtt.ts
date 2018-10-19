@@ -1,4 +1,4 @@
-import { reportExternalToInternal } from '~/adapters/report'
+import { reportExternalToInternal } from '~/lockers/adapters/report'
 import { updateLockerWithReport } from '~/lockers/controllers/locker-report'
 import { IMQTTHandlerTable } from '../components/mqtt'
 import { IComponents } from '../system'
