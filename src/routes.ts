@@ -6,8 +6,7 @@ import { asyncHandler } from '~/common/async-handler'
 import { errorHandler } from '~/common/error-handler'
 import { IContext } from '~/graphql/context'
 import { graphiqlHandler, graphqlHandler } from './graphql/handler'
-import { getLockerCluster } from './lockers/controllers/get-locker-cluster'
-import { nextLocker } from './lockers/controllers/next-locker'
+import { lockerControllers } from './lockers/controllers'
 
 export interface IRequestWithContext extends express.Request {
   context: IContext
@@ -21,13 +20,13 @@ routes.use(morgan('tiny'))
 
 const nextLockerHandler = async ({ context, params }: IRequestWithContext, res) => {
   const { macAddress } = params
-  const locker = await nextLocker(macAddress, context.components)
+  const locker = await lockerControllers.nextLocker(macAddress, context.components)
   res.json(locker)
 }
 
 const getLockerClusterHandler = async ({ context, params }: IRequestWithContext, res) => {
   const { macAddress } = params
-  const lockerCluster = await getLockerCluster(macAddress, context.components)
+  const lockerCluster = await lockerControllers.getLockerCluster(macAddress, context.components)
   res.json(lockerCluster)
 }
 
