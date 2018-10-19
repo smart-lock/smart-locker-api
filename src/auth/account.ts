@@ -10,10 +10,12 @@ export interface IAccount {
   scopes: string[]
 }
 
+/**
+ * Yoga (deprecated)
+ */
 export interface IAuthorizationInfo {
   token: string
 }
-
 const getAuthorizationInfoFromContextParameters = (ctxParameters: ContextParameters): Nullable<IAuthorizationInfo> => {
   const { request, connection } = ctxParameters
 
@@ -56,6 +58,9 @@ export const accountFromReq = async (ctxParameters: ContextParameters, deps: ICo
   }
 }
 
+/**
+ * Express
+ */
 export interface IModifiedRequest extends Request {
   components: {
     token: ITokenComponent,

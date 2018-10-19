@@ -12,9 +12,8 @@ import { IComponentMap, System } from '~/components/system'
 import { ITokenComponent, ITokenConfig, TokenComponent } from '~/components/token'
 import { YogaComponent } from '~/components/yoga'
 import { Prisma as PrismaBinding } from '~/generated/prisma'
-import { contextFromReq, IContext } from '~/graphql/context'
+import { IContext } from '~/graphql/context'
 import { prisma, Prisma } from '~/prisma-client'
-import { resolvers } from '~/resolvers'
 import { routes } from '~/routes'
 import { ConfigComponent, IConfigComponent } from './components/config'
 import { IMQTTComponent, IMQTTConfig, MQTTComponent } from './components/mqtt'
@@ -77,21 +76,13 @@ export const componentMap: IComponentMap = {
     instance: new MQTTComponent(mqttHandlers),
     dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'clock', 'pubsub'],
   },
-  yoga: {
-    instance: new YogaComponent<IContext>({
-      typeDefsFile: './src/schema.graphql',
-      resolvers,
-      getContext: contextFromReq,
-    }),
-    dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'token', 'clock', 'redis', 'mqtt', 'pubsub'],
-  },
   pubsub: {
     instance: new PubSubComponent(),
     dependenciesList: [],
   },
   service: {
     instance: new ExpressService(routes),
-    dependenciesList: ['config', 'token', 'prismaBinding', 'prismaClient', 'clock'],
+    dependenciesList: ['config', 'prismaBinding', 'prismaClient', 'token', 'clock', 'redis', 'mqtt', 'pubsub'],
   },
 }
 
