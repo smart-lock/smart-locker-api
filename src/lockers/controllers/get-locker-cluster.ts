@@ -1,7 +1,8 @@
 import * as Boom from 'boom'
+import { LockerCluster } from '~/generated/prisma'
 import { IComponents } from '~/system'
 
-export const getLockerCluster = async (macAddress: string, { prismaBinding }: IComponents) => {
+export const getLockerCluster = async (macAddress: string, { prismaBinding }: IComponents): Promise<LockerCluster> => {
   const lockerCluster = await prismaBinding.db.query.lockerCluster({
     where: {
       macAddress,

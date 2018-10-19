@@ -4,7 +4,7 @@ import { IComponents, system } from './system'
 const main = async () => {
   console.log('Starting system...')
   const components: IComponents = await system.start()
-  console.log('System OK!')
+  console.log('System started!')
 
   const adminToken = await components.token.encode({
     id: 'cjmm6cv5e000u0a128v4mvycf',
@@ -12,7 +12,9 @@ const main = async () => {
     email: 'rafael@rafael.com',
     scopes: ['admin'],
   } as IAccount)
+  console.log('admin token:')
   console.log(adminToken)
+  console.log(`http://localhost:${components.config.getRequiredValue(['service', 'port'])}/graphql`)
 }
 
 main()
