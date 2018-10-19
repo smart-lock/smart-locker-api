@@ -90,3 +90,16 @@ export const insertLockerSession = (lockerId: string, userId: string, components
     state: 0,
   })
 }
+
+export const findLockerSessions = (lockerId: string, { prismaBinding }: IComponents) => prismaBinding.db.query.lockerSessions({
+  where: {
+    locker: {
+      id: lockerId,
+    },
+  },
+}, `{
+  id
+  user {
+    id
+  }
+}`)

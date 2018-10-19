@@ -1,6 +1,8 @@
 import { firstOrNull } from '~/lockers/logic'
 import { LockerNode } from '~/prisma-client'
 import { IComponents } from '~/system'
+import { findLockerInCluster, saveReport } from '../db/locker'
+import { findLockerSessions } from '../db/sessions'
 
 export interface ILockerReport {
   closed: boolean
@@ -19,15 +21,7 @@ export interface ILockerReport {
  */
 export const updateLockerWithReport = async (macAddress: string, idInCluster: string, report: ILockerReport, components: IComponents): Promise<LockerNode> => {
   // Find the locker present in this macAddress/idInCluster
-  const result = await components.prismaClient.db.lockers({
-    where: {
-      idInCluster,
-      cluster: {
-        macAddress,
-      },
-    },
-  })
-  const locker = firstOrNull(result)
+  const locker = await findLockerInCluster(idInCluster, macAddress, components)
 
   // Throw an error if the lock does not exist
   if (!locker) {
@@ -44,23 +38,10 @@ export const updateLockerWithReport = async (macAddress: string, idInCluster: st
     lockerState: lockerUpdatePayload,
   })
 
-  const sessions = await components.prismaBinding.db.query.lockerSessions({
-    where: {
-      locker: {
-        id: locker.id,
-      },
-    },
-  }, `{
-    id
-    user {
-      id
-    }
-  }`)
-  const session = firstOrNull(sessions)
+  const session = await findLockerSessions(locker.id, components).then((sessions) => firstOrNull(sessions))
 
   if (session) {
     const channel = `${session.user.id}.lockers`
-    console.log(channel)
     // If there is an active session, let the subscribed owner know
     components.pubsub.instance.publish(channel, {
       myLockers: lockerUpdatePayload,
@@ -68,12 +49,7 @@ export const updateLockerWithReport = async (macAddress: string, idInCluster: st
   }
 
   // Save on database
-  const updatedLocker = await components.prismaClient.db.updateLocker({
-    where: {
-      id: locker.id,
-    },
-    data: report,
-  })
+  const updatedLocker = await saveReport(locker.id, report, components)
 
   return updatedLocker
 }

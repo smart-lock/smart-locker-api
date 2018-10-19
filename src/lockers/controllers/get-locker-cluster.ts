@@ -1,26 +1,10 @@
 import * as Boom from 'boom'
 import { LockerCluster } from '~/generated/prisma'
 import { IComponents } from '~/system'
+import { findLockerClusterbyMacAddress } from '../db/locker-cluster'
 
-export const getLockerCluster = async (macAddress: string, { prismaBinding }: IComponents): Promise<LockerCluster> => {
-  const lockerCluster = await prismaBinding.db.query.lockerCluster({
-    where: {
-      macAddress,
-    },
-  }, `{
-    id
-    macAddress
-    lockers{
-			id
-      idInCluster
-      busy
-      locked
-      open
-      sensorPin
-      alarmPin
-      lockPin
-    }
-  }`)
+export const getLockerCluster = async (macAddress: string, components: IComponents): Promise<LockerCluster> => {
+  const lockerCluster = await findLockerClusterbyMacAddress(macAddress, components)
 
   if (!lockerCluster) {
     throw Boom.notFound('LockerClusterNotFound')
