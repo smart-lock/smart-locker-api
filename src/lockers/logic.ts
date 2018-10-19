@@ -1,5 +1,6 @@
 import { Nullable } from '~/common/types'
 import { Locker, LockerCluster } from '~/generated/prisma'
+import { UserNode } from '~/prisma-client'
 
 export const CMD_CLAIM = '1'
 export const CMD_UNCLAIM = '2'
@@ -17,3 +18,5 @@ export const firstOrNull = <T>(array: T[]): Nullable<T> => {
 }
 
 export const topicForLocker = (cluster: LockerCluster, locker: Locker) => `lockers/${cluster.macAddress}`
+
+export const userHasCredit = (user: UserNode) => user.credit > 100
