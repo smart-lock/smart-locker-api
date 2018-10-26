@@ -59,7 +59,7 @@
     "typescript": "^3.1.1"
   },
   "scripts": {
-    "start": "NODE_ENV=prod ts-node src/index.ts",
+    "start": "NODE_ENV=prod ts-node -r tsconfig-paths/register src/index.ts",
     "dev": "env-cmd config/.dev.env nodemon",
     "test": "env-cmd config/.test.env jest --config jest.json",
     "test:watch": "yarn test --watchAll",
