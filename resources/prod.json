@@ -1,7 +1,7 @@
 {
   "env": "prod",
   "service": {
-    "port": "{{SERVICE_PORT}}"
+    "port": "{{PORT}}"
   },
   "token": {
     "issuer": "smart-lock",
