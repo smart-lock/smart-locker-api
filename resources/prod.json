@@ -1,8 +1,5 @@
 {
   "env": "prod",
-  "yoga": {
-    "port": "{{YOGA_PORT}}"
-  },
   "service": {
     "port": "{{SERVICE_PORT}}"
   },
