@@ -6,7 +6,7 @@ export interface IPrismaComponent<T> {
 }
 
 export interface IPrismaComponentDependencies {
-  config: IConfigComponent<{ prisma: { uri: string, debug: boolean } }>
+  config: IConfigComponent<{ prisma: { endpoint: string, debug: boolean } }>
 }
 
 export class PrismaComponent<T> implements ILifecycle, IPrismaComponent<T> {
@@ -18,7 +18,7 @@ export class PrismaComponent<T> implements ILifecycle, IPrismaComponent<T> {
   }
 
   public async start(dependencies: IPrismaComponentDependencies) {
-    const { uri: endpoint, debug } = dependencies.config.getConfig().prisma
+    const { endpoint, debug } = dependencies.config.getConfig().prisma
     this.db = new this.PrismaClass({
       endpoint,
       debug,

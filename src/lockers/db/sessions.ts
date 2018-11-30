@@ -73,7 +73,7 @@ export const findActiveLockerSessionForUserWithLockerInfo = async (userId: strin
   return firstOrNull(result)
 }
 
-export const insertLockerSession = (lockerId: string, userId: string, components: IComponents, secret: string) => {
+export const insertLockerSession = (lockerId: string, userId: string, components: IComponents) => {
   return components.prismaClient.db.createLockerSession({
     user: {
       connect: {
@@ -87,7 +87,6 @@ export const insertLockerSession = (lockerId: string, userId: string, components
     },
     startedAt: components.clock.getDate(),
     state: 0,
-    secret,
   })
 }
 

@@ -10,10 +10,6 @@ type AggregateLockerSession {
   count: Int!
 }
 
-type AggregateUnlockRequest {
-  count: Int!
-}
-
 type AggregateUser {
   count: Int!
 }
@@ -36,6 +32,7 @@ type Locker {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner: User
   sessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession!]
 }
 
@@ -186,6 +183,7 @@ input LockerCreateInput {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner: UserCreateOneInput
   sessions: LockerSessionCreateManyWithoutLockerInput
 }
 
@@ -209,6 +207,7 @@ input LockerCreateWithoutClusterInput {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner: UserCreateOneInput
   sessions: LockerSessionCreateManyWithoutLockerInput
 }
 
@@ -223,6 +222,7 @@ input LockerCreateWithoutSessionsInput {
   sensorPin: Int!
   alarmPin: Int!
   lockPin: Int!
+  currentOwner: UserCreateOneInput
 }
 
 type LockerEdge {
@@ -277,8 +277,6 @@ type LockerSession {
   state: Int!
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String
-  unlockRequests(where: UnlockRequestWhereInput, orderBy: UnlockRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UnlockRequest!]
 }
 
 type LockerSessionConnection {
@@ -293,8 +291,6 @@ input LockerSessionCreateInput {
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String
-  unlockRequests: UnlockRequestCreateManyWithoutSessionInput
 }
 
 input LockerSessionCreateManyWithoutLockerInput {
@@ -307,27 +303,11 @@ input LockerSessionCreateManyWithoutUserInput {
   connect: [LockerSessionWhereUniqueInput!]
 }
 
-input LockerSessionCreateOneWithoutUnlockRequestsInput {
-  create: LockerSessionCreateWithoutUnlockRequestsInput
-  connect: LockerSessionWhereUniqueInput
-}
-
 input LockerSessionCreateWithoutLockerInput {
   user: UserCreateOneWithoutSessionsInput!
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String
-  unlockRequests: UnlockRequestCreateManyWithoutSessionInput
-}
-
-input LockerSessionCreateWithoutUnlockRequestsInput {
-  user: UserCreateOneWithoutSessionsInput!
-  locker: LockerCreateOneWithoutSessionsInput!
-  state: Int
-  startedAt: DateTime!
-  finishedAt: DateTime
-  secret: String
 }
 
 input LockerSessionCreateWithoutUserInput {
@@ -335,8 +315,6 @@ input LockerSessionCreateWithoutUserInput {
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String
-  unlockRequests: UnlockRequestCreateManyWithoutSessionInput
 }
 
 type LockerSessionEdge {
@@ -353,8 +331,6 @@ enum LockerSessionOrderByInput {
   startedAt_DESC
   finishedAt_ASC
   finishedAt_DESC
-  secret_ASC
-  secret_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -366,7 +342,6 @@ type LockerSessionPreviousValues {
   state: Int!
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String
 }
 
 type LockerSessionSubscriptionPayload {
@@ -388,13 +363,11 @@ input LockerSessionSubscriptionWhereInput {
 }
 
 input LockerSessionUpdateInput {
-  user: UserUpdateOneRequiredWithoutSessionsInput
-  locker: LockerUpdateOneRequiredWithoutSessionsInput
+  user: UserUpdateOneWithoutSessionsInput
+  locker: LockerUpdateOneWithoutSessionsInput
   state: Int
   startedAt: DateTime
   finishedAt: DateTime
-  secret: String
-  unlockRequests: UnlockRequestUpdateManyWithoutSessionInput
 }
 
 input LockerSessionUpdateManyWithoutLockerInput {
@@ -415,38 +388,18 @@ input LockerSessionUpdateManyWithoutUserInput {
   upsert: [LockerSessionUpsertWithWhereUniqueWithoutUserInput!]
 }
 
-input LockerSessionUpdateOneRequiredWithoutUnlockRequestsInput {
-  create: LockerSessionCreateWithoutUnlockRequestsInput
-  update: LockerSessionUpdateWithoutUnlockRequestsDataInput
-  upsert: LockerSessionUpsertWithoutUnlockRequestsInput
-  connect: LockerSessionWhereUniqueInput
-}
-
 input LockerSessionUpdateWithoutLockerDataInput {
-  user: UserUpdateOneRequiredWithoutSessionsInput
+  user: UserUpdateOneWithoutSessionsInput
   state: Int
   startedAt: DateTime
   finishedAt: DateTime
-  secret: String
-  unlockRequests: UnlockRequestUpdateManyWithoutSessionInput
-}
-
-input LockerSessionUpdateWithoutUnlockRequestsDataInput {
-  user: UserUpdateOneRequiredWithoutSessionsInput
-  locker: LockerUpdateOneRequiredWithoutSessionsInput
-  state: Int
-  startedAt: DateTime
-  finishedAt: DateTime
-  secret: String
 }
 
 input LockerSessionUpdateWithoutUserDataInput {
-  locker: LockerUpdateOneRequiredWithoutSessionsInput
+  locker: LockerUpdateOneWithoutSessionsInput
   state: Int
   startedAt: DateTime
   finishedAt: DateTime
-  secret: String
-  unlockRequests: UnlockRequestUpdateManyWithoutSessionInput
 }
 
 input LockerSessionUpdateWithWhereUniqueWithoutLockerInput {
@@ -457,11 +410,6 @@ input LockerSessionUpdateWithWhereUniqueWithoutLockerInput {
 input LockerSessionUpdateWithWhereUniqueWithoutUserInput {
   where: LockerSessionWhereUniqueInput!
   data: LockerSessionUpdateWithoutUserDataInput!
-}
-
-input LockerSessionUpsertWithoutUnlockRequestsInput {
-  update: LockerSessionUpdateWithoutUnlockRequestsDataInput!
-  create: LockerSessionCreateWithoutUnlockRequestsInput!
 }
 
 input LockerSessionUpsertWithWhereUniqueWithoutLockerInput {
@@ -517,23 +465,6 @@ input LockerSessionWhereInput {
   finishedAt_lte: DateTime
   finishedAt_gt: DateTime
   finishedAt_gte: DateTime
-  secret: String
-  secret_not: String
-  secret_in: [String!]
-  secret_not_in: [String!]
-  secret_lt: String
-  secret_lte: String
-  secret_gt: String
-  secret_gte: String
-  secret_contains: String
-  secret_not_contains: String
-  secret_starts_with: String
-  secret_not_starts_with: String
-  secret_ends_with: String
-  secret_not_ends_with: String
-  unlockRequests_every: UnlockRequestWhereInput
-  unlockRequests_some: UnlockRequestWhereInput
-  unlockRequests_none: UnlockRequestWhereInput
   AND: [LockerSessionWhereInput!]
   OR: [LockerSessionWhereInput!]
   NOT: [LockerSessionWhereInput!]
@@ -572,6 +503,7 @@ input LockerUpdateInput {
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
+  currentOwner: UserUpdateOneInput
   sessions: LockerSessionUpdateManyWithoutLockerInput
 }
 
@@ -584,10 +516,11 @@ input LockerUpdateManyWithoutClusterInput {
   upsert: [LockerUpsertWithWhereUniqueWithoutClusterInput!]
 }
 
-input LockerUpdateOneRequiredWithoutSessionsInput {
+input LockerUpdateOneWithoutSessionsInput {
   create: LockerCreateWithoutSessionsInput
   update: LockerUpdateWithoutSessionsDataInput
   upsert: LockerUpsertWithoutSessionsInput
+  delete: Boolean
   connect: LockerWhereUniqueInput
 }
 
@@ -601,6 +534,7 @@ input LockerUpdateWithoutClusterDataInput {
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
+  currentOwner: UserUpdateOneInput
   sessions: LockerSessionUpdateManyWithoutLockerInput
 }
 
@@ -615,6 +549,7 @@ input LockerUpdateWithoutSessionsDataInput {
   sensorPin: Int
   alarmPin: Int
   lockPin: Int
+  currentOwner: UserUpdateOneInput
 }
 
 input LockerUpdateWithWhereUniqueWithoutClusterInput {
@@ -697,6 +632,7 @@ input LockerWhereInput {
   lockPin_lte: Int
   lockPin_gt: Int
   lockPin_gte: Int
+  currentOwner: UserWhereInput
   sessions_every: LockerSessionWhereInput
   sessions_some: LockerSessionWhereInput
   sessions_none: LockerSessionWhereInput
@@ -712,36 +648,30 @@ input LockerWhereUniqueInput {
 scalar Long
 
 type Mutation {
-  createLocker(data: LockerCreateInput!): Locker!
-  updateLocker(data: LockerUpdateInput!, where: LockerWhereUniqueInput!): Locker
-  updateManyLockers(data: LockerUpdateInput!, where: LockerWhereInput): BatchPayload!
-  upsertLocker(where: LockerWhereUniqueInput!, create: LockerCreateInput!, update: LockerUpdateInput!): Locker!
-  deleteLocker(where: LockerWhereUniqueInput!): Locker
-  deleteManyLockers(where: LockerWhereInput): BatchPayload!
-  createLockerCluster(data: LockerClusterCreateInput!): LockerCluster!
-  updateLockerCluster(data: LockerClusterUpdateInput!, where: LockerClusterWhereUniqueInput!): LockerCluster
-  updateManyLockerClusters(data: LockerClusterUpdateInput!, where: LockerClusterWhereInput): BatchPayload!
-  upsertLockerCluster(where: LockerClusterWhereUniqueInput!, create: LockerClusterCreateInput!, update: LockerClusterUpdateInput!): LockerCluster!
-  deleteLockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
-  deleteManyLockerClusters(where: LockerClusterWhereInput): BatchPayload!
-  createLockerSession(data: LockerSessionCreateInput!): LockerSession!
-  updateLockerSession(data: LockerSessionUpdateInput!, where: LockerSessionWhereUniqueInput!): LockerSession
-  updateManyLockerSessions(data: LockerSessionUpdateInput!, where: LockerSessionWhereInput): BatchPayload!
-  upsertLockerSession(where: LockerSessionWhereUniqueInput!, create: LockerSessionCreateInput!, update: LockerSessionUpdateInput!): LockerSession!
-  deleteLockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
-  deleteManyLockerSessions(where: LockerSessionWhereInput): BatchPayload!
-  createUnlockRequest(data: UnlockRequestCreateInput!): UnlockRequest!
-  updateUnlockRequest(data: UnlockRequestUpdateInput!, where: UnlockRequestWhereUniqueInput!): UnlockRequest
-  updateManyUnlockRequests(data: UnlockRequestUpdateInput!, where: UnlockRequestWhereInput): BatchPayload!
-  upsertUnlockRequest(where: UnlockRequestWhereUniqueInput!, create: UnlockRequestCreateInput!, update: UnlockRequestUpdateInput!): UnlockRequest!
-  deleteUnlockRequest(where: UnlockRequestWhereUniqueInput!): UnlockRequest
-  deleteManyUnlockRequests(where: UnlockRequestWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createLockerCluster(data: LockerClusterCreateInput!): LockerCluster!
+  updateLockerCluster(data: LockerClusterUpdateInput!, where: LockerClusterWhereUniqueInput!): LockerCluster
+  updateManyLockerClusters(data: LockerClusterUpdateInput!, where: LockerClusterWhereInput): BatchPayload!
+  upsertLockerCluster(where: LockerClusterWhereUniqueInput!, create: LockerClusterCreateInput!, update: LockerClusterUpdateInput!): LockerCluster!
+  deleteLockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
+  deleteManyLockerClusters(where: LockerClusterWhereInput): BatchPayload!
+  createLocker(data: LockerCreateInput!): Locker!
+  updateLocker(data: LockerUpdateInput!, where: LockerWhereUniqueInput!): Locker
+  updateManyLockers(data: LockerUpdateInput!, where: LockerWhereInput): BatchPayload!
+  upsertLocker(where: LockerWhereUniqueInput!, create: LockerCreateInput!, update: LockerUpdateInput!): Locker!
+  deleteLocker(where: LockerWhereUniqueInput!): Locker
+  deleteManyLockers(where: LockerWhereInput): BatchPayload!
+  createLockerSession(data: LockerSessionCreateInput!): LockerSession!
+  updateLockerSession(data: LockerSessionUpdateInput!, where: LockerSessionWhereUniqueInput!): LockerSession
+  updateManyLockerSessions(data: LockerSessionUpdateInput!, where: LockerSessionWhereInput): BatchPayload!
+  upsertLockerSession(where: LockerSessionWhereUniqueInput!, create: LockerSessionCreateInput!, update: LockerSessionUpdateInput!): LockerSession!
+  deleteLockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
+  deleteManyLockerSessions(where: LockerSessionWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -762,189 +692,26 @@ type PageInfo {
 }
 
 type Query {
-  locker(where: LockerWhereUniqueInput!): Locker
-  lockers(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Locker]!
-  lockersConnection(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerConnection!
-  lockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
-  lockerClusters(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerCluster]!
-  lockerClustersConnection(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerClusterConnection!
-  lockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
-  lockerSessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession]!
-  lockerSessionsConnection(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerSessionConnection!
-  unlockRequest(where: UnlockRequestWhereUniqueInput!): UnlockRequest
-  unlockRequests(where: UnlockRequestWhereInput, orderBy: UnlockRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UnlockRequest]!
-  unlockRequestsConnection(where: UnlockRequestWhereInput, orderBy: UnlockRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UnlockRequestConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  lockerCluster(where: LockerClusterWhereUniqueInput!): LockerCluster
+  lockerClusters(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerCluster]!
+  lockerClustersConnection(where: LockerClusterWhereInput, orderBy: LockerClusterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerClusterConnection!
+  locker(where: LockerWhereUniqueInput!): Locker
+  lockers(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Locker]!
+  lockersConnection(where: LockerWhereInput, orderBy: LockerOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerConnection!
+  lockerSession(where: LockerSessionWhereUniqueInput!): LockerSession
+  lockerSessions(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LockerSession]!
+  lockerSessionsConnection(where: LockerSessionWhereInput, orderBy: LockerSessionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LockerSessionConnection!
   node(id: ID!): Node
 }
 
 type Subscription {
-  locker(where: LockerSubscriptionWhereInput): LockerSubscriptionPayload
-  lockerCluster(where: LockerClusterSubscriptionWhereInput): LockerClusterSubscriptionPayload
-  lockerSession(where: LockerSessionSubscriptionWhereInput): LockerSessionSubscriptionPayload
-  unlockRequest(where: UnlockRequestSubscriptionWhereInput): UnlockRequestSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-}
-
-type UnlockRequest {
-  id: ID!
-  secret: String!
-  session: LockerSession!
-  unlocked: Boolean!
-  date: DateTime!
-}
-
-type UnlockRequestConnection {
-  pageInfo: PageInfo!
-  edges: [UnlockRequestEdge]!
-  aggregate: AggregateUnlockRequest!
-}
-
-input UnlockRequestCreateInput {
-  secret: String!
-  session: LockerSessionCreateOneWithoutUnlockRequestsInput!
-  unlocked: Boolean!
-  date: DateTime!
-}
-
-input UnlockRequestCreateManyWithoutSessionInput {
-  create: [UnlockRequestCreateWithoutSessionInput!]
-  connect: [UnlockRequestWhereUniqueInput!]
-}
-
-input UnlockRequestCreateWithoutSessionInput {
-  secret: String!
-  unlocked: Boolean!
-  date: DateTime!
-}
-
-type UnlockRequestEdge {
-  node: UnlockRequest!
-  cursor: String!
-}
-
-enum UnlockRequestOrderByInput {
-  id_ASC
-  id_DESC
-  secret_ASC
-  secret_DESC
-  unlocked_ASC
-  unlocked_DESC
-  date_ASC
-  date_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type UnlockRequestPreviousValues {
-  id: ID!
-  secret: String!
-  unlocked: Boolean!
-  date: DateTime!
-}
-
-type UnlockRequestSubscriptionPayload {
-  mutation: MutationType!
-  node: UnlockRequest
-  updatedFields: [String!]
-  previousValues: UnlockRequestPreviousValues
-}
-
-input UnlockRequestSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: UnlockRequestWhereInput
-  AND: [UnlockRequestSubscriptionWhereInput!]
-  OR: [UnlockRequestSubscriptionWhereInput!]
-  NOT: [UnlockRequestSubscriptionWhereInput!]
-}
-
-input UnlockRequestUpdateInput {
-  secret: String
-  session: LockerSessionUpdateOneRequiredWithoutUnlockRequestsInput
-  unlocked: Boolean
-  date: DateTime
-}
-
-input UnlockRequestUpdateManyWithoutSessionInput {
-  create: [UnlockRequestCreateWithoutSessionInput!]
-  delete: [UnlockRequestWhereUniqueInput!]
-  connect: [UnlockRequestWhereUniqueInput!]
-  disconnect: [UnlockRequestWhereUniqueInput!]
-  update: [UnlockRequestUpdateWithWhereUniqueWithoutSessionInput!]
-  upsert: [UnlockRequestUpsertWithWhereUniqueWithoutSessionInput!]
-}
-
-input UnlockRequestUpdateWithoutSessionDataInput {
-  secret: String
-  unlocked: Boolean
-  date: DateTime
-}
-
-input UnlockRequestUpdateWithWhereUniqueWithoutSessionInput {
-  where: UnlockRequestWhereUniqueInput!
-  data: UnlockRequestUpdateWithoutSessionDataInput!
-}
-
-input UnlockRequestUpsertWithWhereUniqueWithoutSessionInput {
-  where: UnlockRequestWhereUniqueInput!
-  update: UnlockRequestUpdateWithoutSessionDataInput!
-  create: UnlockRequestCreateWithoutSessionInput!
-}
-
-input UnlockRequestWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
-  secret: String
-  secret_not: String
-  secret_in: [String!]
-  secret_not_in: [String!]
-  secret_lt: String
-  secret_lte: String
-  secret_gt: String
-  secret_gte: String
-  secret_contains: String
-  secret_not_contains: String
-  secret_starts_with: String
-  secret_not_starts_with: String
-  secret_ends_with: String
-  secret_not_ends_with: String
-  session: LockerSessionWhereInput
-  unlocked: Boolean
-  unlocked_not: Boolean
-  date: DateTime
-  date_not: DateTime
-  date_in: [DateTime!]
-  date_not_in: [DateTime!]
-  date_lt: DateTime
-  date_lte: DateTime
-  date_gt: DateTime
-  date_gte: DateTime
-  AND: [UnlockRequestWhereInput!]
-  OR: [UnlockRequestWhereInput!]
-  NOT: [UnlockRequestWhereInput!]
-}
-
-input UnlockRequestWhereUniqueInput {
-  id: ID
+  lockerCluster(where: LockerClusterSubscriptionWhereInput): LockerClusterSubscriptionPayload
+  locker(where: LockerSubscriptionWhereInput): LockerSubscriptionPayload
+  lockerSession(where: LockerSessionSubscriptionWhereInput): LockerSessionSubscriptionPayload
 }
 
 type User {
@@ -968,6 +735,11 @@ input UserCreateInput {
   password: String!
   credit: Int
   sessions: LockerSessionCreateManyWithoutUserInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutSessionsInput {
@@ -1030,6 +802,14 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  name: String
+  email: String
+  password: String
+  credit: Int
+  sessions: LockerSessionUpdateManyWithoutUserInput
+}
+
 input UserUpdateInput {
   name: String
   email: String
@@ -1038,10 +818,20 @@ input UserUpdateInput {
   sessions: LockerSessionUpdateManyWithoutUserInput
 }
 
-input UserUpdateOneRequiredWithoutSessionsInput {
+input UserUpdateOneInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneWithoutSessionsInput {
   create: UserCreateWithoutSessionsInput
   update: UserUpdateWithoutSessionsDataInput
   upsert: UserUpsertWithoutSessionsInput
+  delete: Boolean
   connect: UserWhereUniqueInput
 }
 
@@ -1050,6 +840,11 @@ input UserUpdateWithoutSessionsDataInput {
   email: String
   password: String
   credit: Int
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutSessionsInput {
@@ -1134,4 +929,4 @@ input UserWhereUniqueInput {
   id: ID
   email: String
 }
-`
+`;
