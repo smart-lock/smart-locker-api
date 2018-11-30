@@ -388,7 +388,7 @@ export interface LockerSessionCreateInput {
   state?: Int;
   startedAt: DateTimeInput;
   finishedAt?: DateTimeInput;
-  secret: String;
+  secret?: String;
   unlockRequests?: UnlockRequestCreateManyWithoutSessionInput;
 }
 
@@ -434,7 +434,7 @@ export interface LockerSessionCreateWithoutLockerInput {
   state?: Int;
   startedAt: DateTimeInput;
   finishedAt?: DateTimeInput;
-  secret: String;
+  secret?: String;
   unlockRequests?: UnlockRequestCreateManyWithoutSessionInput;
 }
 
@@ -613,7 +613,7 @@ export interface LockerSessionCreateWithoutUserInput {
   state?: Int;
   startedAt: DateTimeInput;
   finishedAt?: DateTimeInput;
-  secret: String;
+  secret?: String;
   unlockRequests?: UnlockRequestCreateManyWithoutSessionInput;
 }
 
@@ -984,7 +984,7 @@ export interface LockerSessionCreateWithoutUnlockRequestsInput {
   state?: Int;
   startedAt: DateTimeInput;
   finishedAt?: DateTimeInput;
-  secret: String;
+  secret?: String;
 }
 
 export interface LockerCreateOneWithoutSessionsInput {
@@ -1770,7 +1770,7 @@ export interface LockerSessionPreviousValuesNode {
   state: Int;
   startedAt: DateTimeOutput;
   finishedAt?: DateTimeOutput;
-  secret: String;
+  secret?: String;
 }
 
 export interface LockerSessionPreviousValues
@@ -1821,7 +1821,7 @@ export interface LockerSessionNode {
   state: Int;
   startedAt: DateTimeOutput;
   finishedAt?: DateTimeOutput;
-  secret: String;
+  secret?: String;
 }
 
 export interface LockerSession
@@ -2012,6 +2012,7 @@ export type Boolean = boolean;
 
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
-  endpoint: "https://smart-locker-api.herokuapp.com/smart-locker-api/dev"
+  endpoint: "https://smart-locker-api.herokuapp.com/smart-locker-api/dev",
+  models: [],
 });
 export const prisma = new Prisma();

@@ -277,7 +277,7 @@ type LockerSession {
   state: Int!
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String!
+  secret: String
   unlockRequests(where: UnlockRequestWhereInput, orderBy: UnlockRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UnlockRequest!]
 }
 
@@ -293,7 +293,7 @@ input LockerSessionCreateInput {
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String!
+  secret: String
   unlockRequests: UnlockRequestCreateManyWithoutSessionInput
 }
 
@@ -317,7 +317,7 @@ input LockerSessionCreateWithoutLockerInput {
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String!
+  secret: String
   unlockRequests: UnlockRequestCreateManyWithoutSessionInput
 }
 
@@ -327,7 +327,7 @@ input LockerSessionCreateWithoutUnlockRequestsInput {
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String!
+  secret: String
 }
 
 input LockerSessionCreateWithoutUserInput {
@@ -335,7 +335,7 @@ input LockerSessionCreateWithoutUserInput {
   state: Int
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String!
+  secret: String
   unlockRequests: UnlockRequestCreateManyWithoutSessionInput
 }
 
@@ -366,7 +366,7 @@ type LockerSessionPreviousValues {
   state: Int!
   startedAt: DateTime!
   finishedAt: DateTime
-  secret: String!
+  secret: String
 }
 
 type LockerSessionSubscriptionPayload {
