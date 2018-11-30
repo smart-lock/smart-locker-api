@@ -14,9 +14,8 @@ export interface IUnclaimLockerArgs {
 export interface ILockLockerArgs {
   lockerId: string
 }
-
 export interface IUnlockLockerArgs {
-  password: string
+  lockerId: string
 }
 
 export const lockerMutation = {
@@ -41,7 +40,7 @@ export const lockerMutation = {
   unlockLocker: combineResolvers(
     authenticated,
       (_, args: IUnlockLockerArgs, ctx: IAuthenticatedContext) => {
-      return lockerControllers.unlockLockerWithPassword(args.password, ctx.account, ctx.components)
+      return lockerControllers.unlockLocker(args.lockerId, ctx.account, ctx.components)
     },
   ),
 }

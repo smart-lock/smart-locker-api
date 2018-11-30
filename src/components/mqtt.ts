@@ -12,7 +12,11 @@ export interface IMQTTComponent {
 type MQTTHandlerFn = (topic: string, params: object, data: string, components: any) => Promise<void>
 
 export interface IMQTTConfig {
-  uri: string
+  host: string
+  protocol: string
+  sslPort: number
+  user: string
+  password: string
 }
 
 export interface IMQTTHandler {
@@ -44,7 +48,13 @@ export class MQTTComponent implements ILifecycle, IMQTTComponent {
     return new Promise((resolve, reject) => {
       const config: IConfigComponent<{mqtt: IMQTTConfig}> = deps.config
       const mqttConfig = config.getConfig().mqtt
-      const client = MQTT.connect(mqttConfig.uri)
+      const client = MQTT.connect(null, {
+        host: mqttConfig.host,
+        protocol: 'ssl',
+        port: mqttConfig.sslPort,
+        username: mqttConfig.user,
+        password: mqttConfig.password,
+      })
       this.client = client
 
       client.on('connect', async () => {
