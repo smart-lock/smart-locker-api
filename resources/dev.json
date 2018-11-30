@@ -1,29 +1,23 @@
 {
   "env": "dev",
-  "yoga": {
-    "port": 3002
-  },
   "service": {
-    "port": 3003
+    "port": 3000
   },
   "token": {
-    "issuer": "envisioning",
+    "issuer": "smart-lock",
     "audience": "user",
     "jwtDuration": "30d",
     "publicKeyPath": "dev/pub.pem",
     "privateKeyPath": "dev/priv.pem",
-    "bucketName": "envisioning-secrets"
+    "bucketName": "smart-lock-secrets"
   },
   "mqtt": {
-    "host": "m15.cloudmqtt.com",
-    "sslPort": 24771,
-    "user": "lbwcbjvj",
-    "password": "eND_kmHSQTYb"
+    "uri": "mqtt://ihvogitd:w-FCYShV8ZCC@m15.cloudmqtt.com:15057"
   },
   "redis": {
     "uri": "redis://localhost:6379"
   },
   "prisma": {
-    "endpoint": "http://localhost:4466"
+    "uri": "http://localhost:4466"
   }
 }

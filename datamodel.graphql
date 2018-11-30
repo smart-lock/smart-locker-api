@@ -38,4 +38,14 @@ type LockerSession {
   state: Int! @default(value: 0)
   startedAt: DateTime!
   finishedAt: DateTime
+  secret: String
+  unlockRequests: [UnlockRequest!]!
+}
+
+type UnlockRequest {
+  id: ID! @unique
+  secret: String!
+  session: LockerSession!
+  unlocked: Boolean!
+  date: DateTime!
 }

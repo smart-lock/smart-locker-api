@@ -8,6 +8,7 @@ export const CMD_DEACTIVATE_ALARM = '3'
 export const CMD_LOCK = '4'
 export const CMD_UNLOCK = '5'
 export const CMD_SUDO_DEACTIVATE_ALARM = '6'
+export const CMD_SHOW_UNLOCK_PASSWORD = '7'
 
 export const firstOrNull = <T>(array: T[]): Nullable<T> => {
   if (!array.length) {

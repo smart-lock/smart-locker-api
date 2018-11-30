@@ -1,10 +1,7 @@
 {
   "env": "prod",
-  "yoga": {
-    "port": "{{YOGA_PORT}}"
-  },
   "service": {
-    "port": "{{SERVICE_PORT}}"
+    "port": "{{PORT}}"
   },
   "token": {
     "issuer": "smart-lock",
@@ -15,15 +12,12 @@
     "bucketName": "smart-lock-secrets"
   },
   "mqtt": {
-    "host": "{{MQTT_HOST}}",
-    "sslPort": "{{MQTT_SSL_PORT}}",
-    "user": "{{MQTT_USER}}",
-    "password": "{{MQTT_PASSWORD}}"
+    "uri": "{{MQTT_URI}}"
   },
   "redis": {
     "uri": "{{REDIS_URI}}"
   },
   "prisma": {
-    "endpoint": "{{PRISMA_URL}}"
+    "uri": "{{PRISMA_URI}}"
   }
 }
